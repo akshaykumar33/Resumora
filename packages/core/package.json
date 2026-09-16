@@ -1,0 +1,17 @@
+{
+  "name": "@resumora/core",
+  "version": "0.1.0",
+  "description": "Platform-independent continuity and recovery runtime for Resumora",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./src/index.js",
+      "require": "./src/index.js",
+      "types": "./src/index.ts"
+    }
+  },
+  "license": "Apache-2.0",
+  "type": "module"
+}

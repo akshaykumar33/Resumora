@@ -1,0 +1,8 @@
+{
+  "name": "@resumora/storage-memory",
+  "version": "0.1.0",
+  "description": "In-memory reference storage adapter with fault injection for Resumora",
+  "main": "./src/index.js",
+  "license": "Apache-2.0",
+  "type": "module"
+}
