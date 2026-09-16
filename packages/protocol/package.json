@@ -1,0 +1,8 @@
+{
+  "name": "@resumora/protocol",
+  "version": "0.1.0",
+  "description": "Protocol schemas, serialization contracts, and envelopes for Resumora",
+  "license": "Apache-2.0",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts"
+}
