@@ -1,0 +1,35 @@
+name: Bug Report
+description: Create a report to help us fix a defect in Resumora.
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for filing an issue! Please verify you are using the latest version.
+  - type: input
+    id: version
+    attributes:
+      label: Resumora Version
+      placeholder: "0.1.0"
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description of the Problem
+      description: What happened and what did you expect to happen?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction Steps
+      description: Clear, minimal steps to reproduce.
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Browser / Platform
+      placeholder: "Chrome 128 / macOS 14.5"
