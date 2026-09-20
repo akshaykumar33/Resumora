@@ -1,0 +1,44 @@
+# Resumora git hooks
+#
+# Layer 2 of the four-layer secret-prevention model.
+# See docs/security/PRE_COMMIT_VERIFICATION.md
+#
+# `--no-verify` is not permitted in this repository. If a hook is wrong,
+# fix the hook in its own PR.
+
+pre-commit:
+  parallel: true
+  jobs:
+    # --- Blocking: forbidden paths ----------------------------------------
+    # Reads `git diff --cached` itself. Must run even when nothing appears to
+    # match a glob, so it is deliberately not file-filtered.
+    - name: forbidden-paths
+      run: node scripts/check-staged-paths.mjs
+
+    # --- Blocking: secret content -----------------------------------------
+    # `files:` uses git's own staged list rather than lefthook's filtered
+    # {staged_files}, so force-added (`git add -f`) files are still scanned.
+    # Ignore rules come from .secretlintignore, NOT .gitignore — see that file.
+    - name: secretlint
+      files: git diff --cached --name-only --diff-filter=ACMR
+      glob: '*'
+      run: pnpm exec secretlint --maskSecrets {files}
+
+    # --- Non-blocking: formatting -----------------------------------------
+    # Fixes in place and re-stages, rather than failing the commit.
+    - name: prettier
+      glob: '*.{ts,tsx,js,jsx,mjs,cjs,json,md,yml,yaml}'
+      exclude:
+        - 'pnpm-lock.yaml'
+      run: pnpm exec prettier --write --ignore-unknown {staged_files}
+      stage_fixed: true
+
+commit-msg:
+  jobs:
+    - name: commitlint
+      run: pnpm exec commitlint --edit {1}
+
+pre-push:
+  jobs:
+    - name: tests
+      run: pnpm test
