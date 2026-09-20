@@ -1,3 +1,11 @@
+> **⚠️ SUPERSEDED — historical record.**
+> This prompt drove Phase 0 (research) and Phase 1 (core starter). It has been executed.
+> For all work from this point forward, use [`PHASE_2_BUILD_PROMPT.md`](./PHASE_2_BUILD_PROMPT.md),
+> which corrects the record on what was actually delivered and pins the stack decisions.
+> Kept here because it is the authoritative statement of the product's original intent.
+
+---
+
 # ROLE
 
 You are the founding Staff+ Engineer, Product Architect, Security Architect, Developer Experience Engineer, Open-Source Maintainer, UI/UX Architect, QA Lead, SRE and Technical Writer for a new developer-infrastructure project.
@@ -6,27 +14,27 @@ Your job is NOT to rush into implementation.
 
 Your first responsibility is to turn the concept below into a production-grade, open-source-first product with:
 
-* validated problem definition
-* competitive differentiation
-* product requirements
-* architecture
-* protocol specifications
-* security model
-* repository structure
-* engineering standards
-* AI-agent instructions
-* skills
-* ADRs
-* RFCs
-* GitHub workflow
-* commit conventions
-* design system
-* documentation website architecture
-* testing strategy
-* observability strategy
-* release/versioning strategy
-* phased roadmap
-* starter implementation
+- validated problem definition
+- competitive differentiation
+- product requirements
+- architecture
+- protocol specifications
+- security model
+- repository structure
+- engineering standards
+- AI-agent instructions
+- skills
+- ADRs
+- RFCs
+- GitHub workflow
+- commit conventions
+- design system
+- documentation website architecture
+- testing strategy
+- observability strategy
+- release/versioning strategy
+- phased roadmap
+- starter implementation
 
 Do not create fake differentiation.
 
@@ -40,12 +48,12 @@ The innovation must primarily come from solving an important problem better.
 
 We are NOT building:
 
-* another IndexedDB wrapper
-* another Dexie clone
-* another localStorage abstraction
-* another generic database
-* another offline cache
-* another generic sync library
+- another IndexedDB wrapper
+- another Dexie clone
+- another localStorage abstraction
+- another generic database
+- another offline cache
+- another generic sync library
 
 The problem we want to solve is:
 
@@ -69,18 +77,18 @@ A user completes 17 steps of a 25-step workflow.
 
 They have:
 
-* entered data
-* uploaded files
-* made selections
-* written rich text
-* navigated through nested sections
+- entered data
+- uploaded files
+- made selections
+- written rich text
+- navigated through nested sections
 
 Then:
 
-* Wi-Fi disappears
-* token expires
-* tab crashes
-* browser restarts
+- Wi-Fi disappears
+- token expires
+- tab crashes
+- browser restarts
 
 The application should be capable of recovering the permitted state and saying:
 
@@ -88,16 +96,16 @@ The application should be capable of recovering the permitted state and saying:
 
 Potentially recovering:
 
-* workflow
-* current step
-* drafts
-* unsynchronized operations
-* attachments
-* navigation context
-* selected entities
-* editor state
-* relevant UI state
-* checkpoints
+- workflow
+- current step
+- drafts
+- unsynchronized operations
+- attachments
+- navigation context
+- selected entities
+- editor state
+- relevant UI state
+- checkpoints
 
 After authentication/authorization is restored, the runtime reconciles local work with the authoritative backend.
 
@@ -109,11 +117,11 @@ Persistence must NEVER mean authorization.
 
 Locally stored data must never allow one:
 
-* user
-* tenant
-* organization
-* account
-* workspace
+- user
+- tenant
+- organization
+- account
+- workspace
 
 to access another user's information.
 
@@ -125,19 +133,19 @@ instead of blindly assuming persisted information remains authorized.
 
 Design for:
 
-* tenant isolation
-* user isolation
-* device identity
-* namespace isolation
-* secure local persistence
-* revocation
-* expiration
-* purge policies
-* logout policies
-* compromised-device assumptions
-* XSS considerations
-* encryption limitations
-* sensitive-data classifications
+- tenant isolation
+- user isolation
+- device identity
+- namespace isolation
+- secure local persistence
+- revocation
+- expiration
+- purge policies
+- logout policies
+- compromised-device assumptions
+- XSS considerations
+- encryption limitations
+- sensitive-data classifications
 
 Never claim browser-side encryption is secure merely because data is encrypted if JavaScript can freely obtain the key.
 
@@ -255,46 +263,46 @@ Evaluate rather than blindly accept:
 
 Frontend/docs:
 
-* TypeScript
-* React
-* Next.js
-* Tailwind CSS
-* shadcn/ui or equivalent primitives
-* MDX
-* Storybook where useful
+- TypeScript
+- React
+- Next.js
+- Tailwind CSS
+- shadcn/ui or equivalent primitives
+- MDX
+- Storybook where useful
 
 Core runtime:
 
-* TypeScript initially
-* strongly typed schemas
-* Zod or suitable equivalent
+- TypeScript initially
+- strongly typed schemas
+- Zod or suitable equivalent
 
 Backend/control plane:
 Evaluate:
 
-* TypeScript/NestJS
-* Go
-* Rust
+- TypeScript/NestJS
+- Go
+- Rust
 
 Use Go/Rust only where their benefits justify complexity.
 
 Infrastructure:
 
-* PostgreSQL
-* Redis where justified
-* WebSockets/SSE
-* object storage
-* OpenTelemetry
-* Docker
-* GitHub Actions
-* Terraform later if needed
+- PostgreSQL
+- Redis where justified
+- WebSockets/SSE
+- object storage
+- OpenTelemetry
+- Docker
+- GitHub Actions
+- Terraform later if needed
 
 Monorepo:
 Evaluate:
 
-* pnpm
-* Turborepo
-* Nx
+- pnpm
+- Turborepo
+- Nx
 
 Choose one and document why through an ADR.
 
@@ -325,35 +333,35 @@ Dexie is therefore an implementation dependency/adapter where appropriate, NOT t
 Investigate a declarative API similar to:
 
 ```ts
-continuity.resource("draft", {
+continuity.resource('draft', {
   persistence: {
-    mode: "persistent",
-    maxAge: "7d"
+    mode: 'persistent',
+    maxAge: '7d',
   },
 
   offline: {
     read: true,
-    write: true
+    write: true,
   },
 
   recovery: {
     enabled: true,
-    checkpoint: "automatic"
+    checkpoint: 'automatic',
   },
 
   sync: {
-    strategy: "background",
-    priority: "high"
+    strategy: 'background',
+    priority: 'high',
   },
 
   conflict: {
-    strategy: "manual"
+    strategy: 'manual',
   },
 
   security: {
-    logout: "lock",
-    revoke: "purge"
-  }
+    logout: 'lock',
+    revoke: 'purge',
+  },
 });
 ```
 
@@ -381,12 +389,12 @@ STABLE
 
 The engine may adapt:
 
-* retry
-* batching
-* prefetch
-* uploads
-* synchronization priority
-* payload sizes
+- retry
+- batching
+- prefetch
+- uploads
+- synchronization priority
+- payload sizes
 
 according to network conditions.
 
@@ -422,15 +430,15 @@ CONTINUE
 
 Investigate recovery for:
 
-* forms
-* editors
-* LMS assessments
-* CRM workflows
-* onboarding
-* insurance claims
-* field-service inspections
-* application processes
-* CMS workflows
+- forms
+- editors
+- LMS assessments
+- CRM workflows
+- onboarding
+- insurance claims
+- field-service inspections
+- application processes
+- CMS workflows
 
 Do not attempt every vertical in V1.
 
@@ -448,12 +456,12 @@ Prefer a long-running workflow such as:
 
 The demo should allow us to intentionally:
 
-* disconnect network
-* expire authentication
-* refresh browser
-* close/reopen browser
-* crash simulated API
-* create conflicting edits
+- disconnect network
+- expire authentication
+- refresh browser
+- close/reopen browser
+- crash simulated API
+- create conflicting edits
 
 and demonstrate recovery.
 
@@ -527,28 +535,28 @@ Possible structure:
 
 FREE OSS
 
-* runtime
-* web adapter
-* storage adapters
-* React integrations
-* local recovery
-* basic sync
-* devtools
-* self-hostable reference backend/protocol
+- runtime
+- web adapter
+- storage adapters
+- React integrations
+- local recovery
+- basic sync
+- devtools
+- self-hostable reference backend/protocol
 
 OPTIONAL CLOUD
 
-* hosted synchronization
-* device registry
-* recovery analytics
-* conflict analytics
-* failed-sync monitoring
-* fleet/device visibility
-* enterprise policy management
-* audit history
-* observability
-* SLA/support
-* managed infrastructure
+- hosted synchronization
+- device registry
+- recovery analytics
+- conflict analytics
+- failed-sync monitoring
+- fleet/device visibility
+- enterprise policy management
+- audit history
+- observability
+- SLA/support
+- managed infrastructure
 
 Do not intentionally cripple OSS to force cloud adoption.
 
@@ -581,12 +589,12 @@ Generate at least 30 candidate names.
 
 Prefer:
 
-* invented words
-* 5–10 characters where possible
-* easy pronunciation
-* strong developer-tool identity
-* no obvious "AI" suffix
-* not tied exclusively to offline/storage
+- invented words
+- 5–10 characters where possible
+- easy pronunciation
+- strong developer-tool identity
+- no obvious "AI" suffix
+- not tied exclusively to offline/storage
 
 Ideas to investigate, NOT assume available:
 
@@ -602,12 +610,12 @@ Unlost
 
 For finalists verify, as far as available research allows:
 
-* GitHub organization/repository collision
-* npm package collision
-* domain availability indicators
-* major software/product collision
-* obvious trademark/business collision
-* search-engine ambiguity
+- GitHub organization/repository collision
+- npm package collision
+- domain availability indicators
+- major software/product collision
+- obvious trademark/business collision
+- search-engine ambiguity
 
 Create:
 
@@ -633,41 +641,41 @@ Possible direction:
 
 /
 ├── .github/
-│   ├── ISSUE_TEMPLATE/
-│   ├── PULL_REQUEST_TEMPLATE.md
-│   ├── workflows/
-│   ├── CODEOWNERS
-│   └── dependabot.yml
+│ ├── ISSUE_TEMPLATE/
+│ ├── PULL_REQUEST_TEMPLATE.md
+│ ├── workflows/
+│ ├── CODEOWNERS
+│ └── dependabot.yml
 │
 ├── apps/
-│   ├── docs/
-│   ├── playground/
-│   └── reference-app/
+│ ├── docs/
+│ ├── playground/
+│ └── reference-app/
 │
 ├── packages/
-│   ├── core/
-│   ├── protocol/
-│   ├── web/
-│   ├── react/
-│   ├── storage-memory/
-│   ├── storage-indexeddb/
-│   └── devtools/
+│ ├── core/
+│ ├── protocol/
+│ ├── web/
+│ ├── react/
+│ ├── storage-memory/
+│ ├── storage-indexeddb/
+│ └── devtools/
 │
 ├── examples/
 │
 ├── docs/
-│   ├── product/
-│   ├── architecture/
-│   ├── protocols/
-│   ├── security/
-│   ├── engineering/
-│   ├── testing/
-│   ├── operations/
-│   ├── product/
-│   ├── brand/
-│   ├── adr/
-│   ├── rfc/
-│   └── roadmap/
+│ ├── product/
+│ ├── architecture/
+│ ├── protocols/
+│ ├── security/
+│ ├── engineering/
+│ ├── testing/
+│ ├── operations/
+│ ├── product/
+│ ├── brand/
+│ ├── adr/
+│ ├── rfc/
+│ └── roadmap/
 │
 ├── skills/
 ├── scripts/
@@ -695,90 +703,90 @@ README.md
 
 docs/product/
 
-* VISION.md
-* PROBLEM.md
-* PERSONAS.md
-* USE_CASES.md
-* NON_GOALS.md
-* DIFFERENTIATION.md
-* PRODUCT_REQUIREMENTS.md
-* SUCCESS_METRICS.md
+- VISION.md
+- PROBLEM.md
+- PERSONAS.md
+- USE_CASES.md
+- NON_GOALS.md
+- DIFFERENTIATION.md
+- PRODUCT_REQUIREMENTS.md
+- SUCCESS_METRICS.md
 
 docs/architecture/
 
-* SYSTEM_OVERVIEW.md
-* CORE_RUNTIME.md
-* STORAGE_ARCHITECTURE.md
-* SYNC_ARCHITECTURE.md
-* RECOVERY_ARCHITECTURE.md
-* INTENT_MODEL.md
-* CHECKPOINT_MODEL.md
-* POLICY_ENGINE.md
-* PLATFORM_ADAPTERS.md
-* MULTI_DEVICE.md
-* FAILURE_MODEL.md
+- SYSTEM_OVERVIEW.md
+- CORE_RUNTIME.md
+- STORAGE_ARCHITECTURE.md
+- SYNC_ARCHITECTURE.md
+- RECOVERY_ARCHITECTURE.md
+- INTENT_MODEL.md
+- CHECKPOINT_MODEL.md
+- POLICY_ENGINE.md
+- PLATFORM_ADAPTERS.md
+- MULTI_DEVICE.md
+- FAILURE_MODEL.md
 
 docs/protocols/
 
-* PROTOCOL_OVERVIEW.md
-* RESOURCE_SPEC.md
-* INTENT_SPEC.md
-* MUTATION_SPEC.md
-* CHECKPOINT_SPEC.md
-* SYNC_SPEC.md
-* CONFLICT_SPEC.md
-* VERSIONING_SPEC.md
+- PROTOCOL_OVERVIEW.md
+- RESOURCE_SPEC.md
+- INTENT_SPEC.md
+- MUTATION_SPEC.md
+- CHECKPOINT_SPEC.md
+- SYNC_SPEC.md
+- CONFLICT_SPEC.md
+- VERSIONING_SPEC.md
 
 docs/security/
 
-* THREAT_MODEL.md
-* DATA_CLASSIFICATION.md
-* LOCAL_STORAGE_SECURITY.md
-* AUTH_BOUNDARIES.md
-* TENANT_ISOLATION.md
-* LOGOUT_REVOCATION.md
-* ENCRYPTION_MODEL.md
-* SECURITY_CHECKLIST.md
+- THREAT_MODEL.md
+- DATA_CLASSIFICATION.md
+- LOCAL_STORAGE_SECURITY.md
+- AUTH_BOUNDARIES.md
+- TENANT_ISOLATION.md
+- LOGOUT_REVOCATION.md
+- ENCRYPTION_MODEL.md
+- SECURITY_CHECKLIST.md
 
 docs/engineering/
 
-* ENGINEERING_PRINCIPLES.md
-* CODING_STANDARDS.md
-* TYPESCRIPT_STANDARDS.md
-* API_DESIGN.md
-* ERROR_HANDLING.md
-* OBSERVABILITY.md
-* PERFORMANCE_BUDGETS.md
-* DEPENDENCY_POLICY.md
+- ENGINEERING_PRINCIPLES.md
+- CODING_STANDARDS.md
+- TYPESCRIPT_STANDARDS.md
+- API_DESIGN.md
+- ERROR_HANDLING.md
+- OBSERVABILITY.md
+- PERFORMANCE_BUDGETS.md
+- DEPENDENCY_POLICY.md
 
 docs/testing/
 
-* TEST_STRATEGY.md
-* UNIT_TESTING.md
-* INTEGRATION_TESTING.md
-* E2E_TESTING.md
-* CHAOS_TESTING.md
-* SECURITY_TESTING.md
-* COMPATIBILITY_MATRIX.md
+- TEST_STRATEGY.md
+- UNIT_TESTING.md
+- INTEGRATION_TESTING.md
+- E2E_TESTING.md
+- CHAOS_TESTING.md
+- SECURITY_TESTING.md
+- COMPATIBILITY_MATRIX.md
 
 docs/roadmap/
 
-* ROADMAP.md
-* PHASE_0_RESEARCH.md
-* PHASE_1_CORE.md
-* PHASE_2_WEB.md
-* PHASE_3_RECOVERY.md
-* PHASE_4_SYNC.md
-* PHASE_5_DEVTOOLS.md
-* PHASE_6_MOBILE.md
-* PHASE_7_CLOUD.md
-* BACKLOG.md
+- ROADMAP.md
+- PHASE_0_RESEARCH.md
+- PHASE_1_CORE.md
+- PHASE_2_WEB.md
+- PHASE_3_RECOVERY.md
+- PHASE_4_SYNC.md
+- PHASE_5_DEVTOOLS.md
+- PHASE_6_MOBILE.md
+- PHASE_7_CLOUD.md
+- BACKLOG.md
 
 docs/brand/
 
-* NAMING_RESEARCH.md
-* BRAND_GUIDE.md
-* DESIGN_PRINCIPLES.md
+- NAMING_RESEARCH.md
+- BRAND_GUIDE.md
+- DESIGN_PRINCIPLES.md
 
 Create ADRs for significant decisions.
 
@@ -804,15 +812,15 @@ and platform-specific instruction files only where useful.
 
 AGENTS.md should explain:
 
-* product mission
-* architectural boundaries
-* package dependency rules
-* security invariants
-* testing requirements
-* documentation requirements
-* prohibited shortcuts
-* commit rules
-* definition of done
+- product mission
+- architectural boundaries
+- package dependency rules
+- security invariants
+- testing requirements
+- documentation requirements
+- prohibited shortcuts
+- commit rules
+- definition of done
 
 Agents must read relevant architecture/ADR documentation before modifying critical subsystems.
 
@@ -861,18 +869,18 @@ Take inspiration conceptually from high-quality developer products such as Strip
 
 Visual direction:
 
-* sophisticated
-* technical
-* minimal
-* highly responsive
-* excellent typography
-* dark/light themes
-* restrained gradients
-* subtle depth
-* smooth motion
-* accessible
-* fast
-* non-generic AI-generated appearance
+- sophisticated
+- technical
+- minimal
+- highly responsive
+- excellent typography
+- dark/light themes
+- restrained gradients
+- subtle depth
+- smooth motion
+- accessible
+- fast
+- non-generic AI-generated appearance
 
 Create:
 
@@ -881,19 +889,19 @@ docs/brand/BRAND_GUIDE.md
 
 Define:
 
-* typography hierarchy
-* spacing system
-* radius
-* surfaces
-* elevation
-* semantic colors
-* status indicators
-* motion principles
-* responsive behavior
-* accessibility requirements
-* diagrams
-* code blocks
-* data visualization principles
+- typography hierarchy
+- spacing system
+- radius
+- surfaces
+- elevation
+- semantic colors
+- status indicators
+- motion principles
+- responsive behavior
+- accessibility requirements
+- diagrams
+- code blocks
+- data visualization principles
 
 Avoid excessive glassmorphism and meaningless animations.
 
@@ -907,33 +915,33 @@ Getting Started
 
 Concepts
 
-* Continuity
-* Workspaces
-* Resources
-* Intents
-* Mutations
-* Checkpoints
-* Recovery
-* Sync
-* Conflicts
-* Policies
+- Continuity
+- Workspaces
+- Resources
+- Intents
+- Mutations
+- Checkpoints
+- Recovery
+- Sync
+- Conflicts
+- Policies
 
 Platforms
 
-* Web
-* React
-* Next.js
-* React Native [future]
+- Web
+- React
+- Next.js
+- React Native [future]
 
 Guides
 
-* Recover a form
-* Survive refresh
-* Offline mutations
-* Session expiration
-* Secure logout
-* Build custom storage adapter
-* Build custom transport
+- Recover a form
+- Survive refresh
+- Offline mutations
+- Session expiration
+- Secure logout
+- Build custom storage adapter
+- Build custom transport
 
 Architecture
 
@@ -972,13 +980,13 @@ Protect main.
 
 Require:
 
-* PR
-* CI
-* tests
-* lint
-* typecheck
-* appropriate review
-* security checks where relevant
+- PR
+- CI
+- tests
+- lint
+- typecheck
+- appropriate review
+- security checks where relevant
 
 Create PR template covering:
 
@@ -1012,13 +1020,13 @@ chore(repo): configure changesets
 
 Rules:
 
-* one logical change per commit
-* meaningful commit messages
-* no "changes"
-* no "fix stuff"
-* no giant mixed commits
-* tests travel with behavior changes
-* docs travel with public API changes
+- one logical change per commit
+- meaningful commit messages
+- no "changes"
+- no "fix stuff"
+- no giant mixed commits
+- tests travel with behavior changes
+- docs travel with public API changes
 
 Create:
 
@@ -1090,17 +1098,17 @@ Create a development Fault Lab.
 
 Allow deterministic simulation of:
 
-* network disconnect
-* packet/request delay
-* API 500
-* API timeout
-* auth expiry
-* storage failure
-* sync interruption
-* duplicate delivery
-* out-of-order events
-* stale versions
-* conflicts
+- network disconnect
+- packet/request delay
+- API 500
+- API timeout
+- auth expiry
+- storage failure
+- sync interruption
+- duplicate delivery
+- out-of-order events
+- stale versions
+- conflicts
 
 Recovery infrastructure cannot be considered reliable if it is only tested under perfect conditions.
 
@@ -1347,12 +1355,12 @@ Execute only the following now.
 
 Research:
 
-* existing solutions
-* current libraries
-* prior art
-* package names
-* product names
-* architectural approaches
+- existing solutions
+- current libraries
+- prior art
+- package names
+- product names
+- architectural approaches
 
 ## STEP B — Product Definition
 
