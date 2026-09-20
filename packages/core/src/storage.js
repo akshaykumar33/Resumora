@@ -4,7 +4,9 @@ import { StorageError } from './types.js';
 export function buildStorageKey(context, recordType, recordId) {
   const { tenantId, userId, workspaceId } = context;
   if (!tenantId || !userId || !workspaceId) {
-    throw new StorageError('Tenant ID, User ID, and Workspace ID are all strictly required to generate a storage key.');
+    throw new StorageError(
+      'Tenant ID, User ID, and Workspace ID are all strictly required to generate a storage key.',
+    );
   }
   return `resumora::${tenantId}::${userId}::${workspaceId}::${recordType}::${recordId}`;
 }

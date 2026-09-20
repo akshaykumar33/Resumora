@@ -1,6 +1,7 @@
 # Naming Research & Selection
 
 ## 1. Candidate Generation (30 Names Analyzed)
+
 1. **Resumora** (Primary)
 2. **FlowVault** (Backup 1)
 3. **StateHarbor** (Backup 2)
@@ -33,6 +34,7 @@
 30. SteadyFlow
 
 ## 2. Selection Rationale
+
 - **Selected Name**: **Resumora**
   - Meaning: "Resume" + "ora" (era/continuity). Instantly evokes resuming interrupted work.
   - Collision Check: Clear on npm namespace (`@resumora`), distinct branding from generic storage utilities.

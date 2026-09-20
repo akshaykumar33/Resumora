@@ -7,14 +7,14 @@ export class MemoryStorageAdapter {
       simulatedLatencyMs: 0,
       faultOnWrite: false,
       quotaLimitBytes: Infinity,
-      ...options
+      ...options,
     };
     this.currentSizeBytes = 0;
   }
 
   async _delay() {
     if (this.options.simulatedLatencyMs > 0) {
-      await new Promise(r => setTimeout(r, this.options.simulatedLatencyMs));
+      await new Promise((r) => setTimeout(r, this.options.simulatedLatencyMs));
     }
   }
 

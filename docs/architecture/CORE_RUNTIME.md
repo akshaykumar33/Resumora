@@ -1,6 +1,7 @@
 # Core Runtime Architecture
 
 ## 1. Runtime State Machine
+
 The core runtime orchestrates workspaces across three distinct states:
 
 ```

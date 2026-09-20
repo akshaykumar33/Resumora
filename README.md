@@ -1,7 +1,7 @@
 # Resumora
 
 > **Application Continuity & Workflow Recovery Runtime**  
-> *"Your user should never lose meaningful work because the application environment became unreliable."*
+> _"Your user should never lose meaningful work because the application environment became unreliable."_
 
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Status](https://img.shields.io/badge/Status-Phase_1_Core_Starter-green.svg)](STATUS.md)
@@ -59,19 +59,19 @@ const runtime = new ContinuityRuntime({ storage });
 const workspace = await runtime.openWorkspace({
   tenantId: 'tenant_enterprise',
   userId: 'user_42',
-  workspaceId: 'workflow_mortgage_app'
+  workspaceId: 'workflow_mortgage_app',
 });
 
 // 3. Record fine-grained user intents
 await workspace.recordIntent({
   action: 'UPDATE_FIELD',
-  payload: { field: 'annualIncome', value: 125000 }
+  payload: { field: 'annualIncome', value: 125000 },
 });
 
 // 4. Create a stable milestone checkpoint
 await workspace.saveCheckpoint({
   state: { annualIncome: 125000, step: 3 },
-  metadata: { step: 3, totalSteps: 25, route: '/application/financials' }
+  metadata: { step: 3, totalSteps: 25, route: '/application/financials' },
 });
 
 // 5. Seamlessly restore state after unexpected restart
@@ -82,6 +82,7 @@ console.log(restored.state); // { annualIncome: 125000, step: 3 }
 ## Documentation
 
 Full architectural documentation is available in the [`docs/`](./docs) directory:
+
 - [System Vision & Architecture](./docs/product/VISION.md)
 - [Architecture Decision Records (ADRs)](./docs/adr/README.md)
 - [Security Model & Invariants](./docs/security/THREAT_MODEL.md)

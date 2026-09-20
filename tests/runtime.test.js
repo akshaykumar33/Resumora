@@ -2,11 +2,14 @@
 import { test, describe } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { ContinuityRuntime, WorkspaceLockedError, ChecksumMismatchError } from '../packages/core/src/index.js';
+import {
+  ContinuityRuntime,
+  WorkspaceLockedError,
+  ChecksumMismatchError,
+} from '../packages/core/src/index.js';
 import { MemoryStorageAdapter } from '../packages/storage-memory/src/index.js';
 
 describe('Resumora Core Starter: Complete Recovery Loop', () => {
-
   test('1. Architecture: Application -> Core Runtime -> Workspace -> Intent -> Checkpoint -> Memory Adapter', async () => {
     const storage = new MemoryStorageAdapter();
     const runtime = new ContinuityRuntime({ storage });
@@ -14,7 +17,7 @@ describe('Resumora Core Starter: Complete Recovery Loop', () => {
     const context = {
       tenantId: 'enterprise_alpha',
       userId: 'user_analyst_1',
-      workspaceId: 'form_25_step_onboarding'
+      workspaceId: 'form_25_step_onboarding',
     };
 
     // Open workspace
@@ -22,19 +25,24 @@ describe('Resumora Core Starter: Complete Recovery Loop', () => {
     assert.equal(workspace.state, 'active');
 
     // Record sequential intents
-    const intent1 = await workspace.recordIntent('INPUT_CHANGE', { field: 'legalName', value: 'Acme Global Corp' });
+    const intent1 = await workspace.recordIntent('INPUT_CHANGE', {
+      field: 'legalName',
+      value: 'Acme Global Corp',
+    });
     const intent2 = await workspace.recordIntent('SELECT_STEP', { step: 2 });
     assert.equal(intent1.sequence, 1);
     assert.equal(intent2.sequence, 2);
 
     // Verify intents recorded in storage
-    const keys = await storage.listKeys('resumora::enterprise_alpha::user_analyst_1::form_25_step_onboarding::intent::');
+    const keys = await storage.listKeys(
+      'resumora::enterprise_alpha::user_analyst_1::form_25_step_onboarding::intent::',
+    );
     assert.equal(keys.length, 2);
 
     // Save milestone checkpoint
     const checkpoint = await workspace.saveCheckpoint(
       { legalName: 'Acme Global Corp', step: 2, completedSections: ['basic-info'] },
-      { step: 2, totalSteps: 25, route: '/onboarding/step-2' }
+      { step: 2, totalSteps: 25, route: '/onboarding/step-2' },
     );
     assert.ok(checkpoint.checksum);
     assert.equal(checkpoint.sequence, 2);
@@ -59,7 +67,7 @@ describe('Resumora Core Starter: Complete Recovery Loop', () => {
     const context = {
       tenantId: 'fintech_bank',
       userId: 'advisor_44',
-      workspaceId: 'loan_app_777'
+      workspaceId: 'loan_app_777',
     };
 
     const workspace = await runtime.openWorkspace(context);
@@ -73,12 +81,12 @@ describe('Resumora Core Starter: Complete Recovery Loop', () => {
     // Attempting to record intent or read state while locked MUST throw WorkspaceLockedError
     await assert.rejects(
       async () => await workspace.recordIntent('SET_AMOUNT', { amount: 600000 }),
-      WorkspaceLockedError
+      WorkspaceLockedError,
     );
 
     await assert.rejects(
       async () => await workspace.restoreLatestCheckpoint(),
-      WorkspaceLockedError
+      WorkspaceLockedError,
     );
 
     // Valid reauthentication unlocks workspace
@@ -115,7 +123,7 @@ describe('Resumora Core Starter: Complete Recovery Loop', () => {
     const keysB = await storage.listKeys('resumora::tenant_B::');
     assert.ok(keysA.length > 0);
     assert.ok(keysB.length > 0);
-    assert.ok(keysA.every(k => k.includes('tenant_A') && !k.includes('tenant_B')));
+    assert.ok(keysA.every((k) => k.includes('tenant_A') && !k.includes('tenant_B')));
   });
 
   test('4. Purge Policy: Complete deletion on revocation', async () => {
@@ -154,10 +162,7 @@ describe('Resumora Core Starter: Complete Recovery Loop', () => {
     await storage.set(key, new TextEncoder().encode(JSON.stringify(parsed)));
 
     // Recovery must detect tamper and throw ChecksumMismatchError
-    await assert.rejects(
-      async () => await ws.restoreLatestCheckpoint(),
-      ChecksumMismatchError
-    );
+    await assert.rejects(async () => await ws.restoreLatestCheckpoint(), ChecksumMismatchError);
   });
 
   test('6. Fault Simulation: Handles storage write failures gracefully', async () => {
@@ -169,8 +174,7 @@ describe('Resumora Core Starter: Complete Recovery Loop', () => {
 
     await assert.rejects(
       async () => await ws.recordIntent('WILL_FAIL', {}),
-      /Simulated storage write fault/
+      /Simulated storage write fault/,
     );
   });
-
 });

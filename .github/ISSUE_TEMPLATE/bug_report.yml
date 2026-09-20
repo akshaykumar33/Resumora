@@ -1,7 +1,7 @@
 name: Bug Report
 description: Create a report to help us fix a defect in Resumora.
-title: "[Bug]: "
-labels: ["bug", "triage"]
+title: '[Bug]: '
+labels: ['bug', 'triage']
 body:
   - type: markdown
     attributes:
@@ -11,7 +11,7 @@ body:
     id: version
     attributes:
       label: Resumora Version
-      placeholder: "0.1.0"
+      placeholder: '0.1.0'
     validations:
       required: true
   - type: textarea
@@ -32,4 +32,4 @@ body:
     id: environment
     attributes:
       label: Browser / Platform
-      placeholder: "Chrome 128 / macOS 14.5"
+      placeholder: 'Chrome 128 / macOS 14.5'

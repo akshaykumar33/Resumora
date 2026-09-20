@@ -31,6 +31,7 @@
 ```
 
 ## Core Architectural Responsibilities
+
 1. **Core Runtime**: Manages active workspaces, registers intent handlers, and executes state transitions.
 2. **Intent Journal**: Append-only log capturing fine-grained user operations with timestamps and sequence numbers.
 3. **Checkpoint Engine**: Periodically snapshots full domain state, pruning superseded intent logs.
