@@ -18,6 +18,14 @@ Thumbs.db
 !.env.example
 *.local
 
+# Local AI-agent and editor config.
+# These hold MCP server settings and frequently contain live connection strings.
+# Note *.local above does NOT cover settings.local.json — the suffix is .json.
+.claude/settings.local.json
+.cursor/mcp.json
+.vscode/settings.json
+.idea/
+
 # Key material
 *.pem
 *.key

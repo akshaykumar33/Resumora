@@ -66,6 +66,7 @@ Do not solve this by adding files to `.secretlintignore`. An ignored file is one
 - **JWT signing secrets** — anything feeding `jose` in `apps/api`. A leaked signing secret means anyone can mint a valid token for any tenant, which defeats every authorization boundary in the product.
 - **Cloud provider credentials** — AWS, GCP, Azure keys, service-account JSON.
 - **`.env` files of every variety.** `.env.example` with placeholder values is the only permitted form, and every value in it must be obviously fake.
+- **Local AI-agent and editor configuration** — `.claude/settings.local.json`, `.cursor/mcp.json`, `.vscode/settings.json`. MCP server definitions routinely embed live database connection strings. This repository's own `.claude/settings.local.json` contains Neon credentials; it has never been committed, but it was protected only by a personal global gitignore, which does not travel to anyone else's clone. Repository-level `.gitignore` entries now cover it.
 
 ### Forbidden, and specific to Resumora
 
