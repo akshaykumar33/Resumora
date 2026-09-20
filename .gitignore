@@ -1,9 +1,39 @@
+# Dependencies & build output
 node_modules
 dist
 .turbo
+coverage
+.cache
+*.tsbuildinfo
+
+# Logs & OS noise
 *.log
 .DS_Store
-coverage
+Thumbs.db
+
+# Secrets and environment
+# .env.example is the ONLY committed env file, and every value in it must be fake.
 .env
-.env.local
-.cache
+.env.*
+!.env.example
+*.local
+
+# Key material
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa
+id_ed25519
+
+# Cloud credentials
+.aws/
+gcp-service-account*.json
+*-credentials.json
+
+# Resumora-specific: captured runtime state.
+# These can contain real user work — see docs/security/PRE_COMMIT_VERIFICATION.md
+*.checkpoint.json
+*.timeline-export.json
+tests/**/fixtures/*.real.json
+.fault-lab-recordings/

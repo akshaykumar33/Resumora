@@ -1,0 +1,23 @@
+# Normalize line endings.
+#
+# Prettier is configured with endOfLine: lf. Without this file, contributors on
+# Windows commit CRLF and every shared file shows as fully rewritten in diffs.
+# Text is stored as LF in the repository and checked out natively.
+* text=auto eol=lf
+
+# Lockfiles: never modify, never diff by default.
+pnpm-lock.yaml -diff linguist-generated
+
+# Shell scripts must stay LF even on Windows checkouts, or they will not run.
+*.sh text eol=lf
+
+# Binary assets — never normalize, never diff.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.woff binary
+*.woff2 binary
+*.ico binary
+*.pdf binary

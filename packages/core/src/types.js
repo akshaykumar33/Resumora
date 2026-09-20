@@ -10,7 +10,10 @@ export class ResumoraError extends Error {
 
 export class WorkspaceLockedError extends ResumoraError {
   constructor(workspaceId) {
-    super(`Workspace '${workspaceId}' is locked. Authentication required to access persisted state.`, 'WORKSPACE_LOCKED');
+    super(
+      `Workspace '${workspaceId}' is locked. Authentication required to access persisted state.`,
+      'WORKSPACE_LOCKED',
+    );
     this.name = 'WorkspaceLockedError';
   }
 }
@@ -24,7 +27,10 @@ export class WorkspacePurgedError extends ResumoraError {
 
 export class ChecksumMismatchError extends ResumoraError {
   constructor(checkpointId) {
-    super(`Checksum verification failed for checkpoint '${checkpointId}'. Stored state may be corrupted.`, 'CHECKSUM_MISMATCH');
+    super(
+      `Checksum verification failed for checkpoint '${checkpointId}'. Stored state may be corrupted.`,
+      'CHECKSUM_MISMATCH',
+    );
     this.name = 'ChecksumMismatchError';
   }
 }

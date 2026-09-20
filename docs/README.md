@@ -3,6 +3,7 @@
 Welcome to the comprehensive architecture and engineering documentation for **Resumora: Application Continuity & Workflow Recovery Runtime**.
 
 ## Structure
+
 - [Product & Vision](./product/VISION.md)
   - [Problem Definition](./product/PROBLEM.md)
   - [User Personas](./product/PERSONAS.md)

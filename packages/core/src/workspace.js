@@ -12,7 +12,7 @@ export class Workspace {
       maxAgeMs: 7 * 24 * 60 * 60 * 1000,
       autoCheckpointFrequency: 10,
       onLogout: 'lock',
-      ...policy
+      ...policy,
     };
     this.state = 'active'; // 'active' | 'locked' | 'purged'
     this.intents = new IntentJournal(context, storage);
@@ -61,7 +61,7 @@ export class Workspace {
     return {
       checkpoint: latest,
       unappliedIntents,
-      state: latest.state
+      state: latest.state,
     };
   }
 

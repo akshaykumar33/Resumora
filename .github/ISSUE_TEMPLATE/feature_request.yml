@@ -1,7 +1,7 @@
 name: Feature Request
 description: Propose a new capability or architectural improvement for Resumora.
-title: "[Feat]: "
-labels: ["enhancement"]
+title: '[Feat]: '
+labels: ['enhancement']
 body:
   - type: textarea
     id: problem

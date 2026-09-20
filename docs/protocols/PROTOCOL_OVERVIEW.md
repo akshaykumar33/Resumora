@@ -3,6 +3,7 @@
 The Resumora Protocol defines standard serialization formats, schema versions, and exchange contracts across runtime components.
 
 All protocol messages are versioned via a numeric envelope:
+
 ```typescript
 export interface ProtocolEnvelope<T> {
   protocolVersion: 1;

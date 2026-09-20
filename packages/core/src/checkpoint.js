@@ -1,5 +1,10 @@
 // Checkpoint Manager implementation
-import { buildStorageKey, serializePayload, deserializePayload, computeChecksum } from './storage.js';
+import {
+  buildStorageKey,
+  serializePayload,
+  deserializePayload,
+  computeChecksum,
+} from './storage.js';
 import { ChecksumMismatchError } from './types.js';
 
 export class CheckpointManager {
@@ -17,9 +22,9 @@ export class CheckpointManager {
       state,
       metadata: {
         ...metadata,
-        clientTimestamp: Date.now()
+        clientTimestamp: Date.now(),
       },
-      checksum
+      checksum,
     };
 
     const latestKey = buildStorageKey(this.context, 'checkpoint', 'latest');

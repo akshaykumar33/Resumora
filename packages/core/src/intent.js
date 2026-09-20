@@ -33,7 +33,7 @@ export class IntentJournal {
       action,
       payload,
       timestamp: Date.now(),
-      status: 'pending'
+      status: 'pending',
     };
 
     const key = buildStorageKey(this.context, 'intent', seqStr);

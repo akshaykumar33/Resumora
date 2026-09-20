@@ -9,10 +9,23 @@
     "build": "turbo run build",
     "test": "node --test tests/*.test.js",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,js,md,json}\"",
-    "clean": "turbo run clean"
+    "clean": "turbo run clean",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "secrets:scan": "secretlint --maskSecrets \"**/*\"",
+    "check:paths": "node scripts/check-staged-paths.mjs",
+    "hooks:install": "lefthook install",
+    "prepare": "lefthook install"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@commitlint/cli": "^21.2.3",
+    "@commitlint/config-conventional": "^21.2.3",
+    "@secretlint/secretlint-rule-pattern": "^13.0.5",
+    "@secretlint/secretlint-rule-preset-recommend": "^13.0.5",
+    "lefthook": "^2.1.14",
+    "prettier": "^3.9.8",
+    "secretlint": "^13.0.5"
+  },
   "engines": {
     "node": ">=20.0.0"
   },

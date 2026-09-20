@@ -1,3 +1,9 @@
 packages:
-  - "packages/*"
-  - "apps/*"
+  - 'packages/*'
+  - 'apps/*'
+
+# pnpm 10 blocks dependency build scripts by default. Lefthook needs its
+# postinstall to place the git-hook binary, so it is explicitly allowed.
+# Add entries here only after checking why the script is needed.
+onlyBuiltDependencies:
+  - lefthook
