@@ -41,6 +41,11 @@ jobs:
   secrets:
     name: Secret scan (full history)
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      # gitleaks-action reads the PR's commit list; without this it fails with
+      # "Resource not accessible by integration" (403).
+      pull-requests: read
     steps:
       - uses: actions/checkout@v4
         with:

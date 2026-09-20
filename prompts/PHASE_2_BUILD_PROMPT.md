@@ -22,10 +22,10 @@ Do not trust `STATUS.md` or `README.md`. They overstate what exists. Verified st
 - **ADR-002 declares TypeScript. All runtime code is `.js`.** `tsconfig.base.json` is referenced by nothing. This contradiction is resolved in favour of the ADR — see §2.
 - **ADR-006 declares Vitest. Tests run on `node:test`.** Resolved in favour of the ADR.
 - **Five of seven packages are 2-line stubs**: `protocol`, `react`, `web`, `devtools`, `storage-indexeddb`.
-- **There is no CI.** `.github/workflows/` does not exist. A template sits unused in `.github/workflow-templates/ci.yml`; it runs `npm test` against a pnpm workspace with no install step and would fail if enabled.
+- **CI was absent** and is now being added. `.github/workflow-templates/ci.yml` remains as a dead template: it runs `npm test` against a pnpm workspace with no install step and would fail if enabled. Delete it.
 - **There is no UI of any kind.** `apps/docs` and `apps/reference-app` contain a `package.json` and a `README.md` each.
 
-**Known environment blocker:** the repository token scopes are `gist, read:org, read:project, repo`. Pushing anything under `.github/workflows/` requires the `workflow` scope. Run `gh auth refresh -h github.com -s workflow` before attempting CI work.
+**Known environment constraint:** branch protection and rulesets return `403 — Upgrade to GitHub Pro or make this repository public`. Until the repository goes public or upgrades, the workflow rules are convention rather than enforcement. See [`docs/engineering/GIT_WORKFLOW.md` §2](../docs/engineering/GIT_WORKFLOW.md#2-current-enforcement-reality).
 
 ---
 

@@ -23,15 +23,15 @@
 | Language mismatch            | ADR-002 specifies TypeScript; all runtime code is `.js`.                            |
 | Test runner mismatch         | ADR-006 specifies Vitest; tests run on `node:test`.                                 |
 | Five packages are stubs      | `protocol`, `web`, `react`, `devtools`, `storage-indexeddb` are 2-line files.       |
-| No CI                        | `.github/workflows/` does not exist. Blocked on the `workflow` OAuth scope.         |
+| CI is partial                | Runs format, secret scan, and tests. No typecheck or lint until the TS migration.   |
 | No UI                        | `apps/docs` and `apps/reference-app` contain only a `package.json` and `README.md`. |
 | No branch protection         | Private repo on GitHub Free; rulesets return HTTP 403.                              |
 
 ## Next tasks, in order
 
-1. `gh auth refresh -h github.com -s workflow`, then land real CI.
-2. Decide repository visibility — going public unlocks rulesets and push protection at no cost, and matches the Apache-2.0 open-source-first model. Requires a clean full-history secret scan first.
-3. TypeScript migration of `core` and `storage-memory`; Vitest port; tsup builds.
+1. Decide repository visibility — going public unlocks rulesets and push protection at no cost, and matches the Apache-2.0 open-source-first model. Requires a clean full-history secret scan first.
+2. TypeScript migration of `core` and `storage-memory`; Vitest port; tsup builds. Adds typecheck and lint to CI.
+3. Rewrite the placeholder documentation, or delete the stubs whose subject does not yet exist.
 4. Begin Phase 3 (IndexedDB adapter) per the phase plan.
 
 ## Honesty rule
