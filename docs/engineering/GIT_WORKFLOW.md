@@ -177,7 +177,7 @@ Every PR must be green on all of these before merge:
 | Secret scan          | `gitleaks detect --redact` |
 | E2E _(from Phase 3)_ | `pnpm test:e2e`            |
 
-> **Not yet wired.** `.github/workflows/` does not exist, because the current token lacks the `workflow` OAuth scope and GitHub rejects any push that creates a workflow file. Run `gh auth refresh -h github.com -s workflow`, then CI lands in its own PR. `typecheck` and `lint` arrive with the TypeScript migration; `test:e2e` with Phase 3.
+> **Partially wired.** `.github/workflows/ci.yml` runs `format:check`, the secretlint content scan, the test suite, and gitleaks over full history. `typecheck` and `lint` arrive with the TypeScript migration; `test:e2e` with Phase 3. They are deliberately absent rather than stubbed as always-passing steps.
 
 Once server-side protection is available (§2), these become **required status checks** and merge is blocked until they pass. Until then they run in CI and you are on your honour to respect a red build.
 
