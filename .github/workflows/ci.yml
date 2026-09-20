@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Formatting
+        run: pnpm format:check
+
+      - name: Secret scan (content)
+        run: pnpm secrets:scan
+
+      - name: Tests
+        run: pnpm test
+
+  secrets:
+    name: Secret scan (full history)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Gitleaks needs the whole history, not just the tip commit.
+          fetch-depth: 0
+
+      # Layer 3 of docs/security/PRE_COMMIT_VERIFICATION.md.
+      # Unlike secretlint, gitleaks is extension-agnostic — it catches the
+      # .env.production class of file that secretlint silently skips.
+      - name: Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
