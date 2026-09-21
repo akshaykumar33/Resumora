@@ -30,6 +30,10 @@ const FORBIDDEN = [
     reason: 'Cloud service-account credentials must never enter version control.',
   },
   {
+    pattern: /(^|\/)\.(claude|cursor|vscode)\/.*\.json$/,
+    reason: 'Local agent/editor config routinely embeds live MCP database connection strings.',
+  },
+  {
     pattern: /\.(checkpoint|timeline-export)\.json$/,
     reason:
       'Captured runtime state can contain real user work. Scrub and rename before committing.',
