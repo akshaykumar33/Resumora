@@ -35,6 +35,16 @@ jobs:
       - name: Secret scan (content)
         run: pnpm secrets:scan
 
+      # Phase 2 exit gate: build, typecheck, lint and tests all pass on every PR.
+      - name: Build
+        run: pnpm build
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Lint
+        run: pnpm lint
+
       - name: Tests
         run: pnpm test
 

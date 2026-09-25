@@ -2,7 +2,7 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-Resumora is an Application Continuity & Workflow Recovery Runtime: it persists user _intent_ and workflow progress (not API responses) so work survives refresh, crash, tab discard, token expiry and network loss. pnpm + Turborepo monorepo, Node >= 22.12, ESM throughout (`"type": "module"`).
+Resumora is an Application Continuity & Workflow Recovery Runtime: it persists user _intent_ and workflow progress (not API responses) so work survives refresh, crash, tab discard, token expiry and network loss. pnpm + Turborepo monorepo, Node >= 22.13 for development (the packages support 22.12+), ESM throughout (`"type": "module"`).
 
 <!-- CODEGRAPH_START -->
 
@@ -39,11 +39,13 @@ pnpm secrets:scan                            # secretlint over the repo (CI gate
 pnpm check:paths                             # forbidden-path guard on staged files
 ```
 
-`pnpm build` and `pnpm typecheck` run through turbo. Today only `packages/core` defines them: tsup emits ESM only (Node 22.12+ can `require()` it), with bundled `.d.ts`, into `dist/`. Dual ESM+CJS was dropped to avoid the dual-package hazard: two loaded copies break `instanceof` on the error classes. There is no lint yet (Sprint 2 item 2.2), so `pnpm lint` runs nothing.
+`pnpm build` and `pnpm typecheck` run through turbo. `core` and `storage-memory` define them: tsup emits ESM only (Node 22.12+ can `require()` it), with bundled `.d.ts`, into `dist/`. Dual ESM+CJS was dropped to avoid the dual-package hazard: two loaded copies break `instanceof` on the error classes.
+
+`pnpm lint` runs ESLint (`eslint.config.js`) over the whole repo. It is type-aware for every package with a `tsconfig.json`; placeholder packages join automatically once built. In `packages/core`, `no-restricted-globals` and `no-restricted-properties` reject browser and Node globals (`window`, `localStorage`, `indexedDB`, `process`, `Buffer` and others), including through `globalThis.`, with a message naming the invariant.
 
 TypeScript is pinned to 6.x on purpose. TypeScript 7 (the native compiler) has no JavaScript API, and tsup's declaration build needs one; see RAID R6 in `docs/roadmap/SPRINT_PLAN.md`.
 
-CI (`.github/workflows/ci.yml`) runs format:check, secrets:scan and tests, and a separate job runs gitleaks over the full history. `.github/workflow-templates/ci.yml` and `tooling/ci/` are dead templates.
+CI (`.github/workflows/ci.yml`) runs format:check, secrets:scan, build, typecheck, lint and tests on every PR: the Phase 2 exit gate. A separate job runs gitleaks over the full history. `spike-playwright.yml` runs the crash-recovery spike when `spikes/**` changes.
 
 ## Architecture
 

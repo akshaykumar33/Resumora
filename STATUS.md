@@ -17,20 +17,18 @@
 
 ## Known gaps
 
-| Gap                          | Detail                                                                                                |
-| ---------------------------- | ----------------------------------------------------------------------------------------------------- |
-| Documentation is placeholder | ~62 files, ~610 lines. Most are one to three sentences.                                               |
-| Five packages are stubs      | `protocol`, `web`, `react`, `devtools`, `storage-indexeddb` are 2-line files.                         |
-| CI is partial                | Runs format, secret scan, and tests. Build and typecheck exist locally but aren't in CI yet; no lint. |
-| No UI                        | `apps/docs` and `apps/reference-app` contain only a `package.json` and `README.md`.                   |
-| No branch protection         | Private repo on GitHub Free; rulesets return HTTP 403.                                                |
+| Gap                          | Detail                                                                              |
+| ---------------------------- | ----------------------------------------------------------------------------------- |
+| Documentation is placeholder | ~62 files, ~610 lines. Most are one to three sentences.                             |
+| Five packages are stubs      | `protocol`, `web`, `react`, `devtools`, `storage-indexeddb` are 2-line files.       |
+| No UI                        | `apps/docs` and `apps/reference-app` contain only a `package.json` and `README.md`. |
+| No branch protection         | Private repo on GitHub Free; rulesets return HTTP 403.                              |
 
 ## Next tasks, in order
 
 1. Decide repository visibility — going public unlocks rulesets and push protection at no cost, and matches the Apache-2.0 open-source-first model. Requires a clean full-history secret scan first.
-2. Add build, typecheck and lint to CI.
-3. Rewrite the placeholder documentation, or delete the stubs whose subject does not yet exist.
-4. Begin Phase 3 (IndexedDB adapter) per the phase plan.
+2. Rewrite the placeholder documentation, or delete stubs whose subject is not built.
+3. Begin Phase 3 (IndexedDB adapter) per the phase plan.
 
 ## Honesty rule
 
