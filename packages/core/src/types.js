@@ -35,6 +35,18 @@ export class ChecksumMismatchError extends ResumoraError {
   }
 }
 
+export class InvalidIdentityError extends ResumoraError {
+  constructor(field) {
+    // The rejected value is deliberately left out: it is caller-supplied and may end up in logs.
+    super(
+      `Invalid ${field}: must be 1-128 characters of A-Z, a-z, 0-9, '.', '_', '@', '+' or '-'.`,
+      'INVALID_IDENTITY',
+    );
+    this.name = 'InvalidIdentityError';
+    this.field = field;
+  }
+}
+
 export class StorageError extends ResumoraError {
   constructor(message, originalError) {
     super(message, 'STORAGE_ERROR');
