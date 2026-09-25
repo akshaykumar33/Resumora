@@ -39,27 +39,30 @@ pnpm secrets:scan                            # secretlint over the repo (CI gate
 pnpm check:paths                             # forbidden-path guard on staged files
 ```
 
-`pnpm build`, `pnpm lint` and `pnpm clean` run through turbo, but no workspace package defines those scripts yet, so they do nothing. No typecheck or lint runs until the TypeScript migration lands.
+`pnpm build` and `pnpm typecheck` run through turbo. Today only `packages/core` defines them: tsup emits ESM, CJS and bundled `.d.ts` into `dist/`. There is no lint yet (Sprint 2 item 2.2), so `pnpm lint` runs nothing.
+
+TypeScript is pinned to 6.x on purpose. TypeScript 7 (the native compiler) has no JavaScript API, and tsup's declaration build needs one; see RAID R6 in `docs/roadmap/SPRINT_PLAN.md`.
 
 CI (`.github/workflows/ci.yml`) runs format:check, secrets:scan and tests, and a separate job runs gitleaks over the full history. `.github/workflow-templates/ci.yml` and `tooling/ci/` are dead templates.
 
 ## Architecture
 
 ```
-ContinuityRuntime (runtime.js)          one Workspace per tenant::user::workspace, cached in a Map
-  └─ Workspace (workspace.js)           state machine: active | locked | purged; assertAccessible() gates every op
-       ├─ IntentJournal (intent.js)     append-only, monotonically sequenced intents
-       └─ CheckpointManager (checkpoint.js)  single "latest" snapshot + FNV-1a checksum
+ContinuityRuntime (runtime.ts)          one Workspace per tenant::user::workspace, cached in a Map
+  └─ Workspace (workspace.ts)           state machine: active | locked | purged; assertAccessible() gates every op
+       ├─ IntentJournal (intent.ts)     append-only, monotonically sequenced intents
+       └─ CheckpointManager (checkpoint.ts)  single "latest" snapshot + FNV-1a checksum
             └─ StorageAdapter           injected; key/value over Uint8Array
 ```
 
-- **Storage keys** (`storage.js`): `resumora::{tenantId}::{userId}::{workspaceId}::{recordType}::{recordId}`. `buildStorageKey` throws unless all three identity parts are present. Tenant isolation depends on every read and write going through this key or through `buildPrefix`.
+- **Storage keys** (`storage.ts`): `resumora::{tenantId}::{userId}::{workspaceId}::{recordType}::{recordId}`. `buildStorageKey` throws unless all three identity parts are present. Tenant isolation depends on every read and write going through this key or through `buildPrefix`.
 - **Intents** are stored under zero-padded 8-digit sequence ids so they sort lexically. On `initialize()`, the journal recovers `currentSequence` by scanning keys.
 - **Checkpoint then prune:** `saveCheckpoint` stores the snapshot at the current sequence and then deletes every intent `<=` that sequence. `restoreLatestCheckpoint` returns `{ checkpoint, state, unappliedIntents }`, and the _caller_ replays the unapplied intents. `checkpoint` and `state` are `null` when intents exist but no checkpoint has been written yet. The whole result is `null` only when nothing was recorded. `getLatest` throws `ChecksumMismatchError` when the stored state has been tampered with.
 - **Lock and purge:** `lock()` blocks all access until `unlock(credential)` receives `credential.isValid`. `purge()` clears the workspace's key prefix and is irreversible.
 - **StorageAdapter contract** (implemented by `MemoryStorageAdapter`): `get`, `set`, `delete`, `listKeys(prefix)`, `batch(ops)`, `clear(prefix?)`. The memory adapter takes `simulatedLatencyMs`, `faultOnWrite` and `quotaLimitBytes` for fault injection.
-- Errors are subclasses of `ResumoraError` with a `code` (`types.js`).
-- Tests import package sources by relative path (`../packages/core/src/index.js`), not by package name, because there is no build step. `packages/core/package.json` points `types` at a `src/index.ts` that doesn't exist yet.
+- Errors are subclasses of `ResumoraError` with a `code` (`types.ts`, which also holds the public interfaces: `StorageAdapter`, `IdentityContext`, `Intent`, `Checkpoint`, `RestoreResult`).
+- Tests import the TypeScript source directly (`../packages/core/src/index.ts`), which Vitest compiles, so `pnpm test` needs no build first. `storage-memory` is still JavaScript.
+- Core compiles against the ES library only, with no DOM or Node types. A browser global in `packages/core` is therefore a type error. `src/env.d.ts` declares the one allowed host API, `TextEncoder`/`TextDecoder`. Source imports use `.js` extensions (NodeNext).
 
 ## Invariants (see AGENTS.md)
 
@@ -73,7 +76,7 @@ The 6 tests in `tests/runtime.test.js` encode these invariants and must not regr
 
 ## Planned direction (Phase 2, not yet done)
 
-- Migrate to TypeScript with `strict`, `noUncheckedIndexedAccess` and `exactOptionalPropertyTypes`; `any` is banned. Build with tsup, test with Vitest and Playwright.
+- `core` is TypeScript (`strict`, `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`; `any` is banned). `storage-memory` still has to migrate, and Playwright is still to be added.
 - Planned stack: Zod for `protocol`, Dexie inside `storage-indexeddb` only, MSW, and Changesets.
 - Planned apps: `reference-app` (Vite + React 19 + TanStack + Tailwind v4 + shadcn), `api` (Hono + Drizzle + Neon + jose), and `docs` (Next.js 15 + Fumadocs).
 
