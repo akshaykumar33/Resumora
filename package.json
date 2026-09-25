@@ -26,6 +26,7 @@
     "@secretlint/secretlint-rule-pattern": "^13.0.5",
     "@secretlint/secretlint-rule-preset-recommend": "^13.0.5",
     "eslint": "^10.11.0",
+    "fake-indexeddb": "^6.2.5",
     "lefthook": "^2.1.14",
     "prettier": "^3.9.8",
     "secretlint": "^13.0.5",

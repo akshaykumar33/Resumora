@@ -39,7 +39,7 @@ pnpm secrets:scan                            # secretlint over the repo (CI gate
 pnpm check:paths                             # forbidden-path guard on staged files
 ```
 
-`pnpm build` and `pnpm typecheck` run through turbo. `core` and `storage-memory` define them: tsup emits ESM only (Node 22.12+ can `require()` it), with bundled `.d.ts`, into `dist/`. Dual ESM+CJS was dropped to avoid the dual-package hazard: two loaded copies break `instanceof` on the error classes.
+`pnpm build` and `pnpm typecheck` run through turbo. `core`, `storage-memory` and `storage-indexeddb` define them: tsup emits ESM only (Node 22.12+ can `require()` it), with bundled `.d.ts`, into `dist/`. Dual ESM+CJS was dropped to avoid the dual-package hazard: two loaded copies break `instanceof` on the error classes.
 
 `pnpm lint` runs ESLint (`eslint.config.js`) over the whole repo. It is type-aware for every package with a `tsconfig.json`; placeholder packages join automatically once built. In `packages/core`, `no-restricted-globals` and `no-restricted-properties` reject browser and Node globals (`window`, `localStorage`, `indexedDB`, `process`, `Buffer` and others), including through `globalThis.`, with a message naming the invariant.
 
@@ -79,7 +79,7 @@ The 6 tests in `tests/runtime.test.js` encode these invariants and must not regr
 
 ## Planned direction (Phase 2, not yet done)
 
-- `core` and `storage-memory` are TypeScript (`strict`, `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`; `any` is banned). Adapters take `@resumora/core` as a peer dependency (`workspace:^`, rewritten to a semver range on pack).
+- `core`, `storage-memory` and `storage-indexeddb` are TypeScript (`strict`, `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`; `any` is banned). Adapters take `@resumora/core` as a peer dependency (`workspace:^`, rewritten to a semver range on pack).
 - Planned stack: Zod for `protocol`, Dexie inside `storage-indexeddb` only, MSW, and Changesets.
 - Planned apps: `reference-app` (Vite + React 19 + TanStack + Tailwind v4 + shadcn), `api` (Hono + Drizzle + Neon + jose), and `docs` (Next.js 15 + Fumadocs).
 

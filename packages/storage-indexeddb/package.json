@@ -1,9 +1,55 @@
 {
   "name": "@resumora/storage-indexeddb",
-  "private": true,
   "version": "0.1.0",
-  "description": "Persistent browser IndexedDB storage adapter for Resumora",
+  "description": "Persistent browser storage adapter for Resumora on native IndexedDB: strict durability, atomic batches, no dependencies.",
+  "keywords": [
+    "resumora",
+    "storage-adapter",
+    "indexeddb",
+    "offline",
+    "browser",
+    "crash-recovery"
+  ],
   "license": "Apache-2.0",
-  "main": "./src/index.ts",
-  "types": "./src/index.ts"
+  "author": "Akshay Kumar",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akshaykumar33/Resumora.git",
+    "directory": "packages/storage-indexeddb"
+  },
+  "homepage": "https://github.com/akshaykumar33/Resumora/tree/main/packages/storage-indexeddb#readme",
+  "bugs": "https://github.com/akshaykumar33/Resumora/issues",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "NOTICE"
+  ],
+  "engines": {
+    "node": ">=22.12"
+  },
+  "peerDependencies": {
+    "@resumora/core": "workspace:^"
+  },
+  "devDependencies": {
+    "@resumora/core": "workspace:*"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\""
+  }
 }
