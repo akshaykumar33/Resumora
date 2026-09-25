@@ -53,15 +53,16 @@ export class Workspace {
   async restoreLatestCheckpoint() {
     this.assertAccessible();
     const latest = await this.checkpoints.getLatest();
-    if (!latest) return null;
 
-    // Fetch any intents that occurred AFTER this checkpoint
-    const unappliedIntents = await this.intents.getPendingIntents(latest.sequence);
+    // Fetch any intents that occurred AFTER this checkpoint. With no checkpoint yet, every
+    // recorded intent is unapplied: the caller replays them from its initial state.
+    const unappliedIntents = await this.intents.getPendingIntents(latest ? latest.sequence : 0);
+    if (!latest && unappliedIntents.length === 0) return null;
 
     return {
       checkpoint: latest,
       unappliedIntents,
-      state: latest.state,
+      state: latest ? latest.state : null,
     };
   }
 

@@ -239,4 +239,39 @@ describe('Resumora Core Starter: Complete Recovery Loop', () => {
       return true;
     });
   });
+
+  test('10. Recovery Loop: intents recorded before any checkpoint survive a restart', async () => {
+    const storage = new MemoryStorageAdapter();
+    const context = { tenantId: 'org_new', userId: 'user_new', workspaceId: 'draft_1' };
+
+    const ws = await new ContinuityRuntime({ storage }).openWorkspace(context);
+    await ws.recordIntent('INPUT_CHANGE', { field: 'title', value: 'Roof inspection' });
+    await ws.recordIntent('INPUT_CHANGE', { field: 'floors', value: 3 });
+
+    // Simulate a restart before the first checkpoint was ever written
+    const restored = await new ContinuityRuntime({ storage }).openWorkspace(context);
+    const recovery = await restored.restoreLatestCheckpoint();
+
+    assert.ok(recovery, 'recorded work must not be reported as nothing to restore');
+    assert.equal(recovery.checkpoint, null);
+    assert.equal(recovery.state, null);
+    assert.deepEqual(
+      recovery.unappliedIntents.map((intent) => [intent.sequence, intent.payload.field]),
+      [
+        [1, 'title'],
+        [2, 'floors'],
+      ],
+    );
+
+    // The recovered journal continues from the restored sequence
+    const next = await restored.recordIntent('SELECT_STEP', { step: 2 });
+    assert.equal(next.sequence, 3);
+  });
+
+  test('11. Recovery Loop: a workspace with no recorded work has nothing to restore', async () => {
+    const runtime = new ContinuityRuntime({ storage: new MemoryStorageAdapter() });
+    const ws = await runtime.openWorkspace({ tenantId: 't', userId: 'u', workspaceId: 'empty' });
+
+    assert.equal(await ws.restoreLatestCheckpoint(), null);
+  });
 });
