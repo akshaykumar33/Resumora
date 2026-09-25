@@ -31,6 +31,11 @@ export class IntentJournal {
     }
   }
 
+  /** Ensures the next intent is numbered after `sequence` (the latest checkpoint's). */
+  continueAfter(sequence: number): void {
+    if (sequence > this.currentSequence) this.currentSequence = sequence;
+  }
+
   async append(action: string, payload: unknown): Promise<Intent> {
     this.currentSequence += 1;
     const seqStr = String(this.currentSequence).padStart(8, '0');

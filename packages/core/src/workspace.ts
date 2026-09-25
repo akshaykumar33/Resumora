@@ -52,6 +52,9 @@ export class Workspace {
 
   async initialize(): Promise<void> {
     await this.#intents.initialize();
+    // A checkpoint prunes the intents it covers, so after a restart the journal alone would
+    // restart numbering below the checkpoint, and restore would skip the new intents.
+    this.#intents.continueAfter(await this.#checkpoints.latestSequence());
   }
 
   assertAccessible(): void {
