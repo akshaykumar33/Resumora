@@ -8,4 +8,4 @@
 | [ADR-004](./ADR-004-intent-and-checkpoint-model.md)        | Dual Intent Journal & Checkpoint Recovery Model | Accepted | 2026-09-16 |
 | [ADR-005](./ADR-005-security-invariants-and-lock-cycle.md) | Persistence != Authorization Security Model     | Accepted | 2026-09-16 |
 | [ADR-006](./ADR-006-testing-stack-vitest.md)               | Fast Deterministic Testing with Vitest          | Accepted | 2026-09-16 |
-| [ADR-007](./ADR-007-indexeddb-without-dexie.md)            | IndexedDB adapter on the native API, not Dexie  | Proposed | 2026-09-25 |
+| [ADR-007](./ADR-007-indexeddb-without-dexie.md)            | IndexedDB adapter on the native API, not Dexie  | Accepted | 2026-09-25 |
