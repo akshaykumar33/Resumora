@@ -1,5 +1,5 @@
 // Comprehensive Integration & Unit Test Suite for Resumora Core Starter
-import { test, describe } from 'node:test';
+import { describe, test } from 'vitest';
 import assert from 'node:assert/strict';
 
 import {
