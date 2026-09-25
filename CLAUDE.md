@@ -39,7 +39,7 @@ pnpm secrets:scan                            # secretlint over the repo (CI gate
 pnpm check:paths                             # forbidden-path guard on staged files
 ```
 
-`pnpm build` and `pnpm typecheck` run through turbo. Today only `packages/core` defines them: tsup emits ESM, CJS and bundled `.d.ts` into `dist/`. There is no lint yet (Sprint 2 item 2.2), so `pnpm lint` runs nothing.
+`pnpm build` and `pnpm typecheck` run through turbo. Today only `packages/core` defines them: tsup emits ESM only (Node 22.12+ can `require()` it), with bundled `.d.ts`, into `dist/`. Dual ESM+CJS was dropped to avoid the dual-package hazard: two loaded copies break `instanceof` on the error classes. There is no lint yet (Sprint 2 item 2.2), so `pnpm lint` runs nothing.
 
 TypeScript is pinned to 6.x on purpose. TypeScript 7 (the native compiler) has no JavaScript API, and tsup's declaration build needs one; see RAID R6 in `docs/roadmap/SPRINT_PLAN.md`.
 
