@@ -52,7 +52,7 @@ chore(repo): migrate test runner to vitest
 - Subject is not Start-Case, PascalCase, or UPPER-CASE — commitlint rejects these.
 - Tests travel in the same commit as the behaviour they verify.
 - Docs travel in the same commit as the public API they describe.
-- Squash your own `wip` commits before opening a PR: `git rebase -i origin/main`.
+- Every commit lands on `main` unchanged (PRs merge as merge commits, never squash or rebase). Tidy your own `wip` commits into meaningful ones before the first push.
 
 ## Breaking changes
 

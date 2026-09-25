@@ -118,7 +118,7 @@ docs(protocol): define checkpoint versioning semantics
 - Docs travel in the same commit as the public API they describe.
 - A breaking change gets `!` after the scope — `feat(core)!: rename Workspace.purge to Workspace.revoke` — and a `BREAKING CHANGE:` footer explaining the migration.
 
-Squash your own `wip` commits before opening the PR. `git rebase -i origin/main` exists for this.
+Every commit on a branch lands on `main` unchanged (merges are merge commits, §7). Tidy your own `wip` commits into meaningful ones **before the first push**, while that history is still yours alone.
 
 ---
 
@@ -192,14 +192,24 @@ Once server-side protection is available (§2), these become **required status c
 
 ## 7. Merging
 
-**Squash and merge.** Always.
+**Merge with a merge commit.** Always: `gh pr merge <n> --merge`.
 
-- `main` gets one clean, meaningful commit per change.
-- The squash commit title **must itself be a valid Conventional Commit** — GitHub pre-fills it from the PR title, so write good PR titles.
-- The squash body should retain the PR description, not the list of `wip` commits.
-- Delete the branch on merge.
+**Never squash-merge and never rebase-merge.**
 
-Rebase-merge and merge-commits are disabled. Linear history is what makes `git bisect` and `git revert` reliable — both of which matter more in recovery infrastructure than in most codebases.
+- Squashing collapses the branch's commits into one new commit, so the history that was reviewed and tested disappears from `main`.
+- Rebase-merging rewrites every commit with new SHAs.
+
+A merge commit keeps every commit exactly as it was pushed, reviewed and run through CI.
+
+- **Every commit on the branch lands on `main` as-is.** So each one must be a valid Conventional Commit that builds and passes tests on its own (§5). Tidy your own unpushed `wip` commits before the first push.
+- **The merge commit body carries the PR description.**
+- **Keep the branch after merging.** Don't delete it.
+
+Merge commits keep `git bisect` and `git revert` reliable:
+
+- `git bisect --first-parent` walks one PR at a time.
+- `git revert -m 1 <merge-sha>` undoes a whole PR in one step.
+- Plain `git bisect` can still descend into a PR's individual commits to find the exact one.
 
 **Never merge a red build.** If CI is broken for an unrelated reason, fix CI first, in its own PR.
 
@@ -258,5 +268,5 @@ git push --force-with-lease
 # ship
 gh pr create --fill
 gh pr checks --watch
-gh pr merge --squash --delete-branch
+gh pr merge --merge                     # merge commit only; keep the branch
 ```

@@ -26,7 +26,7 @@ How Resumora gets from today's state to a documented, integrable v1. The scope, 
 - **Estimation:** Fibonacci points (1, 2, 3, 5); anything larger gets split. **No velocity has been measured yet.** Sprints 1–2 are calibration sprints, and the forecast below is a range to be re-forecast after Sprint 2.
 - **Capacity:** plan about 70% of what feels possible. Each sprint lists _Committed_ items and one _Stretch_ item.
 - **Definition of done:** the checklist in `PHASE_2_BUILD_PROMPT.md` §6 applies to every item, including failure-path tests and stated security and performance considerations. "Done except tests" is not done.
-- **Workflow:** one branch per item (`<type>/<kebab-name>`), a PR to `main`, and a squash merge. Items that touch storage keys, the lock cycle, authorization or serialization need an explicit security review.
+- **Workflow:** one branch per item (`<type>/<kebab-name>`), a PR to `main`, and a merge commit (never squash or rebase). Items that touch storage keys, the lock cycle, authorization or serialization need an explicit security review.
 
 ## 3. Phase map and forecast
 

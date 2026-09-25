@@ -22,7 +22,7 @@ If hooks do not fire, run `pnpm hooks:install`.
 
 ## The rules that matter most
 
-1. **Never commit to `main`.** Branch, PR, squash merge.
+1. **Never commit to `main`.** Branch, PR, merge commit. Never squash or rebase-merge.
 2. **`Persistence != Authorization`.** Any change touching storage must preserve strict tenant and user namespace isolation, and the `LOCK → REAUTHENTICATE → REAUTHORIZE → UNLOCK → REVALIDATE → RECONCILE` lifecycle.
 3. **Tests travel with behaviour.** Including failure-path tests — in a recovery runtime, the failure paths _are_ the product.
 4. **Stage by path.** Never `git add -A` or `git add .`. Read your staged diff before every commit.
