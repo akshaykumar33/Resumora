@@ -11,7 +11,7 @@
 ## What actually works
 
 - `packages/core` (~518 lines, TypeScript, built with tsup to ESM, CJS and `.d.ts`) — `ContinuityRuntime`, `Workspace`, `IntentJournal`, `CheckpointManager`, namespaced storage keys, checksum computation.
-- `packages/storage-memory` (~95 lines, JavaScript) — in-memory adapter with write-fault injection.
+- `packages/storage-memory` (TypeScript, built like core) — in-memory reference adapter with latency, write-fault and quota injection. It passes the shared adapter conformance suite.
 - `tests/runtime.test.js` — 11 tests, passing under Vitest. They cover tenant isolation (including the identity allowlist), lock-on-logout, purge-on-revoke, checksum tamper detection, storage fault handling, and recovery of intents recorded before the first checkpoint.
 - Governance tooling — lefthook hooks, secretlint, forbidden-path guard, commitlint, prettier. Verified against planted fake credentials.
 
@@ -28,7 +28,7 @@
 ## Next tasks, in order
 
 1. Decide repository visibility — going public unlocks rulesets and push protection at no cost, and matches the Apache-2.0 open-source-first model. Requires a clean full-history secret scan first.
-2. TypeScript migration of `storage-memory`; add build, typecheck and lint to CI.
+2. Add build, typecheck and lint to CI.
 3. Rewrite the placeholder documentation, or delete the stubs whose subject does not yet exist.
 4. Begin Phase 3 (IndexedDB adapter) per the phase plan.
 

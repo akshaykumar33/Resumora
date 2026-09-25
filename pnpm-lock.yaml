@@ -59,7 +59,11 @@ importers:
 
   packages/storage-indexeddb: {}
 
-  packages/storage-memory: {}
+  packages/storage-memory:
+    devDependencies:
+      '@resumora/core':
+        specifier: workspace:*
+        version: link:../core
 
   packages/web: {}
 
