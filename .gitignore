@@ -26,6 +26,13 @@ Thumbs.db
 .vscode/settings.json
 .idea/
 
+# Local code-intelligence index and machine-local hook overrides
+.codegraph/
+lefthook-local.yml
+
+# Machine-local tooling that drives agent sessions; not part of the product
+scripts/autopilot/
+
 # Key material
 *.pem
 *.key
