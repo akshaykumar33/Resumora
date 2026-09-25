@@ -79,7 +79,7 @@ The 6 tests in `tests/runtime.test.js` encode these invariants and must not regr
 
 ## Git workflow
 
-- Never commit directly to `main`. Use branches named `<type>/<kebab-description>`, where the prefix matches the commit type (`feat/`, not `feature/`). Rebase onto `origin/main`; don't merge `main` in. Branch protection isn't active yet (private repo on GitHub Free), so these rules rely on discipline.
+- Never commit directly to `main`, and merge PRs only as merge commits (`gh pr merge <n> --merge`), never squash or rebase. Use branches named `<type>/<kebab-description>`, where the prefix matches the commit type (`feat/`, not `feature/`). Rebase onto `origin/main`; don't merge `main` in. Branch protection isn't active yet (private repo on GitHub Free), so these rules rely on discipline.
 - Commits follow Conventional Commits, enforced by commitlint. The allowed types add `security` to the conventional set. Scopes are limited to `core, protocol, web, react, storage-memory, storage-indexeddb, devtools, reference-app, api, docs, repo, ci, deps, release` or empty.
 - Lefthook runs on `pnpm install`:
   - pre-commit runs the forbidden-path guard (`scripts/check-staged-paths.mjs`), secretlint on staged files, and prettier (which re-stages its fixes).

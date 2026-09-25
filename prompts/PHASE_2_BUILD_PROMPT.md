@@ -156,7 +156,7 @@ Full detail in [`docs/engineering/GIT_WORKFLOW.md`](../docs/engineering/GIT_WORK
 3. **Every commit is scanned for secrets before it is created.** Local hook, then CI, then GitHub push protection. Three layers, because any one of them can be bypassed.
 4. **Conventional Commits, enforced by commitlint.** One logical change per commit.
 5. **Every PR must pass** typecheck, lint, format, unit tests, secret scan, and build before merge.
-6. **Squash merge to `main`**, with the squash title itself a valid Conventional Commit.
+6. **Merge to `main` with a merge commit, never squash or rebase**, so every reviewed commit survives unchanged. Each commit on the branch must be a valid Conventional Commit.
 7. **Security-relevant changes require explicit security review** — anything touching storage keys, the lock cycle, authorization boundaries, or serialization.
 
 ---
