@@ -311,4 +311,27 @@ describe('Resumora Core Starter: Complete Recovery Loop', () => {
     assert.equal(ws.state, 'purged');
     await assert.rejects(ws.recordIntent('WRITE_AFTER_REVOKE', {}), WorkspacePurgedError);
   });
+
+  test('15. Recovery Loop: edits after a checkpoint survive two restarts', async () => {
+    const storage = new MemoryStorageAdapter();
+    const context = { tenantId: 't', userId: 'u', workspaceId: 'w' };
+    const open = () => new ContinuityRuntime({ storage }).openWorkspace(context);
+
+    const first = await open();
+    await first.recordIntent('SET_FIELD', { field: 'a', value: 1 });
+    await first.recordIntent('SET_FIELD', { field: 'b', value: 2 });
+    await first.saveCheckpoint({ a: 1, b: 2 }); // prunes intents 1 and 2
+
+    // Restart: no intent keys remain, but numbering must continue after the checkpoint.
+    const second = await open();
+    const next = await second.recordIntent('SET_FIELD', { field: 'c', value: 3 });
+    assert.equal(next.sequence, 3);
+
+    const recovered = await (await open()).restoreLatestCheckpoint();
+    assert.deepEqual(recovered.state, { a: 1, b: 2 });
+    assert.deepEqual(
+      recovered.unappliedIntents.map((i) => i.payload),
+      [{ field: 'c', value: 3 }],
+    );
+  });
 });

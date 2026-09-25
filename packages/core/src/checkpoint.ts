@@ -40,6 +40,21 @@ export class CheckpointManager {
     return checkpoint;
   }
 
+  /**
+   * The latest checkpoint's sequence, or 0. It reads only the sequence and skips the checksum,
+   * so that numbering stays correct even when the state itself is corrupted.
+   */
+  async latestSequence(): Promise<number> {
+    const bytes = await this.storage.get(buildStorageKey(this.context, 'checkpoint', 'latest'));
+    if (!bytes) return 0;
+    try {
+      const { sequence } = deserializePayload(bytes) as Partial<Checkpoint>;
+      return typeof sequence === 'number' && Number.isFinite(sequence) ? sequence : 0;
+    } catch {
+      return 0; // unreadable bytes: restore reports the corruption; numbering starts fresh
+    }
+  }
+
   async getLatest(): Promise<Checkpoint | null> {
     const latestKey = buildStorageKey(this.context, 'checkpoint', 'latest');
     const bytes = await this.storage.get(latestKey);
