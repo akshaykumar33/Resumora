@@ -6,6 +6,9 @@ import {
   ContinuityRuntime,
   WorkspaceLockedError,
   ChecksumMismatchError,
+  InvalidIdentityError,
+  buildStorageKey,
+  buildPrefix,
 } from '../packages/core/src/index.js';
 import { MemoryStorageAdapter } from '../packages/storage-memory/src/index.js';
 
@@ -176,5 +179,64 @@ describe('Resumora Core Starter: Complete Recovery Loop', () => {
       async () => await ws.recordIntent('WILL_FAIL', {}),
       /Simulated storage write fault/,
     );
+  });
+
+  test('7. Multi-Tenant Isolation Invariant: IDs containing the key separator cannot reach another tenant', async () => {
+    const storage = new MemoryStorageAdapter();
+    const runtime = new ContinuityRuntime({ storage });
+
+    // Before validation, tenant "acme::alice" / user "w1" / workspace "x" produced the same
+    // storage keys as tenant "acme" / user "alice" / workspace "w1::x".
+    const forged = { tenantId: 'acme::alice', userId: 'w1', workspaceId: 'x' };
+    const legitimate = { tenantId: 'acme', userId: 'alice', workspaceId: 'w1::x' };
+
+    await assert.rejects(runtime.openWorkspace(legitimate), InvalidIdentityError);
+    await assert.rejects(runtime.openWorkspace(forged), InvalidIdentityError);
+    assert.deepEqual(await storage.listKeys(), []);
+  });
+
+  test('8. Identity Validation: every identity segment is checked against an allowlist', async () => {
+    const runtime = new ContinuityRuntime({ storage: new MemoryStorageAdapter() });
+    const base = { tenantId: 'tenant_A', userId: 'user_1', workspaceId: 'doc_1' };
+
+    const invalid = ['a::b', 'a:', ':a', '', ' ', 'a b', 'a\nb', 'ünï', 'x'.repeat(129), 42, null];
+    for (const field of ['tenantId', 'userId', 'workspaceId']) {
+      await assert.rejects(
+        runtime.openWorkspace({ ...base, [field]: undefined }),
+        InvalidIdentityError,
+      );
+      for (const value of invalid) {
+        const context = { ...base, [field]: value };
+        await assert.rejects(runtime.openWorkspace(context), InvalidIdentityError);
+        assert.throws(() => runtime.getWorkspace(context), InvalidIdentityError);
+        assert.throws(() => buildStorageKey(context, 'intent', '1'), InvalidIdentityError);
+        assert.throws(() => buildPrefix(context), InvalidIdentityError);
+      }
+    }
+
+    const valid = [
+      '3f2b8c1e-9a4d-4e6f-8b2a-1c3d5e7f9a0b',
+      'user+tag@example.com',
+      'tenant-1.eu',
+      'ORG_X',
+      'x'.repeat(128),
+    ];
+    for (const value of valid) {
+      const ws = await runtime.openWorkspace({ ...base, workspaceId: value });
+      assert.equal(ws.state, 'active');
+    }
+  });
+
+  test('9. Identity Validation: the error does not echo the rejected value', async () => {
+    const runtime = new ContinuityRuntime({ storage: new MemoryStorageAdapter() });
+    const context = { tenantId: 'tenant::<script>', userId: 'u', workspaceId: 'w' };
+
+    await assert.rejects(runtime.openWorkspace(context), (error) => {
+      assert.ok(error instanceof InvalidIdentityError);
+      assert.equal(error.code, 'INVALID_IDENTITY');
+      assert.match(error.message, /tenantId/);
+      assert.doesNotMatch(error.message, /<script>/);
+      return true;
+    });
   });
 });

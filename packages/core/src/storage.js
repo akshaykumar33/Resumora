@@ -1,17 +1,28 @@
 // Storage Key Formatting & Byte Serialization Helpers
-import { StorageError } from './types.js';
+import { InvalidIdentityError } from './types.js';
+
+// Identity segments are joined with '::' to build storage keys, so a segment containing ':'
+// could forge another tenant's namespace. An allowlist keeps keys unambiguous.
+const IDENTITY_SEGMENT = /^[A-Za-z0-9._@+-]{1,128}$/;
+const IDENTITY_FIELDS = ['tenantId', 'userId', 'workspaceId'];
+
+export function assertValidIdentity(context) {
+  for (const field of IDENTITY_FIELDS) {
+    const value = context?.[field];
+    if (typeof value !== 'string' || !IDENTITY_SEGMENT.test(value)) {
+      throw new InvalidIdentityError(field);
+    }
+  }
+}
 
 export function buildStorageKey(context, recordType, recordId) {
+  assertValidIdentity(context);
   const { tenantId, userId, workspaceId } = context;
-  if (!tenantId || !userId || !workspaceId) {
-    throw new StorageError(
-      'Tenant ID, User ID, and Workspace ID are all strictly required to generate a storage key.',
-    );
-  }
   return `resumora::${tenantId}::${userId}::${workspaceId}::${recordType}::${recordId}`;
 }
 
 export function buildPrefix(context, recordType) {
+  assertValidIdentity(context);
   const { tenantId, userId, workspaceId } = context;
   if (recordType) {
     return `resumora::${tenantId}::${userId}::${workspaceId}::${recordType}::`;
