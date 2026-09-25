@@ -2,7 +2,7 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-Resumora is an Application Continuity & Workflow Recovery Runtime: it persists user _intent_ and workflow progress (not API responses) so work survives refresh, crash, tab discard, token expiry and network loss. pnpm + Turborepo monorepo, Node >= 20, ESM throughout (`"type": "module"`).
+Resumora is an Application Continuity & Workflow Recovery Runtime: it persists user _intent_ and workflow progress (not API responses) so work survives refresh, crash, tab discard, token expiry and network loss. pnpm + Turborepo monorepo, Node >= 22.12, ESM throughout (`"type": "module"`).
 
 <!-- CODEGRAPH_START -->
 
@@ -31,8 +31,8 @@ To minimize token consumption, prevent hallucinations, and preserve context:
 
 ```bash
 pnpm install
-pnpm test                                    # node --test tests/*.test.js
-node --test --test-name-pattern="Tenant" tests/runtime.test.js   # single test by name
+pnpm test                                    # vitest run (tests/**/*.test.js)
+pnpm vitest run -t "Tenant"                  # single test by name; `pnpm vitest` to watch
 pnpm format                                  # prettier --write .
 pnpm format:check                            # CI gate
 pnpm secrets:scan                            # secretlint over the repo (CI gate)
