@@ -9,7 +9,7 @@ import {
   InvalidIdentityError,
   buildStorageKey,
   buildPrefix,
-} from '../packages/core/src/index.js';
+} from '../packages/core/src/index.ts';
 import { MemoryStorageAdapter } from '../packages/storage-memory/src/index.js';
 
 describe('Resumora Core Starter: Complete Recovery Loop', () => {

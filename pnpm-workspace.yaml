@@ -7,3 +7,8 @@ packages:
 # Add entries here only after checking why the script is needed.
 onlyBuiltDependencies:
   - lefthook
+
+# esbuild (via tsup) runs from its per-platform binary package; its postinstall only
+# re-checks that binary, so it is not needed and stays blocked.
+ignoredBuiltDependencies:
+  - esbuild

@@ -3,9 +3,31 @@ import { IntentJournal } from './intent.js';
 import { CheckpointManager } from './checkpoint.js';
 import { buildPrefix } from './storage.js';
 import { WorkspaceLockedError, WorkspacePurgedError } from './types.js';
+import type {
+  Checkpoint,
+  IdentityContext,
+  Intent,
+  RestoreResult,
+  StorageAdapter,
+  UnlockCredential,
+  WorkspacePolicy,
+  WorkspaceState,
+} from './types.js';
 
 export class Workspace {
-  constructor(context, storage, policy = {}) {
+  readonly context: IdentityContext;
+  readonly storage: StorageAdapter;
+  readonly policy: WorkspacePolicy;
+  state: WorkspaceState;
+  readonly intents: IntentJournal;
+  readonly checkpoints: CheckpointManager;
+  uncheckpointedIntents: number;
+
+  constructor(
+    context: IdentityContext,
+    storage: StorageAdapter,
+    policy: Partial<WorkspacePolicy> = {},
+  ) {
     this.context = context;
     this.storage = storage;
     this.policy = {
@@ -14,17 +36,17 @@ export class Workspace {
       onLogout: 'lock',
       ...policy,
     };
-    this.state = 'active'; // 'active' | 'locked' | 'purged'
+    this.state = 'active';
     this.intents = new IntentJournal(context, storage);
     this.checkpoints = new CheckpointManager(context, storage);
     this.uncheckpointedIntents = 0;
   }
 
-  async initialize() {
+  async initialize(): Promise<void> {
     await this.intents.initialize();
   }
 
-  assertAccessible() {
+  assertAccessible(): void {
     if (this.state === 'locked') {
       throw new WorkspaceLockedError(this.context.workspaceId);
     }
@@ -33,14 +55,17 @@ export class Workspace {
     }
   }
 
-  async recordIntent(action, payload) {
+  async recordIntent(action: string, payload: unknown): Promise<Intent> {
     this.assertAccessible();
     const intent = await this.intents.append(action, payload);
     this.uncheckpointedIntents++;
     return intent;
   }
 
-  async saveCheckpoint(state, metadata = {}) {
+  async saveCheckpoint<TState>(
+    state: TState,
+    metadata: Readonly<Record<string, unknown>> = {},
+  ): Promise<Checkpoint<TState>> {
     this.assertAccessible();
     const currentSeq = this.intents.currentSequence;
     const checkpoint = await this.checkpoints.save(currentSeq, state, metadata);
@@ -50,7 +75,7 @@ export class Workspace {
     return checkpoint;
   }
 
-  async restoreLatestCheckpoint() {
+  async restoreLatestCheckpoint(): Promise<RestoreResult | null> {
     this.assertAccessible();
     const latest = await this.checkpoints.getLatest();
 
@@ -66,11 +91,11 @@ export class Workspace {
     };
   }
 
-  lock() {
+  lock(): void {
     this.state = 'locked';
   }
 
-  unlock(credential) {
+  unlock(credential?: UnlockCredential | null): boolean {
     if (this.state === 'purged') {
       throw new WorkspacePurgedError(this.context.workspaceId);
     }
@@ -81,7 +106,7 @@ export class Workspace {
     return false;
   }
 
-  async purge() {
+  async purge(): Promise<void> {
     this.state = 'purged';
     const prefix = buildPrefix(this.context);
     await this.storage.clear(prefix);

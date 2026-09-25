@@ -1,21 +1,29 @@
 // Intent Journal implementation
 import { buildStorageKey, buildPrefix, serializePayload, deserializePayload } from './storage.js';
+import type { IdentityContext, Intent, StorageAdapter } from './types.js';
+
+// Intent keys end in their zero-padded sequence number: `...::intent::00000042`.
+function sequenceFromKey(key: string): number {
+  return parseInt(key.slice(key.lastIndexOf('::') + 2), 10);
+}
 
 export class IntentJournal {
-  constructor(context, storage) {
+  readonly context: IdentityContext;
+  readonly storage: StorageAdapter;
+  currentSequence = 0;
+
+  constructor(context: IdentityContext, storage: StorageAdapter) {
     this.context = context;
     this.storage = storage;
-    this.currentSequence = 0;
   }
 
-  async initialize() {
+  async initialize(): Promise<void> {
     const prefix = buildPrefix(this.context, 'intent');
     const keys = await this.storage.listKeys(prefix);
     if (keys.length > 0) {
       // Find highest sequence
       for (const key of keys) {
-        const parts = key.split('::');
-        const seq = parseInt(parts[parts.length - 1], 10);
+        const seq = sequenceFromKey(key);
         if (!isNaN(seq) && seq > this.currentSequence) {
           this.currentSequence = seq;
         }
@@ -23,10 +31,10 @@ export class IntentJournal {
     }
   }
 
-  async append(action, payload) {
+  async append(action: string, payload: unknown): Promise<Intent> {
     this.currentSequence += 1;
     const seqStr = String(this.currentSequence).padStart(8, '0');
-    const intent = {
+    const intent: Intent = {
       id: `intent_${Date.now()}_${seqStr}`,
       sequence: this.currentSequence,
       workspaceId: this.context.workspaceId,
@@ -41,31 +49,30 @@ export class IntentJournal {
     return intent;
   }
 
-  async getPendingIntents(sinceSequence = 0) {
+  async getPendingIntents(sinceSequence = 0): Promise<Intent[]> {
     const prefix = buildPrefix(this.context, 'intent');
     const keys = await this.storage.listKeys(prefix);
     keys.sort();
 
-    const intents = [];
+    const intents: Intent[] = [];
     for (const key of keys) {
-      const parts = key.split('::');
-      const seq = parseInt(parts[parts.length - 1], 10);
+      const seq = sequenceFromKey(key);
       if (seq > sinceSequence) {
         const bytes = await this.storage.get(key);
         if (bytes) {
-          intents.push(deserializePayload(bytes));
+          // Stored records are trusted to match their shape until schema versioning lands.
+          intents.push(deserializePayload(bytes) as Intent);
         }
       }
     }
     return intents;
   }
 
-  async pruneBefore(sequence) {
+  async pruneBefore(sequence: number): Promise<void> {
     const prefix = buildPrefix(this.context, 'intent');
     const keys = await this.storage.listKeys(prefix);
     for (const key of keys) {
-      const parts = key.split('::');
-      const seq = parseInt(parts[parts.length - 1], 10);
+      const seq = sequenceFromKey(key);
       if (seq <= sequence) {
         await this.storage.delete(key);
       }
