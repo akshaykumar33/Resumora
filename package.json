@@ -21,6 +21,7 @@
   "devDependencies": {
     "@commitlint/cli": "^21.2.3",
     "@commitlint/config-conventional": "^21.2.3",
+    "@playwright/test": "^1.63.0",
     "@secretlint/secretlint-rule-pattern": "^13.0.5",
     "@secretlint/secretlint-rule-preset-recommend": "^13.0.5",
     "lefthook": "^2.1.14",

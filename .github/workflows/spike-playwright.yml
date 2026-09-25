@@ -1,0 +1,42 @@
+name: Spike - Playwright crash recovery
+
+# Answers Sprint 1 item 1.5 in CI: see docs/spikes/SPIKE-001-playwright-crash-recovery.md.
+# Runs only when the spike changes, or on demand; the Phase 3 harness will replace it.
+on:
+  pull_request:
+    paths:
+      - 'spikes/**'
+      - '.github/workflows/spike-playwright.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  crash-recovery:
+    name: Reload, tab crash and browser crash (Chromium)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
+      # Three consecutive runs: a spike that passes once but flakes is not an answer.
+      - name: Run spike (1 of 3)
+        run: node spikes/playwright-tab-crash/spike.mjs
+      - name: Run spike (2 of 3)
+        run: node spikes/playwright-tab-crash/spike.mjs
+      - name: Run spike (3 of 3)
+        run: node spikes/playwright-tab-crash/spike.mjs
