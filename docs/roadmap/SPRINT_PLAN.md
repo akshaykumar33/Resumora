@@ -179,20 +179,22 @@ Sliced by field type rather than by step:
 
 Review this every Friday and close entries as they resolve.
 
-| ID  | Type       | Entry                                                                           | Mitigation / next action                                                | Owner | By         |
-| --- | ---------- | ------------------------------------------------------------------------------- | ----------------------------------------------------------------------- | ----- | ---------- |
-| I1  | Issue      | Cross-tenant read through `::` in IDs (reproduced)                              | **Closed 2026-09-25**: fixed in #5 (item 1.1)                           | Dev   | 2026-10-02 |
-| I2  | Issue      | Intents unreachable when no checkpoint exists (reproduced)                      | **Closed 2026-09-25**: fixed in #6 (item 1.2)                           | Dev   | 2026-10-02 |
-| I3  | Issue      | No server-side branch protection (private repo on GitHub Free)                  | Decide whether to go public after a clean gitleaks run                  | Owner | 2026-10-02 |
-| R1  | Risk       | Playwright can't faithfully simulate a tab crash, which blocks the Phase 3 gate | Spike 1.5 in Sprint 1; fallback is killing the browser process          | Dev   | 2026-10-02 |
-| R2  | Risk       | Keeping only the latest checkpoint means one corrupt write loses everything     | Sprint 4, item 4.2                                                      | Dev   | Sprint 4   |
-| R3  | Risk       | Unmeasured velocity; agent output may look finished without being verified      | Calibration sprints; done = gate green in CI                            | Dev   | Sprint 2   |
-| R4  | Risk       | The high UI quality bar pulls effort away from the critical path                | Polish only inside a sprint's committed items; the rest is backlog      | Dev   | Ongoing    |
-| R5  | Risk       | Neon free-tier cold starts make tests flaky                                     | CI runs against local Postgres; Neon only for the deployed demo         | Dev   | Sprint 9   |
-| A1  | Assumption | The Phase 2 prompt's §2 stack decisions stand                                   | Change only through a new ADR                                           | Owner | –          |
-| A2  | Assumption | Chromium-first browser testing is enough for v1                                 | Check against `docs/testing/COMPATIBILITY_MATRIX.md` in Phase 7         | Dev   | Sprint 15  |
-| D1  | Dependency | A Neon project and a CI secret for the deployed demo                            | Create it in Sprint 3                                                   | Owner | Sprint 3   |
-| D2  | Dependency | Whether the `@resumora` npm scope is free (unverified)                          | Check the npm registry before Phase 7; don't claim it's free until then | Owner | Sprint 12  |
+| ID  | Type       | Entry                                                                                                                                    | Mitigation / next action                                                  | Owner | By         |
+| --- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ----- | ---------- |
+| I1  | Issue      | Cross-tenant read through `::` in IDs (reproduced)                                                                                       | **Closed 2026-09-25**: fixed in #5 (item 1.1)                             | Dev   | 2026-10-02 |
+| I2  | Issue      | Intents unreachable when no checkpoint exists (reproduced)                                                                               | **Closed 2026-09-25**: fixed in #6 (item 1.2)                             | Dev   | 2026-10-02 |
+| I3  | Issue      | No server-side branch protection (private repo on GitHub Free)                                                                           | Decide whether to go public after a clean gitleaks run                    | Owner | 2026-10-02 |
+| I4  | Issue      | `Workspace.state` is publicly writable: `ws.state = 'active'` after `lock()` reads locked data with no credential (reproduced)           | Security fix: make state private with a read-only getter; its own PR next | Dev   | 2026-10-02 |
+| R1  | Risk       | Playwright can't faithfully simulate a tab crash, which blocks the Phase 3 gate                                                          | Spike 1.5 in Sprint 1; fallback is killing the browser process            | Dev   | 2026-10-02 |
+| R2  | Risk       | Keeping only the latest checkpoint means one corrupt write loses everything                                                              | Sprint 4, item 4.2                                                        | Dev   | Sprint 4   |
+| R3  | Risk       | Unmeasured velocity; agent output may look finished without being verified                                                               | Calibration sprints; done = gate green in CI                              | Dev   | Sprint 2   |
+| R4  | Risk       | The high UI quality bar pulls effort away from the critical path                                                                         | Polish only inside a sprint's committed items; the rest is backlog        | Dev   | Ongoing    |
+| R5  | Risk       | Neon free-tier cold starts make tests flaky                                                                                              | CI runs against local Postgres; Neon only for the deployed demo           | Dev   | Sprint 9   |
+| R6  | Risk       | tsup looks unmaintained (last published November 2025), and its declaration build can't use TypeScript 7, so TypeScript is pinned to 6.x | Stay on 6.x for now; evaluate tsdown in an ADR before Phase 7 publishing  | Dev   | Sprint 12  |
+| A1  | Assumption | The Phase 2 prompt's §2 stack decisions stand                                                                                            | Change only through a new ADR                                             | Owner | –          |
+| A2  | Assumption | Chromium-first browser testing is enough for v1                                                                                          | Check against `docs/testing/COMPATIBILITY_MATRIX.md` in Phase 7           | Dev   | Sprint 15  |
+| D1  | Dependency | A Neon project and a CI secret for the deployed demo                                                                                     | Create it in Sprint 3                                                     | Owner | Sprint 3   |
+| D2  | Dependency | Whether the `@resumora` npm scope is free (unverified)                                                                                   | Check the npm registry before Phase 7; don't claim it's free until then   | Owner | Sprint 12  |
 
 ## 6. Cadence
 
