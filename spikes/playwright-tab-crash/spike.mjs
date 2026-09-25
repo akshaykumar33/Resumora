@@ -114,7 +114,9 @@ try {
   // Best effort: on Windows a crashed browser can hold profile files briefly. Never mask the result.
   try {
     rmSync(profile, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 });
-  } catch {}
+  } catch {
+    // Leftover temp files are harmless; the result must not depend on cleanup.
+  }
 }
 
 const failed = results.filter((ok) => !ok).length;

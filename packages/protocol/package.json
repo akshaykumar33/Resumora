@@ -1,5 +1,6 @@
 {
   "name": "@resumora/protocol",
+  "private": true,
   "version": "0.1.0",
   "description": "Protocol schemas, serialization contracts, and envelopes for Resumora",
   "license": "Apache-2.0",
