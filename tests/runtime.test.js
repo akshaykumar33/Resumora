@@ -11,7 +11,7 @@ import {
   buildStorageKey,
   buildPrefix,
 } from '../packages/core/src/index.ts';
-import { MemoryStorageAdapter } from '../packages/storage-memory/src/index.js';
+import { MemoryStorageAdapter } from '../packages/storage-memory/src/index.ts';
 
 describe('Resumora Core Starter: Complete Recovery Loop', () => {
   test('1. Architecture: Application -> Core Runtime -> Workspace -> Intent -> Checkpoint -> Memory Adapter', async () => {

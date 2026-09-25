@@ -1,8 +1,54 @@
 {
   "name": "@resumora/storage-memory",
   "version": "0.1.0",
-  "description": "In-memory reference storage adapter with fault injection for Resumora",
-  "main": "./src/index.js",
+  "description": "In-memory reference storage adapter for Resumora, with fault injection for tests: latency, write faults and quota limits.",
+  "keywords": [
+    "resumora",
+    "storage-adapter",
+    "in-memory",
+    "fault-injection",
+    "testing"
+  ],
   "license": "Apache-2.0",
-  "type": "module"
+  "author": "Akshay Kumar",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akshaykumar33/Resumora.git",
+    "directory": "packages/storage-memory"
+  },
+  "homepage": "https://github.com/akshaykumar33/Resumora/tree/main/packages/storage-memory#readme",
+  "bugs": "https://github.com/akshaykumar33/Resumora/issues",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "NOTICE"
+  ],
+  "engines": {
+    "node": ">=22.12"
+  },
+  "peerDependencies": {
+    "@resumora/core": "workspace:^"
+  },
+  "devDependencies": {
+    "@resumora/core": "workspace:*"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\""
+  }
 }

@@ -62,7 +62,7 @@ ContinuityRuntime (runtime.ts)          one Workspace per tenant::user::workspac
 - `Workspace.state` is a read-only getter. The journal, checkpoint store and storage adapter are `#private`, because they read storage without the lock check. Keep every data path behind `assertAccessible()`, and never expose them again.
 - **StorageAdapter contract** (implemented by `MemoryStorageAdapter`): `get`, `set`, `delete`, `listKeys(prefix)`, `batch(ops)`, `clear(prefix?)`. The memory adapter takes `simulatedLatencyMs`, `faultOnWrite` and `quotaLimitBytes` for fault injection.
 - Errors are subclasses of `ResumoraError` with a `code` (`types.ts`, which also holds the public interfaces: `StorageAdapter`, `IdentityContext`, `Intent`, `Checkpoint`, `RestoreResult`).
-- Tests import the TypeScript source directly (`../packages/core/src/index.ts`), which Vitest compiles, so `pnpm test` needs no build first. `storage-memory` is still JavaScript.
+- Tests import both packages' TypeScript source directly (`../packages/*/src/index.ts`), which Vitest compiles, so `pnpm test` needs no build first. `tests/storage-adapter-conformance.js` is the shared suite every `StorageAdapter` must pass: call `describeStorageAdapter(name, factory)` from the adapter's test file.
 - Core compiles against the ES library only, with no DOM or Node types. A browser global in `packages/core` is therefore a type error. `src/env.d.ts` declares the one allowed host API, `TextEncoder`/`TextDecoder`. Source imports use `.js` extensions (NodeNext).
 
 ## Invariants (see AGENTS.md)
@@ -77,7 +77,7 @@ The 6 tests in `tests/runtime.test.js` encode these invariants and must not regr
 
 ## Planned direction (Phase 2, not yet done)
 
-- `core` is TypeScript (`strict`, `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`; `any` is banned). `storage-memory` still has to migrate, and Playwright is still to be added.
+- `core` and `storage-memory` are TypeScript (`strict`, `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`; `any` is banned). Adapters take `@resumora/core` as a peer dependency (`workspace:^`, rewritten to a semver range on pack).
 - Planned stack: Zod for `protocol`, Dexie inside `storage-indexeddb` only, MSW, and Changesets.
 - Planned apps: `reference-app` (Vite + React 19 + TanStack + Tailwind v4 + shadcn), `api` (Hono + Drizzle + Neon + jose), and `docs` (Next.js 15 + Fumadocs).
 
