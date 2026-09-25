@@ -33,9 +33,11 @@ export class ContinuityRuntime {
     return this.workspaces.get(key) || null;
   }
 
-  async closeWorkspace(context: IdentityContext): Promise<void> {
+  // Returns a promise so a future adapter-backed close can await I/O without an API break.
+  closeWorkspace(context: IdentityContext): Promise<void> {
     const key = buildPrefix(context);
     this.workspaces.delete(key);
+    return Promise.resolve();
   }
 
   async purgeAll(): Promise<void> {

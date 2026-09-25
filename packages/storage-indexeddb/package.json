@@ -1,5 +1,6 @@
 {
   "name": "@resumora/storage-indexeddb",
+  "private": true,
   "version": "0.1.0",
   "description": "Persistent browser IndexedDB storage adapter for Resumora",
   "license": "Apache-2.0",

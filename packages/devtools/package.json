@@ -1,5 +1,6 @@
 {
   "name": "@resumora/devtools",
+  "private": true,
   "version": "0.1.0",
   "description": "Developer tools, timeline inspector, and chaos fault simulator for Resumora",
   "license": "Apache-2.0",

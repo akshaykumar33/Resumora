@@ -1,5 +1,6 @@
 {
   "name": "@resumora/web",
+  "private": true,
   "version": "0.1.0",
   "description": "Browser utilities, Web Locks leader election, and BroadcastChannel event bus for Resumora",
   "license": "Apache-2.0",
