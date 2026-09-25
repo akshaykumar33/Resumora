@@ -88,8 +88,8 @@ export default tseslint.config(
     },
   },
   {
-    // Spike and browser-page scripts evaluate code inside the page.
-    files: ['spikes/**/*.mjs'],
+    // Spike and end-to-end scripts evaluate code inside the page.
+    files: ['spikes/**/*.mjs', 'e2e/**/*.js'],
     languageOptions: { globals: { window: 'readonly', indexedDB: 'readonly' } },
   },
 );
