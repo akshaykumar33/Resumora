@@ -12,6 +12,7 @@
 
 - `packages/core` (~518 lines, TypeScript, built with tsup to ESM, CJS and `.d.ts`) — `ContinuityRuntime`, `Workspace`, `IntentJournal`, `CheckpointManager`, namespaced storage keys, checksum computation.
 - `packages/storage-memory` (TypeScript, built like core) — in-memory reference adapter with latency, write-fault and quota injection. It passes the shared adapter conformance suite.
+- `packages/storage-indexeddb` (TypeScript, native IndexedDB, no dependencies; ADR-007) — persistent browser adapter: strict durability, atomic batches. It passes the conformance suite under `fake-indexeddb`.
 - `tests/runtime.test.js` — 11 tests, passing under Vitest. They cover tenant isolation (including the identity allowlist), lock-on-logout, purge-on-revoke, checksum tamper detection, storage fault handling, and recovery of intents recorded before the first checkpoint.
 - Governance tooling — lefthook hooks, secretlint, forbidden-path guard, commitlint, prettier. Verified against planted fake credentials.
 
@@ -28,7 +29,7 @@
 
 1. Decide repository visibility — going public unlocks rulesets and push protection at no cost, and matches the Apache-2.0 open-source-first model. Requires a clean full-history secret scan first.
 2. Rewrite the placeholder documentation, or delete stubs whose subject is not built.
-3. Begin Phase 3 (IndexedDB adapter) per the phase plan.
+3. Phase 3: Playwright reload and crash tests against the IndexedDB adapter in CI, then quota, corruption fallback and multi-tab.
 
 ## Honesty rule
 
