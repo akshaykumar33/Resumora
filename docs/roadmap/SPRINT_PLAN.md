@@ -181,8 +181,8 @@ Review this every Friday and close entries as they resolve.
 
 | ID  | Type       | Entry                                                                           | Mitigation / next action                                                | Owner | By         |
 | --- | ---------- | ------------------------------------------------------------------------------- | ----------------------------------------------------------------------- | ----- | ---------- |
-| I1  | Issue      | Cross-tenant read through `::` in IDs (reproduced)                              | Sprint 1, item 1.1; security review on the PR                           | Dev   | 2026-10-02 |
-| I2  | Issue      | Intents unreachable when no checkpoint exists (reproduced)                      | Sprint 1, item 1.2                                                      | Dev   | 2026-10-02 |
+| I1  | Issue      | Cross-tenant read through `::` in IDs (reproduced)                              | **Closed 2026-09-25**: fixed in #5 (item 1.1)                           | Dev   | 2026-10-02 |
+| I2  | Issue      | Intents unreachable when no checkpoint exists (reproduced)                      | **Closed 2026-09-25**: fixed in #6 (item 1.2)                           | Dev   | 2026-10-02 |
 | I3  | Issue      | No server-side branch protection (private repo on GitHub Free)                  | Decide whether to go public after a clean gitleaks run                  | Owner | 2026-10-02 |
 | R1  | Risk       | Playwright can't faithfully simulate a tab crash, which blocks the Phase 3 gate | Spike 1.5 in Sprint 1; fallback is killing the browser process          | Dev   | 2026-10-02 |
 | R2  | Risk       | Keeping only the latest checkpoint means one corrupt write loses everything     | Sprint 4, item 4.2                                                      | Dev   | Sprint 4   |
