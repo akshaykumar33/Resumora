@@ -2,7 +2,7 @@
 
 ## Status
 
-Proposed, 2026-09-25. It becomes Accepted when the owner merges the PR that introduces it.
+Accepted, 2026-09-25, by the owner when merging #15.
 
 ## Context
 
@@ -19,6 +19,8 @@ The `StorageAdapter` contract needs exactly one object store holding opaque byte
 | `batch`            | every operation in one transaction (atomic)                                              |
 
 SPIKE-001 established that a write is durable only once its transaction's `complete` event fires, and that the journal should default to `strict` durability. Both are one-line concerns with the native API: resolve on `complete`, and pass `{ durability }` to `transaction()`.
+
+Dexie is also an adjacent product in Resumora's competitive landscape (`docs/product/COMPETITIVE_LANDSCAPE.md`). The owner prefers that Resumora's storage layer not depend on it.
 
 ## Decision
 

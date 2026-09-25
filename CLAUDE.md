@@ -33,6 +33,7 @@ To minimize token consumption, prevent hallucinations, and preserve context:
 pnpm install
 pnpm test                                    # vitest run (tests/**/*.test.js)
 pnpm vitest run -t "Tenant"                  # single test by name; `pnpm vitest` to watch
+pnpm build && pnpm e2e                     # Playwright crash-recovery tests (run `pnpm exec playwright install chromium` once)
 pnpm format                                  # prettier --write .
 pnpm format:check                            # CI gate
 pnpm secrets:scan                            # secretlint over the repo (CI gate)
