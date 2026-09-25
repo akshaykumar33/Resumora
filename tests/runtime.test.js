@@ -5,6 +5,7 @@ import assert from 'node:assert/strict';
 import {
   ContinuityRuntime,
   WorkspaceLockedError,
+  WorkspacePurgedError,
   ChecksumMismatchError,
   InvalidIdentityError,
   buildStorageKey,
@@ -273,5 +274,41 @@ describe('Resumora Core Starter: Complete Recovery Loop', () => {
     const ws = await runtime.openWorkspace({ tenantId: 't', userId: 'u', workspaceId: 'empty' });
 
     assert.equal(await ws.restoreLatestCheckpoint(), null);
+  });
+
+  test('12. Security Invariant: a locked workspace cannot be unlocked by assigning its state', async () => {
+    const runtime = new ContinuityRuntime({ storage: new MemoryStorageAdapter() });
+    const ws = await runtime.openWorkspace({ tenantId: 't', userId: 'u', workspaceId: 'w' });
+    await ws.saveCheckpoint({ secret: 'LOCKED_DATA' });
+    ws.lock();
+
+    assert.throws(() => {
+      ws.state = 'active';
+    }, TypeError);
+    assert.equal(ws.state, 'locked');
+    await assert.rejects(ws.restoreLatestCheckpoint(), WorkspaceLockedError);
+  });
+
+  test('13. Security Invariant: persisted state is reachable only through the lock-checked API', async () => {
+    const runtime = new ContinuityRuntime({ storage: new MemoryStorageAdapter() });
+    const ws = await runtime.openWorkspace({ tenantId: 't', userId: 'u', workspaceId: 'w' });
+
+    // The journal, checkpoint store and adapter read storage without checking the lock, so they must not
+    // be reachable from a Workspace handle.
+    assert.equal('intents' in ws, false);
+    assert.equal('checkpoints' in ws, false);
+    assert.equal('storage' in ws, false);
+  });
+
+  test('14. Purge Policy: a purged workspace stays purged', async () => {
+    const runtime = new ContinuityRuntime({ storage: new MemoryStorageAdapter() });
+    const ws = await runtime.openWorkspace({ tenantId: 't', userId: 'u', workspaceId: 'w' });
+    await ws.purge();
+
+    ws.lock();
+    assert.equal(ws.state, 'purged');
+    assert.throws(() => ws.unlock({ isValid: true }), WorkspacePurgedError);
+    assert.equal(ws.state, 'purged');
+    await assert.rejects(ws.recordIntent('WRITE_AFTER_REVOKE', {}), WorkspacePurgedError);
   });
 });
