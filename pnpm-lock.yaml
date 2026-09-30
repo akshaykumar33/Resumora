@@ -24,8 +24,8 @@ importers:
         specifier: ^13.0.5
         version: 13.0.5
       '@secretlint/secretlint-rule-preset-recommend':
-        specifier: ^13.0.5
-        version: 13.0.5
+        specifier: ^13.0.6
+        version: 13.0.6
       eslint:
         specifier: ^10.11.0
         version: 10.11.0(jiti@2.6.1)
@@ -709,8 +709,8 @@ packages:
     resolution: {integrity: sha512-O5FasZpXq8WZ6GPcqiPYDxyJTr1Bx+WjXC3lXd3mpbYb1abEuETDLNuu3AWOtp2Bh39TXQVvj40lX+NcWzus6Q==}
     engines: {node: '>=22.0.0'}
 
-  '@secretlint/secretlint-rule-preset-recommend@13.0.5':
-    resolution: {integrity: sha512-dxOmTLf1w7I6rQEFPL8Hkdz6dR1FQXF0bzmTahH/Wyezy89TMPLL+8LbZ2YD8trkmYBnS37zUmOsZT6rMVftKQ==}
+  '@secretlint/secretlint-rule-preset-recommend@13.0.6':
+    resolution: {integrity: sha512-5OdYoPKs7LznSY/mFgpJlSY8ayF+clq0gdfOE0ERVfvUifmIDz0yG/d1ij3wZmfpyOw33tk12zUcDZqrXHFodA==}
     engines: {node: '>=22.0.0'}
 
   '@secretlint/source-creator@13.0.5':
@@ -2499,7 +2499,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@secretlint/secretlint-rule-preset-recommend@13.0.5': {}
+  '@secretlint/secretlint-rule-preset-recommend@13.0.6': {}
 
   '@secretlint/source-creator@13.0.5':
     dependencies:
