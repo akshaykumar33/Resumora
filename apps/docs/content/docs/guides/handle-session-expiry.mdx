@@ -1,0 +1,27 @@
+---
+title: Handle session expiry
+description: Lock a workspace when a session ends, and recover the user's work only after they sign back in.
+---
+
+1. **When the session expires**, lock the workspace and drop your in-memory copy of the user's data:
+
+   ```ts
+   workspace.lock();
+   form = {};
+   ```
+
+2. **When your app starts**, lock straight away if you can't confirm the session yet:
+
+   ```ts
+   const workspace = await runtime.openWorkspace(identity);
+   if (!(await sessionIsValid())) workspace.lock();
+   ```
+
+3. **After the user signs in and your server reauthorizes them**, unlock and recover:
+
+   ```ts
+   workspace.unlock({ isValid: true });
+   const recovered = await workspace.restoreLatestCheckpoint();
+   ```
+
+While the workspace is locked, any read or write throws [`WorkspaceLockedError`](/docs/reference/errors#workspace_locked). Catch it, and send the user to sign in.

@@ -1,0 +1,42 @@
+---
+title: The security model
+description: Stored work is evidence of what the user did, never proof that they may see it.
+---
+
+Data saved on a device outlives the session that created it. A user can log out, a token can expire, and someone else can sit down at the same browser. Resumora's rule is simple: **persistence never implies authorization.**
+
+## The lock cycle
+
+When a session ends or expires, lock the workspace:
+
+```ts
+workspace.lock();
+```
+
+While it's locked, every read and write throws [`WorkspaceLockedError`](/docs/reference/errors#workspace_locked). The data stays on the device, but nothing can read it.
+
+After the user signs in again **and your server confirms they're still allowed in**, unlock it:
+
+```ts
+workspace.unlock({ isValid: true });
+```
+
+The full cycle is **lock → reauthenticate → reauthorize → unlock → revalidate → reconcile**. Resumora enforces the lock; your app supplies the authentication and authorization.
+
+<Callout type="warn" title="Lock on start">
+  The lock lives in memory, because the runtime can't know whether a login is still valid. If a
+  session might have expired while the app was closed, lock the workspace as soon as it opens, and
+  unlock only after you've revalidated.
+</Callout>
+
+## Revoking access
+
+`purge()` deletes every record for the workspace and is final. A purged workspace can't be locked or unlocked back into use.
+
+## Tenant isolation
+
+Every record's storage key is namespaced by tenant, user and workspace. IDs must be 1–128 characters of `A-Z a-z 0-9 . _ @ + -`, so one tenant's IDs can never build another tenant's keys. Anything else throws [`InvalidIdentityError`](/docs/reference/errors#invalid_identity). If your IDs use other characters, map them to an allowed form, such as a hash, first.
+
+## What this doesn't cover
+
+Script running on the same page can read browser storage directly, whatever Resumora does. Encrypting data at rest is a separate concern.

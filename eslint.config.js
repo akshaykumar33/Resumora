@@ -36,6 +36,9 @@ export default tseslint.config(
       'scripts/autopilot/**',
       '.codegraph/**',
       'apps/**',
+      '**/.next/**',
+      '**/.source/**',
+      '**/out/**',
       // Placeholder packages without a tsconfig are not built yet (see TYPED_PACKAGES).
       ...readdirSync('packages')
         .filter((name) => !existsSync(`packages/${name}/tsconfig.json`))

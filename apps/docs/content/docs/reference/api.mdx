@@ -1,0 +1,39 @@
+---
+title: API
+description: The public API of @resumora/core.
+---
+
+## ContinuityRuntime
+
+```ts
+new ContinuityRuntime({ storage: StorageAdapter });
+```
+
+| Method                     | Returns              | Description                                                   |
+| -------------------------- | -------------------- | ------------------------------------------------------------- |
+| `openWorkspace(identity)`  | `Promise<Workspace>` | Opens the workspace for this identity, or returns it if open. |
+| `getWorkspace(identity)`   | `Workspace \| null`  | The open workspace for this identity, if any.                 |
+| `closeWorkspace(identity)` | `Promise<void>`      | Forgets the open workspace. Stored data stays.                |
+| `purgeAll()`               | `Promise<void>`      | Deletes every record in the storage adapter.                  |
+
+## Workspace
+
+| Member                             | Returns                            | Description                                                   |
+| ---------------------------------- | ---------------------------------- | ------------------------------------------------------------- |
+| `state`                            | `'active' \| 'locked' \| 'purged'` | Read-only.                                                    |
+| `recordIntent(action, payload)`    | `Promise<Intent>`                  | Appends an intent with the next sequence number.              |
+| `saveCheckpoint(state, metadata?)` | `Promise<Checkpoint>`              | Saves a snapshot, then deletes the intents it covers.         |
+| `restoreLatestCheckpoint()`        | `Promise<RestoreResult \| null>`   | See [the recovery model](/docs/concepts/recovery-model).      |
+| `lock()`                           | `void`                             | Blocks every read and write. No effect on a purged workspace. |
+| `unlock(credential)`               | `boolean`                          | Unlocks when `credential.isValid` is true. Throws if purged.  |
+| `purge()`                          | `Promise<void>`                    | Deletes the workspace's records. Final.                       |
+
+## IdentityContext
+
+```ts
+interface IdentityContext {
+  tenantId: string; // 1–128 characters of A-Z a-z 0-9 . _ @ + -
+  userId: string;
+  workspaceId: string;
+}
+```

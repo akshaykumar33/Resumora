@@ -1,0 +1,63 @@
+---
+title: Get started
+description: Install Resumora, record some work, and recover it after a reload.
+---
+
+## Install
+
+```package-install
+@resumora/core @resumora/storage-indexeddb
+```
+
+Resumora runs in any modern browser through a bundler, and in Node 22.12 or later. It ships as ESM with TypeScript types.
+
+## Record work as it happens
+
+Open a **workspace** for the user's current task, then record each change as an **intent**:
+
+```ts title="app.ts"
+import { ContinuityRuntime } from '@resumora/core';
+import { IndexedDbStorageAdapter } from '@resumora/storage-indexeddb';
+
+const storage = await IndexedDbStorageAdapter.open();
+const runtime = new ContinuityRuntime({ storage });
+
+const workspace = await runtime.openWorkspace({
+  tenantId: 'acme',
+  userId: 'user_42',
+  workspaceId: 'claim_7',
+});
+
+await workspace.recordIntent('UPDATE_FIELD', { field: 'amount', value: 1200 });
+```
+
+When the user reaches a natural milestone, such as finishing a step, save a **checkpoint**:
+
+```ts
+await workspace.saveCheckpoint({ amount: 1200, step: 3 });
+```
+
+## Recover after a reload
+
+When your app starts, ask for whatever was saved and rebuild your state from it:
+
+```ts
+const recovered = await workspace.restoreLatestCheckpoint();
+
+if (recovered) {
+  const form = { ...(recovered.state ?? {}) };
+  for (const intent of recovered.unappliedIntents) {
+    form[intent.payload.field] = intent.payload.value;
+  }
+  // `form` now holds everything the user had entered.
+}
+```
+
+That's the whole loop: **record, checkpoint, restore, replay**. The runtime never applies intents itself, because your app owns the shape of its state.
+
+## Next steps
+
+<Cards>
+  <Card title="Understand the recovery model" href="/docs/concepts/recovery-model" />
+  <Card title="Lock work when a session expires" href="/docs/guides/handle-session-expiry" />
+</Cards>

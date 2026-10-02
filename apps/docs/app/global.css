@@ -1,0 +1,22 @@
+@import 'tailwindcss';
+@import 'fumadocs-ui/css/neutral.css';
+@import 'fumadocs-ui/css/preset.css';
+
+html {
+  scrollbar-gutter: stable;
+}
+
+html > body[data-scroll-locked] {
+  margin-right: 0px !important;
+  --removed-body-scroll-bar-size: 0px !important;
+}
+
+/* Resumora brand: a deep teal accent on calm neutrals, designed for both themes. */
+:root {
+  --color-fd-primary: oklch(0.47 0.09 185);
+  --color-fd-ring: oklch(0.47 0.09 185);
+}
+.dark {
+  --color-fd-primary: oklch(0.76 0.1 185);
+  --color-fd-ring: oklch(0.76 0.1 185);
+}
