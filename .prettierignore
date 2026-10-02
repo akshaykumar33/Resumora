@@ -4,3 +4,8 @@ coverage
 .turbo
 pnpm-lock.yaml
 CHANGELOG.md
+
+.next
+out
+.source
+next-env.d.ts

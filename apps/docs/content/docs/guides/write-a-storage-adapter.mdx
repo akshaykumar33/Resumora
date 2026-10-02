@@ -1,0 +1,29 @@
+---
+title: Write a storage adapter
+description: Store Resumora's records anywhere by implementing six methods.
+---
+
+The runtime talks to storage only through the `StorageAdapter` interface. Values are opaque bytes, and the runtime handles serialization.
+
+```ts
+import type { StorageAdapter, StorageOperation } from '@resumora/core';
+
+export class MyAdapter implements StorageAdapter {
+  async get(key: string): Promise<Uint8Array | null> {}
+  async set(key: string, value: Uint8Array): Promise<void> {}
+  async delete(key: string): Promise<void> {}
+  async listKeys(prefix?: string): Promise<string[]> {}
+  async batch(operations: readonly StorageOperation[]): Promise<void> {}
+  async clear(prefix?: string): Promise<void> {}
+}
+```
+
+## The rules every adapter must follow
+
+- `get` returns `null` for a missing key.
+- Stored bytes are isolated: changing the caller's buffer, or the returned one, must not change what's stored.
+- `listKeys(prefix)` and `clear(prefix)` match keys by prefix. Without a prefix, they cover everything.
+- `batch` applies its operations in order, ideally atomically.
+- A write resolves only once it's durable.
+
+The repository's shared conformance suite (`tests/storage-adapter-conformance.js`) checks every one of these rules. The built-in adapters pass it, and so should yours.

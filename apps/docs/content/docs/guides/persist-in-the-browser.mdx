@@ -1,0 +1,32 @@
+---
+title: Persist work in the browser
+description: Use the IndexedDB adapter so work survives reloads, tab crashes and browser crashes.
+---
+
+```package-install
+@resumora/storage-indexeddb
+```
+
+```ts
+import { IndexedDbStorageAdapter } from '@resumora/storage-indexeddb';
+
+const storage = await IndexedDbStorageAdapter.open();
+```
+
+## Options
+
+| Option         | Default            | Meaning                                                                |
+| -------------- | ------------------ | ---------------------------------------------------------------------- |
+| `databaseName` | `'resumora'`       | One database per application. Tenants are separated by key prefixes.   |
+| `durability`   | `'strict'`         | `'strict'`, `'relaxed'` or `'default'`. See below.                     |
+| `indexedDB`    | global `indexedDB` | The factory to use. Inject one in tests, for example `fake-indexeddb`. |
+
+## Choosing durability
+
+Committed data survives a tab crash and a browser crash in every mode. Only **`strict`** also waits for the data to reach disk, which protects it from an operating-system crash or a power cut. Keep the default unless you've measured a reason not to.
+
+## Guarantees
+
+- A write resolves only once its transaction commits.
+- `batch()` is atomic: every operation commits, or none do.
+- The connection closes itself when another tab upgrades the database, so it never blocks that tab.

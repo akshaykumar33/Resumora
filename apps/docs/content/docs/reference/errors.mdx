@@ -1,0 +1,26 @@
+---
+title: Errors
+description: Every error Resumora throws, its stable code, and what to do about it.
+---
+
+Every error extends `ResumoraError` and has a stable `code`. Branch on the code, never on the message.
+
+## WORKSPACE_LOCKED
+
+**`WorkspaceLockedError`.** You tried to read or write a locked workspace. Send the user to sign in again, then call `unlock()`. See [Handle session expiry](/docs/guides/handle-session-expiry).
+
+## WORKSPACE_PURGED
+
+**`WorkspacePurgedError`.** The workspace was purged, and that's final. Open a new workspace if the user is starting over.
+
+## INVALID_IDENTITY
+
+**`InvalidIdentityError`.** A tenant, user or workspace ID is empty, longer than 128 characters, or contains characters outside `A-Z a-z 0-9 . _ @ + -`. The error's `field` names which ID failed; the message never repeats the value. Map your IDs to an allowed form first.
+
+## CHECKSUM_MISMATCH
+
+**`ChecksumMismatchError`.** The saved checkpoint no longer matches its checksum, so its bytes were altered or corrupted. Resumora refuses to load it. Treat the checkpoint as lost: once it's removed, the intents recorded after it can still be replayed.
+
+## STORAGE_ERROR
+
+**`StorageError`.** The storage adapter failed. The original error is on `originalError`.

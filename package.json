@@ -6,9 +6,9 @@
   "author": "Akshay Kumar <akshaykumarpatil33@gmail.com>",
   "license": "Apache-2.0",
   "scripts": {
-    "build": "turbo run build",
+    "build": "turbo run build --filter=./packages/*",
     "test": "vitest run",
-    "typecheck": "turbo run typecheck",
+    "typecheck": "turbo run typecheck --filter=./packages/*",
     "lint": "eslint .",
     "clean": "turbo run clean",
     "format": "prettier --write .",

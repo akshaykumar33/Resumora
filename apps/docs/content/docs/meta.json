@@ -1,0 +1,17 @@
+{
+  "title": "Resumora",
+  "pages": [
+    "index",
+    "getting-started",
+    "---Concepts---",
+    "concepts/recovery-model",
+    "concepts/security-model",
+    "---Guides---",
+    "guides/persist-in-the-browser",
+    "guides/handle-session-expiry",
+    "guides/write-a-storage-adapter",
+    "---Reference---",
+    "reference/api",
+    "reference/errors"
+  ]
+}

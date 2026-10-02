@@ -1,0 +1,44 @@
+---
+title: Introduction
+description: Resumora recovers your users' unfinished work after a crash, a refresh or an expired session, without ever treating stored data as permission to see it.
+---
+
+Browsers are unreliable places to do important work. Tabs get discarded, laptops sleep, deploys reload pages and sessions expire mid-form. Resumora is a small runtime that makes sure a user never loses work they've already done.
+
+It records **what the user did** (intents) and **where they'd got to** (checkpoints). It keeps both on the device, and hands them back to your app when the user returns.
+
+<Cards>
+  <Card title="Get started" href="/docs/getting-started">
+    Install it and recover your first workspace in five minutes.
+  </Card>
+  <Card title="The recovery model" href="/docs/concepts/recovery-model">
+    How intents and checkpoints rebuild state after a crash.
+  </Card>
+  <Card title="The security model" href="/docs/concepts/security-model">
+    Why stored data never counts as authorization.
+  </Card>
+  <Card title="Errors" href="/docs/reference/errors">
+    Every error code, and what to do about it.
+  </Card>
+</Cards>
+
+## What it is, and what it isn't
+
+| Resumora is                                              | Resumora isn't                                 |
+| -------------------------------------------------------- | ---------------------------------------------- |
+| A continuity runtime for work in progress                | A database, a cache or a sync engine           |
+| Storage-agnostic, through a six-method adapter interface | Tied to IndexedDB, or to any one framework     |
+| Strict about tenants: every record is namespaced         | A replacement for authorization on your server |
+
+## Packages
+
+| Package                       | What it does                                       |
+| ----------------------------- | -------------------------------------------------- |
+| `@resumora/core`              | The runtime. No dependencies and no browser APIs.  |
+| `@resumora/storage-indexeddb` | Persistent browser storage on native IndexedDB.    |
+| `@resumora/storage-memory`    | In-memory storage with fault injection, for tests. |
+
+<Callout title="Status">
+  Resumora is pre-1.0. Minor versions may contain breaking changes until 1.0, and each one is
+  recorded in the changelog.
+</Callout>

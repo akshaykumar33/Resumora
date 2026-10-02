@@ -1,0 +1,35 @@
+---
+title: The recovery model
+description: How intents and checkpoints combine to rebuild a user's work after any interruption.
+---
+
+Resumora keeps two kinds of record for each workspace.
+
+- **Intents** are small, append-only records of what the user did, such as "set _amount_ to 1200". Each one gets the next sequence number.
+- **Checkpoints** are snapshots of your app's state at a milestone. Each one records the sequence number it covers.
+
+## Saving a checkpoint
+
+Saving a checkpoint stores the snapshot, then deletes the intents it covers. The journal stays short, and the checkpoint carries everything before it.
+
+## Restoring
+
+`restoreLatestCheckpoint()` returns one of three results:
+
+| Stored work                          | Result                                                                                |
+| ------------------------------------ | ------------------------------------------------------------------------------------- |
+| Nothing recorded                     | `null`                                                                                |
+| Intents, but no checkpoint yet       | `{ checkpoint: null, state: null, unappliedIntents }`: replay from your initial state |
+| A checkpoint, plus any later intents | `{ checkpoint, state, unappliedIntents }`: replay the intents onto `state`            |
+
+Recovery is **deterministic**: the same checkpoint and the same intents always produce the same state.
+
+## When is something actually saved?
+
+A write counts as saved only when the storage confirms it. With the IndexedDB adapter, that means the transaction's `complete` event has fired. Anything still in flight when the browser crashes is lost, and the runtime never reports it as recorded.
+
+Resumora's end-to-end tests verify this in real Chromium after a page reload, a tab crash and a whole-browser crash.
+
+## Integrity
+
+Every checkpoint carries a checksum of its state. If the stored bytes are altered, restore throws [`ChecksumMismatchError`](/docs/reference/errors#checksum_mismatch). It won't hand your app data that may have been tampered with.
