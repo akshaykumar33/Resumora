@@ -93,6 +93,10 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       # Static export: every page, llms.txt and the search index must build.
+      # The landing page runs the real packages, so build them first.
+      - name: Build packages
+        run: pnpm build
+
       - name: Build docs
         run: pnpm --filter @resumora/docs build
 

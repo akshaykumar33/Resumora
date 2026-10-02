@@ -9,11 +9,14 @@
     "start": "serve out"
   },
   "dependencies": {
+    "@resumora/core": "workspace:*",
+    "@resumora/storage-indexeddb": "workspace:*",
     "cn": "^0.3.0",
     "fumadocs-core": "16.15.18",
     "fumadocs-mdx": "15.4.6",
     "fumadocs-ui": "npm:@fumadocs/base-ui@16.15.18",
     "lucide-react": "^1.47.0",
+    "motion": "^12.43.0",
     "next": "16.3.5",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"

@@ -30,3 +30,59 @@ html > body[data-scroll-locked] {
   --color-fd-primary: oklch(0.76 0.1 185);
   --color-fd-ring: oklch(0.76 0.1 185);
 }
+
+/* Hero backdrop: a faint grid that fades toward the edges, and two drifting pools of light. */
+.resumora-grid {
+  background-image:
+    linear-gradient(
+      to right,
+      color-mix(in oklch, var(--color-fd-foreground) 6%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in oklch, var(--color-fd-foreground) 6%, transparent) 1px,
+      transparent 1px
+    );
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, black 30%, transparent 75%);
+}
+.resumora-aurora {
+  position: absolute;
+  width: 46rem;
+  height: 46rem;
+  border-radius: 9999px;
+  filter: blur(90px);
+  opacity: 0.35;
+  will-change: transform;
+}
+.resumora-aurora-a {
+  top: -22rem;
+  left: -10rem;
+  background: radial-gradient(circle, oklch(0.62 0.12 185), transparent 65%);
+  animation: resumora-drift-a 22s ease-in-out infinite alternate;
+}
+.resumora-aurora-b {
+  top: -16rem;
+  right: -14rem;
+  background: radial-gradient(circle, oklch(0.7 0.1 160), transparent 65%);
+  animation: resumora-drift-b 26s ease-in-out infinite alternate;
+}
+.dark .resumora-aurora {
+  opacity: 0.28;
+}
+@keyframes resumora-drift-a {
+  to {
+    transform: translate3d(8rem, 4rem, 0) scale(1.1);
+  }
+}
+@keyframes resumora-drift-b {
+  to {
+    transform: translate3d(-9rem, 5rem, 0) scale(0.95);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .resumora-aurora {
+    animation: none;
+  }
+}
