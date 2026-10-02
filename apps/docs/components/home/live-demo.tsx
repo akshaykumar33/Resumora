@@ -168,7 +168,7 @@ export function LiveDemo() {
 
   return (
     <div className="grid gap-6 lg:grid-cols-[1.15fr_1fr]">
-      <div className="relative overflow-hidden rounded-2xl border bg-fd-card p-6 shadow-[0_12px_40px_-16px_rgb(15_80_75/0.3)]">
+      <div className="relative overflow-hidden rounded-2xl border bg-fd-card p-6 shadow-[0_12px_40px_-16px_color-mix(in_oklch,var(--color-fd-primary)_30%,transparent)]">
         <div className="mb-5 flex items-center justify-between">
           <span className="font-medium">Insurance claim</span>
           <span className="font-mono text-xs text-fd-muted-foreground">

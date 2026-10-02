@@ -33,7 +33,7 @@ const packages = [
 const githubUrl = 'https://github.com/akshaykumar33/Resumora';
 
 const primaryCta =
-  'group inline-flex items-center gap-2 rounded-full bg-fd-primary px-5 py-2.5 text-sm font-medium text-fd-primary-foreground shadow-[0_8px_24px_-8px_oklch(0.47_0.09_185/0.6)] transition-transform hover:-translate-y-px active:scale-[0.98]';
+  'group inline-flex items-center gap-2 rounded-full bg-fd-primary px-5 py-2.5 text-sm font-medium text-fd-primary-foreground shadow-[0_8px_24px_-8px_color-mix(in_oklch,var(--color-fd-primary)_60%,transparent)] transition-transform hover:-translate-y-px active:scale-[0.98]';
 
 export default function HomePage() {
   return (
@@ -131,10 +131,10 @@ export default function HomePage() {
         </Reveal>
         <div className="grid gap-4 md:grid-cols-3 md:grid-rows-2">
           <Reveal className="md:col-span-2 md:row-span-2">
-            <div className="relative flex h-full flex-col justify-between gap-10 overflow-hidden rounded-2xl bg-[oklch(0.4_0.075_185)] p-8 text-[oklch(0.98_0.01_185)]">
+            <div className="relative flex h-full flex-col justify-between gap-10 overflow-hidden rounded-2xl bg-[var(--resumora-deep)] p-8 text-white">
               <div
                 aria-hidden
-                className="absolute -right-24 -top-24 size-72 rounded-full bg-[radial-gradient(circle,oklch(0.7_0.12_175/0.45),transparent_70%)]"
+                className="absolute -right-24 -top-24 size-72 rounded-full bg-[radial-gradient(circle,color-mix(in_oklch,var(--resumora-glow-a)_55%,transparent),transparent_70%)]"
               />
               <Zap className="relative size-7" strokeWidth={1.5} />
               <div className="relative flex flex-col gap-3">

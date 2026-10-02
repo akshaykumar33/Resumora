@@ -42,7 +42,7 @@ export function ContinuityTimeline() {
   return (
     <figure
       aria-label="Example continuity timeline: two edits, a checkpoint, another edit, a tab crash, then recovery"
-      className="relative overflow-hidden rounded-2xl border bg-fd-card shadow-[0_1px_2px_rgb(0_0_0/0.04),0_12px_40px_-12px_rgb(15_80_75/0.25)]"
+      className="relative overflow-hidden rounded-2xl border bg-fd-card shadow-[0_1px_2px_rgb(0_0_0/0.04),0_12px_40px_-12px_color-mix(in_oklch,var(--color-fd-primary)_25%,transparent)]"
     >
       <div className="flex items-center justify-between border-b px-5 py-3">
         <span className="text-sm font-medium">Continuity Timeline</span>
