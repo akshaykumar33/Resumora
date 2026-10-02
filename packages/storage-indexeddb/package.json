@@ -38,7 +38,7 @@
     "node": ">=22.12"
   },
   "peerDependencies": {
-    "@resumora/core": "workspace:^"
+    "@resumora/core": ">=0.1.0 <1.0.0"
   },
   "devDependencies": {
     "@resumora/core": "workspace:*"
