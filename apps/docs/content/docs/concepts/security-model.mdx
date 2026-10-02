@@ -35,7 +35,7 @@ The full cycle is **lock → reauthenticate → reauthorize → unlock → reval
 
 ## Tenant isolation
 
-Every record's storage key is namespaced by tenant, user and workspace. IDs must be 1–128 characters of `A-Z a-z 0-9 . _ @ + -`, so one tenant's IDs can never build another tenant's keys. Anything else throws [`InvalidIdentityError`](/docs/reference/errors#invalid_identity). If your IDs use other characters, map them to an allowed form, such as a hash, first.
+Every record's storage key is namespaced by tenant, user and workspace. IDs must be 1-128 characters of `A-Z a-z 0-9 . _ @ + -`, so one tenant's IDs can never build another tenant's keys. Anything else throws [`InvalidIdentityError`](/docs/reference/errors#invalid_identity). If your IDs use other characters, map them to an allowed form, such as a hash, first.
 
 ## What this doesn't cover
 
