@@ -128,7 +128,29 @@ html > body[data-scroll-locked] {
   --resumora-deep: oklch(0.42 0.08 var(--hue));
 }
 
-/* Accent themes. Teal is the default; Iris and Ember are chosen in the header. */
+/* Accent themes. Teal is the default; Emerald, Cyan, Iris, and Ember are selectable. */
+:root[data-accent='emerald'] {
+  --hue: 155;
+  --color-fd-primary: oklch(0.5 0.16 155);
+  --resumora-deep: oklch(0.38 0.14 155);
+  --resumora-glow-a: oklch(0.65 0.16 155);
+}
+.dark:root[data-accent='emerald'] {
+  --color-fd-primary: oklch(0.78 0.14 155);
+  --resumora-deep: oklch(0.42 0.14 155);
+}
+
+:root[data-accent='cyan'] {
+  --hue: 205;
+  --color-fd-primary: oklch(0.52 0.15 205);
+  --resumora-deep: oklch(0.38 0.12 205);
+  --resumora-glow-a: oklch(0.65 0.15 205);
+}
+.dark:root[data-accent='cyan'] {
+  --color-fd-primary: oklch(0.78 0.13 205);
+  --resumora-deep: oklch(0.42 0.12 205);
+}
+
 :root[data-accent='iris'] {
   --hue: 275;
   --color-fd-primary: oklch(0.5 0.17 275);
@@ -139,6 +161,7 @@ html > body[data-scroll-locked] {
   --color-fd-primary: oklch(0.76 0.12 275);
   --resumora-deep: oklch(0.42 0.14 275);
 }
+
 :root[data-accent='ember'] {
   --hue: 45;
   --color-fd-primary: oklch(0.56 0.16 42);

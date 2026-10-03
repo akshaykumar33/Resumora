@@ -14,6 +14,7 @@ import { ScrollStory } from '@/components/home/scroll-story';
 import { LogoMark } from '@/components/logo';
 import { SmoothScroll } from '@/components/smooth-scroll';
 import { NumberTicker } from '@/components/ui/number-ticker';
+import { WasmReplayLab } from '@/components/home/wasm-replay-lab';
 
 // Verified metrics
 const stats = [
@@ -260,6 +261,28 @@ export default function HomePage() {
         <Reveal delay={0.1} className="min-w-0">
           <CodeShowcaseTabs />
         </Reveal>
+      </section>
+
+      {/* Interactive Microsecond Stress & Replay Laboratory */}
+      <section className="border-t border-fd-border/70 bg-fd-muted/15">
+        <div className="mx-auto w-full max-w-6xl px-6 py-24">
+          <Reveal>
+            <div className="mb-10 flex flex-col items-start gap-2">
+              <span className="font-mono text-xs font-semibold uppercase tracking-wider text-fd-primary">
+                High-Throughput Determinism Benchmark
+              </span>
+              <h2 className={sectionTitle}>Microsecond crash resistance. Measured.</h2>
+              <p className="max-w-2xl text-base text-fd-muted-foreground">
+                Resumora’s write-ahead intent log runs completely decoupled from heavy framework
+                state. Simulate thousands of mutations, trigger process crashes, and measure
+                cryptographic state parity.
+              </p>
+            </div>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <WasmReplayLab />
+          </Reveal>
+        </div>
       </section>
 
       {/* Closing CTA */}

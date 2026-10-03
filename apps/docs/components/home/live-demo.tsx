@@ -14,6 +14,7 @@ import {
   ShieldAlert,
   Trash2,
 } from 'lucide-react';
+import { playClick, playCrash, playRecover } from '@/lib/sound';
 
 const IDENTITY = { tenantId: 'resumora-docs', userId: 'visitor', workspaceId: 'demo-claim' };
 const LOCK_FLAG = 'resumora-demo-session-expired';
@@ -77,6 +78,7 @@ export function LiveDemo() {
       setSaved(result?.unappliedIntents.length ?? 0);
       await refreshKeys();
       if (result) {
+        playRecover();
         const n = result.unappliedIntents.length;
         setMessage({
           tone: 'ok',
@@ -134,8 +136,12 @@ export function LiveDemo() {
   };
 
   const actions = {
-    reload: () => location.reload(),
+    reload: () => {
+      playClick();
+      location.reload();
+    },
     restart: async () => {
+      playCrash();
       setMessage({
         tone: 'warn',
         text: 'Runtime restarted. In-memory state cleared to null.',
@@ -144,6 +150,7 @@ export function LiveDemo() {
       if (await open()) await recover('runtime restart');
     },
     checkpoint: async () => {
+      playClick();
       const cp = await workspace.current?.saveCheckpoint(form);
       setSaved(0);
       await refreshKeys();
@@ -155,6 +162,7 @@ export function LiveDemo() {
       }
     },
     expire: () => {
+      playCrash();
       workspace.current?.lock();
       writeLockFlag(true);
       setForm(EMPTY);
@@ -166,12 +174,14 @@ export function LiveDemo() {
       });
     },
     signIn: async () => {
+      playClick();
       workspace.current?.unlock({ isValid: true });
       writeLockFlag(false);
       setState('active');
       await recover('re-authenticating credentials');
     },
     reset: async () => {
+      playClick();
       await workspace.current?.purge();
       writeLockFlag(false);
       setForm(EMPTY);
@@ -181,6 +191,14 @@ export function LiveDemo() {
       setMessage({ tone: 'info', text: 'Demo reset. All records cleared from local IndexedDB.' });
     },
   };
+
+  useEffect(() => {
+    const handleRemoteCrash = () => {
+      actions.restart();
+    };
+    window.addEventListener('resumora:trigger-crash', handleRemoteCrash);
+    return () => window.removeEventListener('resumora:trigger-crash', handleRemoteCrash);
+  }, [actions.restart]);
 
   if (state === 'unsupported') {
     return (

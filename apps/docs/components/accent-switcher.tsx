@@ -5,11 +5,13 @@ import { ACCENT_STORAGE_KEY } from '@/lib/accent';
 
 export const ACCENTS = [
   { id: 'teal', label: 'Teal', swatch: 'oklch(0.55 0.1 185)' },
+  { id: 'emerald', label: 'Emerald', swatch: 'oklch(0.6 0.16 155)' },
+  { id: 'cyan', label: 'Cyan', swatch: 'oklch(0.6 0.15 205)' },
   { id: 'iris', label: 'Iris', swatch: 'oklch(0.55 0.17 275)' },
   { id: 'ember', label: 'Ember', swatch: 'oklch(0.62 0.16 42)' },
 ] as const;
 
-/** Three accent swatches in the header. The choice is remembered on this device. */
+/** Five accent swatches in the header. The choice is remembered on this device. */
 export function AccentSwitcher() {
   const [accent, setAccent] = useState<string>('teal');
 
