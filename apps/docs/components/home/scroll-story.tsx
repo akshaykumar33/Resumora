@@ -83,9 +83,9 @@ const FRAMES: {
 ];
 
 const TONE = {
-  ok: 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300',
-  warn: 'bg-amber-500/15 text-amber-700 dark:text-amber-300',
-  neutral: 'bg-fd-primary/12 text-fd-primary',
+  ok: 'border border-emerald-500/25 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',
+  warn: 'border border-amber-500/25 bg-amber-500/10 text-amber-600 dark:text-amber-400',
+  neutral: 'border border-fd-primary/25 bg-fd-primary/10 text-fd-primary',
 };
 
 /**
@@ -113,8 +113,8 @@ export function ScrollStory() {
             <h2 className="text-4xl font-semibold tracking-tight text-balance md:text-5xl">
               Watch a crash happen. Lose nothing.
             </h2>
-            <ol className="relative flex flex-col gap-2 pl-6">
-              <span aria-hidden className="absolute inset-y-1 left-0 w-px bg-fd-border" />
+            <ol className="relative flex flex-col gap-2.5 pl-6">
+              <span aria-hidden className="absolute inset-y-1 left-0 w-px bg-fd-border/70" />
               <motion.span
                 aria-hidden
                 className="absolute left-0 top-1 w-px origin-top bg-fd-primary"
@@ -126,11 +126,13 @@ export function ScrollStory() {
                 return (
                   <li
                     key={s.title}
-                    className={`flex flex-col gap-1 rounded-xl px-4 py-3 transition-all duration-300 ${
-                      active ? 'bg-fd-card shadow-sm' : 'opacity-45'
+                    className={`flex flex-col gap-1.5 rounded-2xl p-4 transition-all duration-300 ${
+                      active
+                        ? 'border border-fd-border/80 bg-fd-card/90 shadow-sm'
+                        : 'opacity-65 hover:opacity-90'
                     }`}
                   >
-                    <span className="flex items-center gap-2 font-medium">
+                    <span className="flex items-center gap-2.5 font-medium text-fd-foreground">
                       <Icon className="size-4 text-fd-primary" strokeWidth={1.75} />
                       {s.title}
                     </span>
@@ -150,7 +152,7 @@ export function ScrollStory() {
           <div className="relative">
             <div
               aria-hidden
-              className="absolute -inset-10 -z-10 rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklch,var(--color-fd-primary)_22%,transparent),transparent)] blur-2xl"
+              className="absolute -inset-10 -z-10 rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklch,var(--color-fd-primary)_18%,transparent),transparent)] blur-2xl"
             />
             <motion.div
               animate={
@@ -159,10 +161,10 @@ export function ScrollStory() {
                   : { x: 0, rotate: 0 }
               }
               transition={{ duration: 0.5 }}
-              className="overflow-hidden rounded-2xl border bg-fd-card shadow-[0_30px_80px_-30px_color-mix(in_oklch,var(--color-fd-primary)_45%,transparent)]"
+              className="overflow-hidden rounded-3xl border border-fd-border/80 bg-fd-card/95 shadow-xl backdrop-blur-md"
             >
-              <div className="flex items-center justify-between border-b px-5 py-3">
-                <span className="text-sm font-medium">Insurance claim</span>
+              <div className="flex items-center justify-between border-b border-fd-border/70 px-6 py-4">
+                <span className="text-sm font-semibold text-fd-foreground">Insurance claim</span>
                 <AnimatePresence mode="wait">
                   <motion.span
                     key={frame.status}
@@ -170,17 +172,17 @@ export function ScrollStory() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -4 }}
                     transition={{ duration: 0.2 }}
-                    className={`rounded-full px-2.5 py-1 text-xs font-medium ${TONE[frame.tone]}`}
+                    className={`rounded-full px-3 py-1 text-xs font-medium ${TONE[frame.tone]}`}
                   >
                     {frame.status}
                   </motion.span>
                 </AnimatePresence>
               </div>
-              <div className="flex flex-col gap-4 p-5">
+              <div className="flex flex-col gap-4 p-6">
                 {frame.fields.map((f) => (
                   <div key={f.label} className="flex flex-col gap-1.5">
                     <span className="text-xs font-medium text-fd-muted-foreground">{f.label}</span>
-                    <div className="flex h-10 items-center overflow-hidden rounded-lg border bg-fd-background px-3 text-sm">
+                    <div className="flex h-11 items-center overflow-hidden rounded-xl border border-fd-border/70 bg-fd-background/70 px-3.5 text-sm">
                       <AnimatePresence mode="wait">
                         <motion.span
                           key={f.value || 'empty'}
@@ -188,7 +190,7 @@ export function ScrollStory() {
                           animate={{ opacity: 1 }}
                           exit={{ opacity: 0 }}
                           transition={{ duration: 0.25 }}
-                          className="truncate"
+                          className="truncate text-fd-foreground"
                         >
                           {f.value || ' '}
                         </motion.span>
@@ -197,7 +199,7 @@ export function ScrollStory() {
                   </div>
                 ))}
               </div>
-              <div className="border-t px-5 py-3 font-mono text-xs text-fd-muted-foreground">
+              <div className="border-t border-fd-border/60 bg-fd-muted/20 px-6 py-3 font-mono text-xs text-fd-muted-foreground">
                 {frame.caption}
               </div>
             </motion.div>

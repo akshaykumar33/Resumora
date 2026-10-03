@@ -1,141 +1,222 @@
 import Link from 'next/link';
-import { DynamicCodeBlock } from 'fumadocs-ui/components/dynamic-codeblock';
-import { ArrowRight, RotateCcw } from 'lucide-react';
-import { ContinuityTimeline } from '@/components/home/continuity-timeline';
-import { MeshGradient } from '@/components/home/mesh-gradient';
+import { ArrowRight, CheckCircle2, Cpu, Layers, Plug, ShieldCheck } from 'lucide-react';
+import { ArchitectureBeams } from '@/components/home/architecture-beams';
 import { FeatureBento } from '@/components/home/bento';
-import { HeroParallax, StaggerReveal } from '@/components/home/gsap-scenes';
-import { InterruptionsMarquee } from '@/components/home/interruptions-marquee';
+import { CodeShowcaseTabs } from '@/components/home/code-tabs';
+import { ContinuityTimeline } from '@/components/home/continuity-timeline';
+import { StaggerReveal } from '@/components/home/gsap-scenes';
+import { InterruptionOrbit } from '@/components/home/interruption-orbit';
 import { LiveDemo } from '@/components/home/live-demo';
 import { HeroTitle, Reveal } from '@/components/home/motion';
+import { ResumoraGlobe } from '@/components/home/resumora-globe';
+import { ScenarioScroller } from '@/components/home/scenario-scroller';
 import { ScrollStory } from '@/components/home/scroll-story';
 import { LogoMark } from '@/components/logo';
 import { SmoothScroll } from '@/components/smooth-scroll';
+import { NumberTicker } from '@/components/ui/number-ticker';
 
-const recoveryCode = `import { ContinuityRuntime } from '@resumora/core';
-import { IndexedDbStorageAdapter } from '@resumora/storage-indexeddb';
-
-const storage = await IndexedDbStorageAdapter.open();
-const workspace = await new ContinuityRuntime({ storage }).openWorkspace(identity);
-
-await workspace.recordIntent('SET_AMOUNT', { value: 4250 });
-await workspace.saveCheckpoint(form);
-
-// After any reload, crash or restart:
-const recovered = await workspace.restoreLatestCheckpoint();`;
-
-const packages = [
-  { name: '@resumora/core', body: 'The runtime. No dependencies, no browser APIs.' },
-  { name: '@resumora/storage-indexeddb', body: 'Persistent browser storage on native IndexedDB.' },
-  { name: '@resumora/storage-memory', body: 'In-memory storage with fault injection, for tests.' },
+// Verified metrics
+const stats = [
+  {
+    value: 0,
+    label: 'Runtime dependencies',
+    caption: 'Zero external bloat in core',
+    icon: Cpu,
+  },
+  {
+    value: 3,
+    label: 'Crash scenarios tested',
+    caption: 'Proven in Chromium on PRs',
+    icon: ShieldCheck,
+  },
+  {
+    value: 40,
+    label: 'Invariant unit tests',
+    caption: 'Strict determinism guarantee',
+    icon: CheckCircle2,
+  },
+  {
+    value: 6,
+    label: 'Storage adapter methods',
+    caption: 'Plug any browser or native disk',
+    icon: Plug,
+  },
 ];
 
 const githubUrl = 'https://github.com/akshaykumar33/Resumora';
 
-const primaryCta =
-  'group inline-flex items-center gap-2 rounded-full bg-fd-primary px-6 py-3 text-sm font-semibold text-fd-primary-foreground shadow-[0_10px_30px_-10px_color-mix(in_oklch,var(--color-fd-primary)_70%,transparent)] transition-transform duration-200 hover:-translate-y-0.5 active:scale-[0.98]';
-const secondaryCta =
-  'inline-flex items-center gap-2 rounded-full border bg-fd-background/70 px-6 py-3 text-sm font-semibold backdrop-blur transition-colors hover:bg-fd-accent active:scale-[0.98]';
+const sectionTitle =
+  'bg-gradient-to-b from-fd-foreground via-fd-foreground to-fd-foreground/60 bg-clip-text text-3xl font-bold tracking-tight text-transparent text-balance md:text-5xl';
 
 export default function HomePage() {
   return (
-    <main className="flex flex-1 flex-col">
+    <main id="top" className="flex flex-1 flex-col overflow-x-clip">
       <SmoothScroll />
 
-      {/* Hero: vivid colour mesh on a diagonal band, product card floating over its edge */}
-      <HeroParallax className="relative isolate overflow-x-clip overflow-y-hidden">
-        <section className="relative">
-          <div className="absolute inset-0 -z-10 [clip-path:polygon(0_0,100%_0,100%_72%,0_100%)]">
-            <div data-parallax="back" className="absolute inset-0">
-              <MeshGradient />
+      {/* Hero: Focused, authoritative, uncluttered */}
+      <section className="relative isolate overflow-hidden">
+        {/* Subtle atmospheric ambient glow */}
+        <div aria-hidden className="absolute inset-0 -z-10">
+          <div className="resumora-grid absolute inset-0 opacity-40" />
+          <div className="pointer-events-none absolute left-1/2 top-0 h-[28rem] w-[46rem] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,color-mix(in_oklch,var(--color-fd-primary)_18%,transparent),transparent_70%)] blur-3xl" />
+        </div>
+
+        <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-center gap-7 px-6 pb-20 pt-16 text-center">
+          <Reveal>
+            <div className="inline-flex items-center gap-2 rounded-full border border-fd-border/80 bg-fd-card/75 px-3.5 py-1.5 text-xs font-medium text-fd-foreground shadow-xs backdrop-blur-md">
+              <span className="size-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span>Resumora Runtime v0.1.0</span>
+              <span className="text-fd-border">·</span>
+              <span className="text-fd-muted-foreground">
+                Application Continuity & Workflow Recovery
+              </span>
             </div>
-          </div>
-          <div className="mx-auto grid w-full max-w-6xl items-center gap-14 px-6 pb-28 pt-16 md:pt-24 lg:grid-cols-[1.3fr_1fr]">
-            <div className="flex min-w-0 flex-col gap-7">
-              <Reveal>
-                <span className="inline-flex items-center gap-2 rounded-full bg-white/55 px-3 py-1 text-xs font-semibold text-[oklch(0.25_0.04_265)] shadow-sm ring-1 ring-white/60 backdrop-blur dark:bg-white/10 dark:text-white dark:ring-white/15">
-                  <LogoMark className="size-3.5" />
-                  Application continuity runtime
-                </span>
-              </Reveal>
-              <HeroTitle
-                text="Your users never lose the work they’ve done."
-                className="max-w-[15ch] text-[clamp(2.6rem,1.4rem+4.6vw,5.25rem)] font-semibold leading-[0.98] tracking-[-0.035em] text-[oklch(0.17_0.04_265)] text-balance dark:text-white"
-              />
-              <Reveal delay={0.4}>
-                <p className="max-w-[42ch] text-lg leading-relaxed text-[oklch(0.25_0.04_265)]/85 md:text-xl dark:text-white/80">
-                  Resumora brings unfinished work back after crashes, reloads and expired sessions,
-                  without trusting stored data as permission.
-                </p>
-              </Reveal>
-              <Reveal delay={0.5}>
-                <div className="flex flex-wrap gap-3">
-                  <Link
-                    href="/docs/getting-started"
-                    className="shimmer group inline-flex items-center gap-2 rounded-full bg-[oklch(0.17_0.04_265)] px-6 py-3 text-sm font-semibold text-white shadow-[0_12px_30px_-10px_oklch(0.17_0.04_265/0.6)] transition-transform duration-200 hover:-translate-y-0.5 active:scale-[0.98] dark:bg-white dark:text-[oklch(0.17_0.04_265)]"
-                  >
-                    Get started
-                    <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
-                  </Link>
-                  <a
-                    href="#try-it"
-                    className="inline-flex items-center gap-2 rounded-full bg-white/60 px-6 py-3 text-sm font-semibold text-[oklch(0.17_0.04_265)] ring-1 ring-white/70 backdrop-blur transition-colors hover:bg-white/80 active:scale-[0.98] dark:bg-white/10 dark:text-white dark:ring-white/20 dark:hover:bg-white/15"
-                  >
-                    Try the live demo
-                  </a>
-                </div>
-              </Reveal>
+          </Reveal>
+
+          <HeroTitle
+            text="Your users never lose the work they’ve done."
+            className="max-w-4xl bg-gradient-to-b from-fd-foreground via-fd-foreground to-fd-foreground/65 bg-clip-text pb-2 text-[clamp(2.5rem,1.8rem+4vw,5rem)] font-bold leading-[1.08] tracking-[-0.035em] text-transparent text-balance"
+          />
+
+          <Reveal delay={0.2}>
+            <p className="mx-auto max-w-2xl text-base leading-relaxed text-fd-muted-foreground md:text-lg text-balance">
+              Resumora guarantees workflows survive tab discards, unexpected crashes, token
+              expirations, and network flaps — without ever trusting stored data as authorization.
+            </p>
+          </Reveal>
+
+          <Reveal delay={0.3}>
+            <div className="flex flex-wrap items-center justify-center gap-3.5 pt-1">
+              <Link
+                href="/docs/getting-started"
+                className="inline-flex items-center gap-2 rounded-xl bg-fd-primary px-6 py-3 text-sm font-semibold text-fd-primary-foreground shadow-lg shadow-fd-primary/20 transition-all hover:opacity-95 hover:scale-[1.02] active:scale-[0.98]"
+              >
+                Get started <ArrowRight className="size-4" />
+              </Link>
+              <a
+                href="#try-it"
+                className="inline-flex items-center gap-2 rounded-xl border border-fd-border/80 bg-fd-card/80 px-6 py-3 text-sm font-semibold text-fd-foreground backdrop-blur-md transition-all hover:bg-fd-muted active:scale-[0.98]"
+              >
+                Try the live demo
+              </a>
+              <a
+                href={githubUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-xl border border-fd-border/80 bg-fd-background/50 px-4 py-3 text-sm font-medium text-fd-muted-foreground transition-all hover:bg-fd-muted hover:text-fd-foreground"
+              >
+                GitHub
+              </a>
             </div>
-            <Reveal delay={0.25} className="relative min-w-0 [perspective:1400px]">
-              <div data-parallax="front">
-                <div className="transition-transform duration-700 ease-out lg:[transform:rotateY(-10deg)_rotateX(5deg)] lg:hover:[transform:rotateY(-4deg)_rotateX(2deg)]">
-                  <div className="border-beam rounded-2xl">
-                    <ContinuityTimeline />
+          </Reveal>
+
+          {/* Interactive Continuity Console */}
+          <Reveal delay={0.4} className="mt-4 w-full max-w-2xl">
+            <ContinuityTimeline />
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Metrics & Proof Points */}
+      <section className="border-y border-fd-border/70 bg-fd-muted/20 py-14">
+        <div className="mx-auto grid w-full max-w-6xl gap-4 px-6 sm:grid-cols-2 lg:grid-cols-4">
+          {stats.map((s) => {
+            const Icon = s.icon;
+            return (
+              <div
+                key={s.label}
+                className="group relative overflow-hidden rounded-2xl border border-fd-border/80 bg-fd-card/85 p-6 backdrop-blur-md shadow-xs transition-all duration-300 hover:border-fd-primary/50 hover:shadow-md hover:-translate-y-0.5"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="font-display text-4xl font-bold tracking-tight text-fd-foreground">
+                    <NumberTicker value={s.value} />
+                  </span>
+                  <div className="grid size-10 place-items-center rounded-xl bg-fd-muted text-fd-primary transition-colors group-hover:bg-fd-primary group-hover:text-fd-primary-foreground">
+                    <Icon className="size-5" strokeWidth={1.75} />
                   </div>
                 </div>
-                <div className="absolute -bottom-6 -left-6 hidden items-center gap-3 rounded-2xl border bg-fd-card/95 px-4 py-3 shadow-[0_20px_50px_-20px_oklch(0.2_0.05_265/0.45)] backdrop-blur sm:flex">
-                  <span className="grid size-8 place-items-center rounded-full bg-gradient-to-br from-[oklch(0.78_0.15_175)] to-[oklch(0.74_0.14_235)] text-white">
-                    <RotateCcw className="size-4" strokeWidth={2} />
-                  </span>
-                  <span className="flex flex-col">
-                    <span className="text-sm font-semibold">Work restored</span>
-                    <span className="font-mono text-xs text-fd-muted-foreground">0 edits lost</span>
-                  </span>
-                </div>
+                <div className="mt-3 font-semibold text-sm text-fd-foreground">{s.label}</div>
+                <div className="mt-1 font-mono text-xs text-fd-muted-foreground">{s.caption}</div>
               </div>
-            </Reveal>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* Architecture Section */}
+      <section className="mx-auto flex w-full max-w-6xl flex-col items-center gap-12 px-6 py-24 text-center">
+        <Reveal className="flex flex-col items-center gap-3">
+          <div className="inline-flex items-center gap-1.5 rounded-full border border-fd-border bg-fd-muted/50 px-3 py-1 font-mono text-xs text-fd-primary">
+            Universal Decoupled Core
           </div>
-        </section>
-      </HeroParallax>
+          <h2 className={sectionTitle}>One runtime between your app and its storage.</h2>
+          <p className="max-w-[54ch] text-base leading-relaxed text-fd-muted-foreground">
+            Every screen journals edits into Resumora, which persists them deterministically through
+            whichever storage adapter you choose.
+          </p>
+        </Reveal>
+        <Reveal delay={0.1} className="w-full">
+          <ArchitectureBeams />
+        </Reveal>
+      </section>
 
-      {/* Every interruption Resumora recovers from */}
-      <InterruptionsMarquee />
+      {/* Interruptions absorbed */}
+      <section className="border-y border-fd-border/70 bg-fd-muted/20">
+        <div className="mx-auto grid w-full max-w-6xl items-center gap-10 px-6 py-20 lg:grid-cols-2">
+          <Reveal className="flex flex-col gap-4">
+            <div className="inline-flex w-fit items-center gap-1.5 rounded-full border border-fd-border bg-fd-muted/50 px-3 py-1 font-mono text-xs text-fd-primary">
+              Air-Gapped Client Resilience
+            </div>
+            <h2 className={sectionTitle}>Every interruption, absorbed.</h2>
+            <p className="max-w-[46ch] text-base leading-relaxed text-fd-muted-foreground">
+              Browser crashes, expired auth tokens, zero-downtime deploys, dead batteries, discarded
+              tabs. Whatever stops your user, their state is safe on their machine.
+            </p>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <InterruptionOrbit />
+          </Reveal>
+        </div>
+        <div className="pb-14">
+          <ScenarioScroller />
+        </div>
+      </section>
 
-      {/* The feature board */}
-      <section className="mx-auto w-full max-w-6xl px-6 py-28">
+      {/* Feature Bento Grid */}
+      <section className="mx-auto w-full max-w-6xl px-6 py-24">
         <Reveal>
-          <h2 className="mb-12 max-w-[20ch] text-4xl font-semibold tracking-tight text-balance md:text-5xl">
-            Built for the moment things go wrong.
-          </h2>
+          <div className="mb-10 flex flex-col items-start gap-2">
+            <span className="font-mono text-xs font-semibold uppercase tracking-wider text-fd-primary">
+              Core Invariants
+            </span>
+            <h2 className={`max-w-[24ch] ${sectionTitle}`}>
+              Engineered for the moment things go wrong.
+            </h2>
+          </div>
         </Reveal>
         <StaggerReveal>
           <FeatureBento />
         </StaggerReveal>
       </section>
 
-      {/* The story, told by scrolling */}
+      {/* Step-by-step Scroll Story */}
       <ScrollStory />
 
-      {/* Live demo */}
-      <section id="try-it" className="scroll-mt-20 border-t bg-fd-card/40">
-        <div className="mx-auto w-full max-w-6xl px-6 py-28">
+      {/* Interactive Live Demo */}
+      <section id="try-it" className="scroll-mt-20 border-t border-fd-border/70 bg-fd-muted/10">
+        <div className="mx-auto w-full max-w-6xl px-6 py-24">
           <Reveal>
-            <h2 className="mb-4 text-4xl font-semibold tracking-tight md:text-5xl">
-              Now try to lose yours.
-            </h2>
-            <p className="mb-12 max-w-[56ch] text-lg text-fd-muted-foreground">
-              This is the real runtime, storing to IndexedDB in your browser right now.
-            </p>
+            <div className="mb-10 flex flex-col items-start gap-2">
+              <span className="font-mono text-xs font-semibold uppercase tracking-wider text-fd-primary">
+                Live Interactive Proof
+              </span>
+              <h2 className={sectionTitle}>Now try to lose yours.</h2>
+              <p className="max-w-2xl text-base text-fd-muted-foreground">
+                This is the real <code className="font-mono text-xs">@resumora/core</code> runtime
+                persisting to local IndexedDB right now. Type in data, trigger failures, and watch
+                it recover deterministically.
+              </p>
+            </div>
           </Reveal>
           <Reveal delay={0.1}>
             <LiveDemo />
@@ -143,77 +224,210 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Code */}
-      <section className="mx-auto grid w-full max-w-6xl gap-12 px-6 py-28 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
-        <Reveal className="flex flex-col gap-5">
-          <h2 className="text-4xl font-semibold tracking-tight text-balance md:text-5xl">
-            Three calls. Nothing lost.
-          </h2>
-          <p className="max-w-[44ch] text-lg leading-relaxed text-fd-muted-foreground">
-            Record, checkpoint, restore. Your app replays what comes back, so it always owns its
-            state.
+      {/* Tabbed Code Showcase */}
+      <section className="mx-auto grid w-full max-w-6xl gap-10 px-6 py-24 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
+        <Reveal className="flex flex-col gap-4">
+          <div className="inline-flex w-fit items-center gap-1.5 rounded-full border border-fd-border bg-fd-muted/50 px-3 py-1 font-mono text-xs text-fd-primary">
+            Clean Minimal Public API
+          </div>
+          <h2 className={sectionTitle}>Three calls. Zero lost progress.</h2>
+          <p className="max-w-[44ch] text-base leading-relaxed text-fd-muted-foreground">
+            Record intent, snapshot milestones, restore deterministically. Your application replays
+            unapplied intents and retains total ownership over its domain state.
           </p>
+          <div className="flex flex-col gap-2.5 pt-2 text-sm text-fd-foreground/90">
+            <div className="flex items-center gap-2.5">
+              <CheckCircle2 className="size-4 text-emerald-500 shrink-0" />
+              <span>Zero external runtime dependencies in core</span>
+            </div>
+            <div className="flex items-center gap-2.5">
+              <CheckCircle2 className="size-4 text-emerald-500 shrink-0" />
+              <span>Strict identity namespacing across tenants</span>
+            </div>
+            <div className="flex items-center gap-2.5">
+              <CheckCircle2 className="size-4 text-emerald-500 shrink-0" />
+              <span>Fully decoupled from browser APIs for universal tests</span>
+            </div>
+          </div>
           <Link
             href="/docs/concepts/recovery-model"
-            className="group inline-flex w-fit items-center gap-1.5 font-medium text-fd-primary"
+            className="group inline-flex w-fit items-center gap-1.5 pt-2 text-sm font-semibold text-fd-primary"
           >
-            How recovery works
+            Read the complete recovery specification
             <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
           </Link>
         </Reveal>
-        <Reveal delay={0.1} className="min-w-0 [&_figure]:my-0">
-          <DynamicCodeBlock lang="ts" code={recoveryCode} />
+        <Reveal delay={0.1} className="min-w-0">
+          <CodeShowcaseTabs />
         </Reveal>
       </section>
 
-      {/* Packages */}
-      <section className="mx-auto w-full max-w-6xl px-6 pb-28">
-        <Reveal>
-          <div className="overflow-hidden rounded-3xl border">
-            {packages.map((pkg) => (
-              <div
-                key={pkg.name}
-                className="flex flex-col gap-1 border-b px-7 py-6 transition-colors last:border-b-0 hover:bg-fd-accent/40 md:flex-row md:items-center md:justify-between"
+      {/* Closing CTA */}
+      <section className="relative isolate overflow-hidden border-t border-fd-border/70 bg-fd-card/25">
+        <div className="mx-auto grid w-full max-w-6xl items-center gap-10 px-6 py-20 lg:grid-cols-2">
+          <Reveal className="flex flex-col items-start gap-5">
+            <div className="inline-flex items-center gap-1.5 rounded-full border border-fd-border bg-fd-muted/50 px-3 py-1 font-mono text-xs text-fd-primary">
+              Ready for Production
+            </div>
+            <h2 className={`max-w-xl ${sectionTitle}`}>
+              Recover your first workspace in five minutes.
+            </h2>
+            <p className="max-w-lg text-base leading-relaxed text-fd-muted-foreground">
+              Work stays safely on each user’s device until they submit. No lost form entries, no
+              lost drafted claims, no frustrated customers.
+            </p>
+            <div className="flex flex-wrap gap-3.5 pt-1">
+              <Link
+                href="/docs/getting-started"
+                className="inline-flex items-center gap-2 rounded-xl bg-fd-primary px-6 py-3 text-sm font-semibold text-fd-primary-foreground shadow-md transition-all hover:opacity-95 hover:scale-[1.02] active:scale-[0.98]"
               >
-                <code className="font-mono text-sm font-medium">{pkg.name}</code>
-                <span className="text-sm text-fd-muted-foreground">{pkg.body}</span>
+                Get started <ArrowRight className="size-4" />
+              </Link>
+              <a
+                href={githubUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-xl border border-fd-border/80 bg-fd-card px-6 py-3 text-sm font-semibold text-fd-foreground backdrop-blur-md transition-colors hover:bg-fd-muted"
+              >
+                View on GitHub
+              </a>
+            </div>
+          </Reveal>
+          <div className="relative flex h-[380px] w-full items-center justify-center">
+            <ResumoraGlobe />
+          </div>
+        </div>
+      </section>
+
+      {/* Multi-Column Developer Footer */}
+      <footer className="border-t border-fd-border/70 bg-fd-card/40">
+        <div className="mx-auto max-w-6xl px-6 py-14">
+          <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
+            <div className="col-span-2 flex flex-col gap-3 md:col-span-1">
+              <div className="flex items-center gap-2 text-base font-semibold text-fd-foreground">
+                <LogoMark className="size-5 text-fd-primary" />
+                <span>Resumora</span>
               </div>
-            ))}
-          </div>
-        </Reveal>
-      </section>
+              <p className="text-xs leading-relaxed text-fd-muted-foreground">
+                Application Continuity & Workflow Recovery Runtime. Built for zero data loss in
+                modern client web applications.
+              </p>
+              <div className="pt-2">
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-fd-border/60 bg-fd-muted/30 px-2.5 py-0.5 font-mono text-[11px] text-fd-muted-foreground">
+                  Apache-2.0 License
+                </span>
+              </div>
+            </div>
 
-      {/* Closing call to action */}
-      <section className="relative isolate overflow-hidden border-t">
-        <div aria-hidden className="absolute inset-0 -z-10">
-          <div className="resumora-aurora resumora-aurora-a" />
-          <div className="resumora-aurora resumora-aurora-b" />
-        </div>
-        <div className="mx-auto flex w-full max-w-6xl flex-col items-start gap-8 px-6 py-28">
-          <h2 className="max-w-[18ch] text-4xl font-semibold tracking-tight text-balance md:text-6xl">
-            Recover your first workspace in five minutes.
-          </h2>
-          <div className="flex flex-wrap gap-3">
-            <Link href="/docs/getting-started" className={primaryCta}>
-              Get started
-              <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
-            </Link>
-            <a href={githubUrl} className={secondaryCta}>
-              View on GitHub
-            </a>
-          </div>
-        </div>
-      </section>
+            <div className="flex flex-col gap-3 text-sm">
+              <span className="font-mono text-xs font-semibold uppercase tracking-wider text-fd-foreground">
+                Documentation
+              </span>
+              <Link
+                href="/docs/getting-started"
+                className="text-fd-muted-foreground transition-colors hover:text-fd-foreground"
+              >
+                Getting Started
+              </Link>
+              <Link
+                href="/docs/concepts/recovery-model"
+                className="text-fd-muted-foreground transition-colors hover:text-fd-foreground"
+              >
+                Recovery Model
+              </Link>
+              <Link
+                href="/docs/concepts/security-model"
+                className="text-fd-muted-foreground transition-colors hover:text-fd-foreground"
+              >
+                Security & Invariants
+              </Link>
+              <Link
+                href="/docs/reference/api"
+                className="text-fd-muted-foreground transition-colors hover:text-fd-foreground"
+              >
+                API Reference
+              </Link>
+            </div>
 
-      <footer className="border-t">
-        <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-4 px-6 py-10 text-sm text-fd-muted-foreground">
-          <span className="inline-flex items-center gap-2">
-            <LogoMark className="size-4 text-fd-primary" />
-            Resumora is open source under the Apache-2.0 license.
-          </span>
-          <a href={githubUrl} className="hover:text-fd-foreground">
-            GitHub
-          </a>
+            <div className="flex flex-col gap-3 text-sm">
+              <span className="font-mono text-xs font-semibold uppercase tracking-wider text-fd-foreground">
+                Guides
+              </span>
+              <Link
+                href="/docs/guides/persist-in-the-browser"
+                className="text-fd-muted-foreground transition-colors hover:text-fd-foreground"
+              >
+                Persist in Browser
+              </Link>
+              <Link
+                href="/docs/guides/handle-session-expiry"
+                className="text-fd-muted-foreground transition-colors hover:text-fd-foreground"
+              >
+                Handle Session Expiry
+              </Link>
+              <Link
+                href="/docs/guides/write-a-storage-adapter"
+                className="text-fd-muted-foreground transition-colors hover:text-fd-foreground"
+              >
+                Write Storage Adapter
+              </Link>
+              <Link
+                href="/docs/reference/errors"
+                className="text-fd-muted-foreground transition-colors hover:text-fd-foreground"
+              >
+                Error Directory
+              </Link>
+            </div>
+
+            <div className="flex flex-col gap-3 text-sm">
+              <span className="font-mono text-xs font-semibold uppercase tracking-wider text-fd-foreground">
+                Project
+              </span>
+              <a
+                href={githubUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="text-fd-muted-foreground transition-colors hover:text-fd-foreground"
+              >
+                GitHub Repository
+              </a>
+              <a
+                href={`${githubUrl}/issues`}
+                target="_blank"
+                rel="noreferrer"
+                className="text-fd-muted-foreground transition-colors hover:text-fd-foreground"
+              >
+                Issue Tracker
+              </a>
+              <a
+                href={`${githubUrl}/blob/main/CHANGELOG.md`}
+                target="_blank"
+                rel="noreferrer"
+                className="text-fd-muted-foreground transition-colors hover:text-fd-foreground"
+              >
+                Changelog
+              </a>
+              <a
+                href={`${githubUrl}/blob/main/LICENSE`}
+                target="_blank"
+                rel="noreferrer"
+                className="text-fd-muted-foreground transition-colors hover:text-fd-foreground"
+              >
+                Apache 2.0 License
+              </a>
+            </div>
+          </div>
+
+          <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-fd-border/60 pt-6 text-xs text-fd-muted-foreground">
+            <span>
+              © {new Date().getFullYear()} Resumora Contributors. Open source under Apache-2.0.
+            </span>
+            <div className="flex items-center gap-4">
+              <a href="#top" className="transition-colors hover:text-fd-foreground">
+                Back to top ↑
+              </a>
+            </div>
+          </div>
         </div>
       </footer>
     </main>

@@ -10,6 +10,12 @@ export function baseOptions(): BaseLayoutProps {
       title: <Logo />,
     },
     githubUrl: `https://github.com/${gitConfig.user}/${gitConfig.repo}`,
-    links: [{ type: 'custom', secondary: true, children: <AccentSwitcher /> }],
+    links: [
+      { text: 'Docs', url: '/docs/getting-started', active: 'nested-url' },
+      { text: 'Concepts', url: '/docs/concepts/recovery-model', active: 'nested-url' },
+      { text: 'Guides', url: '/docs/guides/persist-in-the-browser', active: 'nested-url' },
+      { text: 'API Reference', url: '/docs/reference/api', active: 'nested-url' },
+      { type: 'custom', secondary: true, children: <AccentSwitcher /> },
+    ],
   };
 }
