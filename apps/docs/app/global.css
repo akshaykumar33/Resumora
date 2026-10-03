@@ -346,10 +346,11 @@ html > body[data-scroll-locked] {
 .border-beam::before {
   content: '';
   position: absolute;
-  inset: -1px;
-  z-index: -1;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
   border-radius: inherit;
-  padding: 1.5px;
+  padding: 2px;
   background: conic-gradient(
     from var(--beam-angle),
     transparent 0deg,

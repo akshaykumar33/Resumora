@@ -93,7 +93,9 @@ export function FeatureBento() {
   return (
     <div className="grid gap-4 md:grid-cols-6">
       <SpotlightCard data-reveal beam className="rounded-3xl md:col-span-4">
-        <div className={cell}>
+        <div
+          className={`${cell} bg-[linear-gradient(135deg,oklch(0.97_0.03_300),oklch(0.97_0.03_170))] dark:bg-[linear-gradient(135deg,oklch(0.22_0.04_300),oklch(0.21_0.03_170))]`}
+        >
           <div className="flex flex-col gap-2">
             <h3 className="text-2xl font-semibold tracking-tight">Survives the crash</h3>
             <p className="max-w-[48ch] text-fd-muted-foreground">
@@ -136,7 +138,9 @@ export function FeatureBento() {
       </SpotlightCard>
 
       <SpotlightCard data-reveal className="rounded-3xl md:col-span-2">
-        <div className={`${cell} justify-between`}>
+        <div
+          className={`${cell} justify-between bg-[linear-gradient(160deg,oklch(0.97_0.03_355),oklch(0.97_0.03_70))] dark:bg-[linear-gradient(160deg,oklch(0.22_0.04_355),oklch(0.22_0.03_70))]`}
+        >
           <h3 className="text-xl font-semibold tracking-tight">Nothing to install but us</h3>
           <div className="flex items-end gap-4">
             <span className="font-display bg-gradient-to-br from-[oklch(0.7_0.17_300)] to-[oklch(0.72_0.14_170)] bg-clip-text text-7xl font-bold leading-none text-transparent">
