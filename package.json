@@ -16,7 +16,7 @@
     "secrets:scan": "secretlint --maskSecrets \"**/*\"",
     "check:paths": "node scripts/check-staged-paths.mjs",
     "hooks:install": "lefthook install",
-    "prepare": "lefthook install",
+    "prepare": "node scripts/prepare.mjs",
     "e2e": "playwright test",
     "changeset": "changeset",
     "release": "pnpm build && changeset publish"

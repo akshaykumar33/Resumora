@@ -54,3 +54,5 @@ gcp-service-account*.json
 *.timeline-export.json
 tests/**/fixtures/*.real.json
 .fault-lab-recordings/
+ 
+.vercel
