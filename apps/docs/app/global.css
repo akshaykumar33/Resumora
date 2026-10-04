@@ -1,15 +1,36 @@
 @import 'tailwindcss';
 @import 'fumadocs-ui/css/neutral.css';
 @import 'fumadocs-ui/css/preset.css';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@custom-variant dark (&:is(.dark *));
 
 /* ---------------------------------------------------------------------------------------------
- * Type: Bricolage Grotesque for display, Geist for reading, Geist Mono for code.
+ * Type: Instrument Sans for display (real italic for emphasis), Geist for reading, Geist Mono for code.
  * One scale (ratio 1.25), tight display leading, open reading leading.
  * ------------------------------------------------------------------------------------------- */
 @theme {
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
-  --font-display: var(--font-bricolage), var(--font-geist-sans), ui-sans-serif, sans-serif;
+  --font-display: var(--font-instrument), var(--font-geist-sans), ui-sans-serif, sans-serif;
+
+  /* Type scale (ratio ~1.25, fluid at the display end). Leading tightens as size grows. */
+  --text-display: clamp(2.6rem, 1.6rem + 4.2vw, 4.75rem);
+  --text-display--line-height: 1.04;
+  --text-display--letter-spacing: -0.035em;
+  --text-title: clamp(2rem, 1.4rem + 2.4vw, 3.25rem);
+  --text-title--line-height: 1.06;
+  --text-title--letter-spacing: -0.03em;
+  --text-heading: 1.5rem;
+  --text-heading--line-height: 1.2;
+  --text-heading--letter-spacing: -0.02em;
+  --text-lead: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
+  --text-lead--line-height: 1.6;
+
+  /* Vertical rhythm: one section spacing, fluid from phone to desktop. */
+  --spacing-section: clamp(4.5rem, 3rem + 5vw, 8rem);
+  --spacing-gutter: clamp(1rem, 0.5rem + 2vw, 1.5rem);
 }
 
 body {
@@ -27,7 +48,105 @@ h3,
 .font-display {
   font-family: var(--font-display);
   font-optical-sizing: auto;
-  letter-spacing: -0.025em;
+  font-stretch: 94%;
+  letter-spacing: -0.028em;
+  text-wrap: balance;
+}
+
+/* Emphasis inside a display headline: the same family's italic, in the accent. */
+.display-em {
+  font-style: italic;
+  font-weight: inherit;
+  color: var(--color-fd-primary);
+  padding: 0 0.08em 0.08em 0;
+  margin-right: -0.04em;
+  background-image: linear-gradient(
+    100deg,
+    var(--color-fd-primary) 20%,
+    color-mix(in oklch, var(--color-fd-primary) 45%, oklch(0.97 0.03 85)) 42%,
+    var(--color-fd-primary) 64%
+  );
+  background-size: 250% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+:root:not(.dark) .display-em {
+  background-image: linear-gradient(
+    100deg,
+    var(--color-fd-primary) 20%,
+    color-mix(in oklch, var(--color-fd-primary) 55%, oklch(0.74 0.13 75)) 42%,
+    var(--color-fd-primary) 64%
+  );
+}
+@media (prefers-reduced-motion: no-preference) {
+  .display-em {
+    animation: resumora-sheen 7s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+  }
+}
+@keyframes resumora-sheen {
+  0%,
+  35% {
+    background-position: 100% 0;
+  }
+  75%,
+  100% {
+    background-position: 0% 0;
+  }
+}
+
+/* Small caps for labels: real tracking, never on body text. */
+.caps-label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* A travelling caramel light around a rounded frame (the command palette). */
+@property --resumora-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+/* No position here: the element brings its own (the palette is `fixed`). */
+.glow-frame {
+  isolation: isolate;
+  border-radius: 1.25rem;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--resumora-angle),
+    var(--color-fd-border) 0deg,
+    var(--color-fd-border) 220deg,
+    color-mix(in oklch, var(--color-fd-primary) 90%, white) 290deg,
+    var(--color-fd-border) 340deg
+  );
+}
+.glow-frame::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border-radius: inherit;
+  background: inherit;
+  filter: blur(14px);
+  opacity: 0.55;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .glow-frame {
+    animation: resumora-orbit 5s linear infinite;
+  }
+}
+@keyframes resumora-orbit {
+  to {
+    --resumora-angle: 360deg;
+  }
+}
+
+/* Numbers that count or change never jitter. */
+.tabular {
+  font-variant-numeric: tabular-nums;
 }
 
 code,
@@ -83,67 +202,106 @@ html > body[data-scroll-locked] {
 }
 
 /* ---------------------------------------------------------------------------------------------
- * Colour: tinted neutrals (never pure white or black) and three accent themes.
- * --resumora-deep is a saturated accent that stays deep in both modes, for feature surfaces.
+ * Colour: matte chocolate. Neutrals sit on a fixed cocoa hue (--cocoa) whatever accent is chosen,
+ * so the page keeps its warmth; only the accent (--hue) changes. Caramel is the default accent.
+ * No pure white or black anywhere. --resumora-deep stays deep in both modes, for feature surfaces.
  * ------------------------------------------------------------------------------------------- */
 :root {
-  --hue: 185;
-  --color-fd-background: oklch(0.985 0.004 var(--hue));
-  --color-fd-foreground: oklch(0.2 0.015 var(--hue));
-  --color-fd-card: oklch(0.995 0.003 var(--hue));
+  --cocoa: 52;
+  --hue: 62;
+  --color-fd-background: oklch(0.968 0.013 80);
+  --color-fd-foreground: oklch(0.255 0.035 var(--cocoa));
+  --color-fd-card: oklch(0.985 0.009 82);
   --color-fd-card-foreground: var(--color-fd-foreground);
-  --color-fd-popover: oklch(0.995 0.003 var(--hue));
+  --color-fd-popover: oklch(0.985 0.009 82);
   --color-fd-popover-foreground: var(--color-fd-foreground);
-  --color-fd-muted: oklch(0.955 0.006 var(--hue));
-  --color-fd-muted-foreground: oklch(0.48 0.015 var(--hue));
-  --color-fd-secondary: oklch(0.955 0.008 var(--hue));
+  --color-fd-muted: oklch(0.935 0.017 75);
+  --color-fd-muted-foreground: oklch(0.47 0.03 var(--cocoa));
+  --color-fd-secondary: oklch(0.935 0.017 75);
   --color-fd-secondary-foreground: var(--color-fd-foreground);
-  --color-fd-accent: oklch(0.94 0.02 var(--hue));
+  --color-fd-accent: oklch(0.915 0.028 70);
   --color-fd-accent-foreground: var(--color-fd-foreground);
-  --color-fd-border: oklch(0.9 0.008 var(--hue));
-  --color-fd-primary: oklch(0.47 0.09 var(--hue));
-  --color-fd-primary-foreground: oklch(0.99 0.005 var(--hue));
+  --color-fd-border: oklch(0.875 0.02 68);
+  --color-fd-primary: oklch(0.52 0.11 var(--hue));
+  --color-fd-primary-foreground: oklch(0.98 0.01 82);
   --color-fd-ring: var(--color-fd-primary);
-  --resumora-deep: oklch(0.4 0.075 var(--hue));
-  --resumora-glow-a: oklch(0.62 0.12 var(--hue));
-  --resumora-glow-b: oklch(0.7 0.1 calc(var(--hue) - 25));
+  --resumora-deep: oklch(0.34 0.06 var(--cocoa));
+  --resumora-glow-a: oklch(0.72 0.12 var(--hue));
+  --resumora-glow-b: oklch(0.6 0.09 calc(var(--hue) - 30));
+  --resumora-shadow: oklch(0.3 0.05 var(--cocoa) / 0.14);
+  --sunken: oklch(0.94 0.017 74);
+  --raised: oklch(0.99 0.007 84);
+  --success: oklch(0.5 0.1 140);
+  --warning: oklch(0.58 0.12 70);
+  --danger: oklch(0.52 0.16 22);
+  --info: oklch(0.5 0.08 245);
 }
 
 .dark {
-  --color-fd-background: oklch(0.155 0.008 var(--hue));
-  --color-fd-foreground: oklch(0.94 0.008 var(--hue));
-  --color-fd-card: oklch(0.185 0.01 var(--hue));
-  --color-fd-popover: oklch(0.19 0.01 var(--hue));
-  --color-fd-muted: oklch(0.22 0.01 var(--hue));
-  --color-fd-muted-foreground: oklch(0.7 0.012 var(--hue));
-  --color-fd-secondary: oklch(0.22 0.012 var(--hue));
-  --color-fd-accent: oklch(0.25 0.025 var(--hue));
-  --color-fd-border: oklch(0.27 0.012 var(--hue));
-  --color-fd-primary: oklch(0.76 0.1 var(--hue));
-  --color-fd-primary-foreground: oklch(0.18 0.03 var(--hue));
-  --resumora-deep: oklch(0.42 0.08 var(--hue));
+  --color-fd-background: oklch(0.168 0.021 var(--cocoa));
+  --color-fd-foreground: oklch(0.935 0.022 82);
+  --color-fd-card: oklch(0.203 0.024 var(--cocoa));
+  --color-fd-popover: oklch(0.215 0.021 var(--cocoa));
+  --color-fd-muted: oklch(0.235 0.021 var(--cocoa));
+  --color-fd-muted-foreground: oklch(0.74 0.03 72);
+  --color-fd-secondary: oklch(0.24 0.022 var(--cocoa));
+  --color-fd-accent: oklch(0.27 0.03 var(--cocoa));
+  --color-fd-border: oklch(0.295 0.022 var(--cocoa));
+  --color-fd-primary: oklch(0.8 0.115 var(--hue));
+  --color-fd-primary-foreground: oklch(0.2 0.03 var(--cocoa));
+  --resumora-deep: oklch(0.3 0.045 var(--cocoa));
+  --resumora-shadow: oklch(0.08 0.02 var(--cocoa) / 0.55);
+  --sunken: oklch(0.13 0.017 var(--cocoa));
+  --raised: oklch(0.232 0.026 var(--cocoa));
+  --success: oklch(0.8 0.11 135);
+  --warning: oklch(0.85 0.12 85);
+  --danger: oklch(0.72 0.14 22);
+  --info: oklch(0.77 0.07 240);
 }
 
-/* Accent themes. Teal is the default; Iris and Ember are chosen in the header. */
+:root[data-accent='teal'] {
+  --hue: 185;
+  --color-fd-primary: oklch(0.48 0.09 185);
+}
+.dark:root[data-accent='teal'] {
+  --color-fd-primary: oklch(0.77 0.1 185);
+}
+:root[data-accent='emerald'] {
+  --hue: 155;
+  --color-fd-primary: oklch(0.5 0.14 155);
+}
+.dark:root[data-accent='emerald'] {
+  --color-fd-primary: oklch(0.78 0.13 155);
+}
 :root[data-accent='iris'] {
-  --hue: 275;
-  --color-fd-primary: oklch(0.5 0.17 275);
-  --resumora-deep: oklch(0.38 0.14 275);
-  --resumora-glow-a: oklch(0.6 0.17 275);
+  --hue: 285;
+  --color-fd-primary: oklch(0.5 0.15 285);
 }
 .dark:root[data-accent='iris'] {
-  --color-fd-primary: oklch(0.76 0.12 275);
-  --resumora-deep: oklch(0.42 0.14 275);
+  --color-fd-primary: oklch(0.77 0.11 285);
 }
-:root[data-accent='ember'] {
-  --hue: 45;
-  --color-fd-primary: oklch(0.56 0.16 42);
-  --resumora-deep: oklch(0.45 0.13 38);
-  --resumora-glow-a: oklch(0.7 0.15 50);
+:root[data-accent='rose'] {
+  --hue: 15;
+  --color-fd-primary: oklch(0.53 0.14 15);
 }
-.dark:root[data-accent='ember'] {
-  --color-fd-primary: oklch(0.78 0.13 55);
-  --resumora-deep: oklch(0.46 0.13 40);
+.dark:root[data-accent='rose'] {
+  --color-fd-primary: oklch(0.76 0.11 15);
+}
+
+/* Matte finish: a fixed, non-scrolling film grain over everything, so flat colour reads as a
+ * material rather than a screen. Fixed and pointer-events-none, so it never repaints on scroll. */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.dark body::after {
+  opacity: 0.07;
+  mix-blend-mode: overlay;
 }
 
 /* Theme changes cross-fade instead of snapping, except under reduced motion. */
@@ -354,9 +512,9 @@ html > body[data-scroll-locked] {
   background: conic-gradient(
     from var(--beam-angle),
     transparent 0deg,
-    oklch(0.8 0.15 300) 40deg,
-    oklch(0.85 0.13 170) 80deg,
-    oklch(0.84 0.13 355) 120deg,
+    color-mix(in oklch, var(--color-fd-primary) 60%, transparent) 40deg,
+    var(--color-fd-primary) 80deg,
+    color-mix(in oklch, var(--color-fd-primary) 50%, white) 120deg,
     transparent 160deg 360deg
   );
   -webkit-mask:
@@ -492,4 +650,191 @@ html > body[data-scroll-locked] {
   [class*='bento-anim'] {
     animation: none !important;
   }
+}
+
+@theme inline {
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-info: var(--info);
+  --color-sunken: var(--sunken);
+  --color-raised: var(--raised);
+  --font-heading: var(--font-display);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+  --animate-orbit: orbit calc(var(--duration) * 1s) linear infinite;
+  --animate-shine: shine var(--duration) infinite linear;
+  --animate-marquee: marquee var(--duration) infinite linear;
+  --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
+  --animate-shimmer-slide: shimmer-slide var(--speed) ease-in-out infinite alternate;
+  --animate-spin-around: spin-around calc(var(--speed) * 2) infinite linear;
+  --animate-shiny-text: shiny-text 8s infinite;
+  @keyframes orbit {
+    0% {
+      transform: rotate(calc(var(--angle) * 1deg)) translateY(calc(var(--radius) * 1px))
+        rotate(calc(var(--angle) * -1deg));
+    }
+    100% {
+      transform: rotate(calc(var(--angle) * 1deg + 360deg)) translateY(calc(var(--radius) * 1px))
+        rotate(calc((var(--angle) * -1deg) - 360deg));
+    }
+  }
+  @keyframes shine {
+    0% {
+      background-position: 0% 0%;
+    }
+    50% {
+      background-position: 100% 100%;
+    }
+    to {
+      background-position: 0% 0%;
+    }
+  }
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(calc(-100% - var(--gap)));
+    }
+  }
+  @keyframes marquee-vertical {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(calc(-100% - var(--gap)));
+    }
+  }
+  @keyframes shimmer-slide {
+    to {
+      transform: translate(calc(100cqw - 100%), 0);
+    }
+  }
+  @keyframes spin-around {
+    0% {
+      transform: translateZ(0) rotate(0);
+    }
+    15%,
+    35% {
+      transform: translateZ(0) rotate(90deg);
+    }
+    65%,
+    85% {
+      transform: translateZ(0) rotate(270deg);
+    }
+    100% {
+      transform: translateZ(0) rotate(360deg);
+    }
+  }
+  @keyframes shiny-text {
+    0%,
+    90%,
+    100% {
+      background-position: calc(-100% - var(--shiny-width)) 0;
+    }
+    30%,
+    60% {
+      background-position: calc(100% + var(--shiny-width)) 0;
+    }
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+}
+
+/* shadcn / Magic UI / Aceternity tokens, aliased to Resumora's theme so every component follows
+ * light, dark and the accent themes. */
+:root {
+  --background: var(--color-fd-background);
+  --foreground: var(--color-fd-foreground);
+  --card: var(--color-fd-card);
+  --card-foreground: var(--color-fd-card-foreground);
+  --popover: var(--color-fd-popover);
+  --popover-foreground: var(--color-fd-popover-foreground);
+  --primary: var(--color-fd-primary);
+  --primary-foreground: var(--color-fd-primary-foreground);
+  --secondary: var(--color-fd-secondary);
+  --secondary-foreground: var(--color-fd-secondary-foreground);
+  --muted: var(--color-fd-muted);
+  --muted-foreground: var(--color-fd-muted-foreground);
+  --accent: var(--color-fd-accent);
+  --accent-foreground: var(--color-fd-accent-foreground);
+  --destructive: oklch(0.58 0.22 27);
+  --border: var(--color-fd-border);
+  --input: var(--color-fd-border);
+  --ring: var(--color-fd-ring);
+  --radius: 0.75rem;
+}
+
+/* Scrollbars and selection in the theme's own colours, on every scroll container. A thin caramel
+ * thumb on a transparent track; scrollbar-color is inherited, so nested panes follow. */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklch, var(--color-fd-primary) 55%, var(--color-fd-border))
+    transparent;
+}
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  border: 3px solid transparent;
+  border-radius: 9999px;
+  background: color-mix(in oklch, var(--color-fd-primary) 55%, var(--color-fd-border)) padding-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-fd-primary) padding-box;
+}
+::selection {
+  background: color-mix(in oklch, var(--color-fd-primary) 32%, transparent);
+  color: var(--color-fd-foreground);
 }

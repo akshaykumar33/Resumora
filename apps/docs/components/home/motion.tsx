@@ -29,28 +29,23 @@ export function Reveal({
   );
 }
 
-/** Reveals a headline word by word, 45ms apart, so the promise lands as one sentence. */
+/** Reveals a headline word by word with smooth opacity and elevation. Never clips gradient masks. */
 export function HeroTitle({ text, className }: { text: string; className?: string }) {
   const reduce = useReducedMotion();
   const words = text.split(' ');
   return (
     <h1 className={className} aria-label={text}>
       {words.map((word, i) => (
-        <span
+        <motion.span
           key={`${word}-${i}`}
-          aria-hidden
-          className="inline-block overflow-hidden pb-[0.08em] align-bottom"
+          className="inline-block"
+          initial={{ y: reduce ? 0 : 14, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.05 + i * 0.035, ease: EASE_OUT }}
         >
-          <motion.span
-            className="inline-block"
-            initial={{ y: reduce ? 0 : '105%', opacity: reduce ? 0 : 1 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.1 + i * 0.045, ease: EASE_OUT }}
-          >
-            {word}
-            {i < words.length - 1 ? ' ' : ''}
-          </motion.span>
-        </span>
+          {word}
+          {i < words.length - 1 ? '\u00A0' : ''}
+        </motion.span>
       ))}
     </h1>
   );

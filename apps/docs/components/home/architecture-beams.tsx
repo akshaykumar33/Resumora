@@ -1,0 +1,93 @@
+'use client';
+
+import { forwardRef, useRef, type ReactNode } from 'react';
+import { Database, FileText, HardDrive, PenLine, Plug, ShoppingCart } from 'lucide-react';
+import { AnimatedBeam } from '@/components/ui/animated-beam';
+import { LogoMark } from '@/components/logo';
+
+const Node = forwardRef<HTMLDivElement, { children: ReactNode; label: string; big?: boolean }>(
+  ({ children, label, big }, ref) => (
+    <div className="flex flex-col items-center gap-2">
+      <div
+        ref={ref}
+        className={`z-10 grid place-items-center rounded-2xl border border-fd-border/80 bg-fd-card/95 backdrop-blur-md shadow-xs transition-all duration-300 hover:scale-105 hover:border-fd-primary/50 ${
+          big
+            ? 'size-16 sm:size-20 text-fd-primary shadow-lg shadow-fd-primary/15'
+            : 'size-12 sm:size-14 text-fd-foreground'
+        }`}
+      >
+        {children}
+      </div>
+      <span className="text-[11px] sm:text-xs font-medium text-fd-muted-foreground whitespace-nowrap">
+        {label}
+      </span>
+    </div>
+  ),
+);
+Node.displayName = 'Node';
+
+/**
+ * How Resumora sits in an app, drawn with animated beams: your app's screens send intents into
+ * the runtime, and the runtime persists them through whichever storage adapter you choose.
+ */
+export function ArchitectureBeams() {
+  const container = useRef<HTMLDivElement>(null);
+  const form = useRef<HTMLDivElement>(null);
+  const editor = useRef<HTMLDivElement>(null);
+  const checkout = useRef<HTMLDivElement>(null);
+  const core = useRef<HTMLDivElement>(null);
+  const idb = useRef<HTMLDivElement>(null);
+  const memory = useRef<HTMLDivElement>(null);
+  const custom = useRef<HTMLDivElement>(null);
+  const icon = 'size-5 sm:size-6';
+  const beam = {
+    containerRef: container,
+    duration: 3.5,
+    pathColor: 'var(--color-fd-border)',
+    pathOpacity: 0.85,
+    gradientStartColor: 'var(--color-fd-primary)',
+    gradientStopColor: 'var(--color-fd-primary)',
+  };
+
+  return (
+    <div
+      ref={container}
+      className="relative mx-auto flex w-full max-w-3xl items-center justify-between gap-4 sm:gap-6 overflow-hidden rounded-3xl border border-fd-border/80 bg-fd-card/75 px-4 sm:px-8 md:px-14 py-10 sm:py-12 backdrop-blur-md shadow-xs"
+    >
+      <div className="flex flex-col gap-6 sm:gap-8">
+        <Node ref={form} label="Claim form">
+          <FileText className={icon} strokeWidth={1.75} />
+        </Node>
+        <Node ref={editor} label="Editor">
+          <PenLine className={icon} strokeWidth={1.75} />
+        </Node>
+        <Node ref={checkout} label="Checkout">
+          <ShoppingCart className={icon} strokeWidth={1.75} />
+        </Node>
+      </div>
+
+      <Node ref={core} label="@resumora/core" big>
+        <LogoMark className="size-8 sm:size-10" />
+      </Node>
+
+      <div className="flex flex-col gap-6 sm:gap-8">
+        <Node ref={idb} label="IndexedDB">
+          <Database className={icon} strokeWidth={1.75} />
+        </Node>
+        <Node ref={memory} label="Memory">
+          <HardDrive className={icon} strokeWidth={1.75} />
+        </Node>
+        <Node ref={custom} label="Your adapter">
+          <Plug className={icon} strokeWidth={1.75} />
+        </Node>
+      </div>
+
+      <AnimatedBeam {...beam} fromRef={form} toRef={core} curvature={-40} />
+      <AnimatedBeam {...beam} fromRef={editor} toRef={core} />
+      <AnimatedBeam {...beam} fromRef={checkout} toRef={core} curvature={40} />
+      <AnimatedBeam {...beam} fromRef={core} toRef={idb} curvature={-40} delay={1} />
+      <AnimatedBeam {...beam} fromRef={core} toRef={memory} delay={1} />
+      <AnimatedBeam {...beam} fromRef={core} toRef={custom} curvature={40} delay={1} />
+    </div>
+  );
+}
