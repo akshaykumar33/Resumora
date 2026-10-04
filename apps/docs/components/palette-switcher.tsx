@@ -5,9 +5,9 @@ import { PALETTES, applyPalette, type PaletteId } from '@/lib/palette';
 
 /** Reads the active palette and follows changes made anywhere (nav, palette, command palette). */
 export function usePalette(): PaletteId {
-  const [palette, setPalette] = useState<PaletteId>('cobalt');
+  const [palette, setPalette] = useState<PaletteId>('claude');
   useEffect(() => {
-    setPalette((document.documentElement.dataset.palette as PaletteId | undefined) ?? 'cobalt');
+    setPalette((document.documentElement.dataset.palette as PaletteId | undefined) ?? 'claude');
     const onChange = (e: Event) => setPalette((e as CustomEvent<PaletteId>).detail);
     window.addEventListener('resumora:palette', onChange);
     return () => window.removeEventListener('resumora:palette', onChange);

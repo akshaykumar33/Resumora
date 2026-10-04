@@ -104,8 +104,8 @@ export default function KitPage() {
           </span>
           <PaletteSwitcher size="lg" />
           <span className="text-xs text-fd-muted-foreground">
-            Choose Cobalt (flagship slate & azure), Onyx (monolith zinc), Emerald (abyssal jade), or
-            Titanium (warm graphite).
+            Choose Claude Code (signature terracotta & warm amber), Neon Cyber (high-voltage
+            electric lime), Chocolate (rich velvety cocoa), or Onyx (monolith zinc).
           </span>
         </div>
       </Section>

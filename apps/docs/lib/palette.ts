@@ -2,10 +2,22 @@ export const PALETTE_STORAGE_KEY = 'resumora-palette';
 
 export const PALETTES = [
   {
-    id: 'cobalt',
-    label: 'Cobalt',
-    base: 'oklch(0.14 0.018 255)',
-    accent: 'oklch(0.68 0.19 250)',
+    id: 'claude',
+    label: 'Claude Code',
+    base: 'oklch(0.135 0.012 55)',
+    accent: 'oklch(0.69 0.175 45)',
+  },
+  {
+    id: 'neon',
+    label: 'Neon Cyber',
+    base: 'oklch(0.11 0.01 150)',
+    accent: 'oklch(0.86 0.26 142)',
+  },
+  {
+    id: 'chocolate',
+    label: 'Chocolate',
+    base: 'oklch(0.125 0.018 35)',
+    accent: 'oklch(0.72 0.14 52)',
   },
   {
     id: 'onyx',
@@ -13,25 +25,13 @@ export const PALETTES = [
     base: 'oklch(0.11 0 0)',
     accent: 'oklch(0.92 0 0)',
   },
-  {
-    id: 'emerald',
-    label: 'Emerald',
-    base: 'oklch(0.135 0.018 160)',
-    accent: 'oklch(0.75 0.17 155)',
-  },
-  {
-    id: 'titanium',
-    label: 'Titanium',
-    base: 'oklch(0.14 0.008 55)',
-    accent: 'oklch(0.78 0.14 55)',
-  },
 ] as const;
 
 export type PaletteId = (typeof PALETTES)[number]['id'];
 
-/** Applies a palette to <html> and remembers it on this device. Cobalt is the default. */
+/** Applies a palette to <html> and remembers it on this device. Claude Code is the default. */
 export function applyPalette(id: PaletteId) {
-  if (id === 'cobalt') delete document.documentElement.dataset.palette;
+  if (id === 'claude') delete document.documentElement.dataset.palette;
   else document.documentElement.dataset.palette = id;
   try {
     localStorage.setItem(PALETTE_STORAGE_KEY, id);
@@ -42,4 +42,4 @@ export function applyPalette(id: PaletteId) {
 }
 
 /** Sets the palette before first paint, so a returning visitor never sees the default flash. */
-export const paletteBootScript = `try{var p=localStorage.getItem('${PALETTE_STORAGE_KEY}');if(p&&p!=='cobalt')document.documentElement.dataset.palette=p}catch(e){}`;
+export const paletteBootScript = `try{var p=localStorage.getItem('${PALETTE_STORAGE_KEY}');if(p&&p!=='claude')document.documentElement.dataset.palette=p}catch(e){}`;
