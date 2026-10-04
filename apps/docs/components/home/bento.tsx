@@ -25,7 +25,7 @@ function CrashGraphic() {
         ))}
       </div>
       <div
-        className="bento-anim pointer-events-none absolute inset-0 grid place-items-center bg-amber-500/15 text-xs font-semibold tracking-wide uppercase text-amber-700 backdrop-blur-[2px] dark:text-amber-300"
+        className="bento-anim pointer-events-none absolute inset-0 grid place-items-center bg-warning/15 text-xs font-semibold tracking-wide uppercase text-warning backdrop-blur-[2px] dark:text-warning"
         style={{ animation: 'bento-crash 5s ease-in-out infinite' }}
       >
         Tab crashed · State preserved
@@ -38,14 +38,14 @@ function CrashGraphic() {
 function LockGraphic() {
   return (
     <div className="flex items-center justify-center gap-5 rounded-2xl border border-fd-border/70 bg-fd-background/80 py-6 backdrop-blur-xs">
-      <span className="grid size-12 place-items-center rounded-2xl border border-rose-500/25 bg-rose-500/10 text-rose-600 dark:text-rose-400">
+      <span className="grid size-12 place-items-center rounded-2xl border border-danger/25 bg-danger/10 text-danger dark:text-danger">
         <LockKeyhole className="size-6" strokeWidth={1.75} />
       </span>
       <span className="font-mono text-[11px] font-medium uppercase tracking-wider text-fd-muted-foreground">
         reauthorize
       </span>
       <span
-        className="bento-anim grid size-12 place-items-center rounded-2xl border border-emerald-500/25 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+        className="bento-anim grid size-12 place-items-center rounded-2xl border border-success/25 bg-success/10 text-success dark:text-success"
         style={{ animation: 'bento-lock 4s ease-in-out infinite' }}
       >
         <LockKeyholeOpen className="size-6" strokeWidth={1.75} />
@@ -57,14 +57,14 @@ function LockGraphic() {
 /** Tenant isolation: every key carries tenant, user and workspace. */
 function TenantGraphic() {
   const keys = [
-    { tenant: 'acme', tone: 'border-cyan-500/30 bg-cyan-500/10 text-cyan-600 dark:text-cyan-400' },
+    { tenant: 'acme', tone: 'border-info/30 bg-info/10 text-info dark:text-info' },
     {
       tenant: 'globex',
-      tone: 'border-amber-500/30 bg-amber-500/10 text-amber-600 dark:text-amber-400',
+      tone: 'border-warning/30 bg-warning/10 text-warning dark:text-warning',
     },
     {
       tenant: 'initech',
-      tone: 'border-violet-500/30 bg-violet-500/10 text-violet-600 dark:text-violet-400',
+      tone: 'border-fd-primary/30 bg-fd-primary/10 text-fd-primary dark:text-fd-primary',
     },
   ];
   return (

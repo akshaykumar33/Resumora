@@ -129,7 +129,7 @@ export function CodeShowcaseTabs() {
           aria-label="Copy code"
           className="inline-flex items-center gap-1.5 rounded-md border border-fd-border/60 bg-fd-background px-2.5 py-1 text-xs text-fd-muted-foreground transition-colors hover:bg-fd-muted hover:text-fd-foreground"
         >
-          {copied ? <Check className="size-3.5 text-emerald-500" /> : <Copy className="size-3.5" />}
+          {copied ? <Check className="size-3.5 text-success" /> : <Copy className="size-3.5" />}
           <span>{copied ? 'Copied' : 'Copy'}</span>
         </button>
       </div>

@@ -83,8 +83,8 @@ const FRAMES: {
 ];
 
 const TONE = {
-  ok: 'border border-emerald-500/25 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',
-  warn: 'border border-amber-500/25 bg-amber-500/10 text-amber-600 dark:text-amber-400',
+  ok: 'border border-success/25 bg-success/10 text-success dark:text-success',
+  warn: 'border border-warning/25 bg-warning/10 text-warning dark:text-warning',
   neutral: 'border border-fd-primary/25 bg-fd-primary/10 text-fd-primary',
 };
 
@@ -106,7 +106,7 @@ export function ScrollStory() {
   const frame = FRAMES[step]!;
 
   return (
-    <section ref={ref} className="relative" style={{ height: `${STEPS.length * 85}vh` }}>
+    <section ref={ref} className="relative" style={{ height: `${STEPS.length * 70}vh` }}>
       <div className="sticky top-0 flex min-h-[100dvh] items-center">
         <div className="mx-auto grid w-full max-w-6xl items-center gap-12 px-6 py-16 lg:grid-cols-[1fr_1.05fr] lg:gap-20">
           <div className="flex flex-col gap-8">

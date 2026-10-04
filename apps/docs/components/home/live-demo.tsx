@@ -211,8 +211,8 @@ export function LiveDemo() {
   const locked = state === 'locked';
   const busy = state === 'loading';
   const toneClass: Record<Tone, string> = {
-    ok: 'border-emerald-500/40 bg-emerald-500/10 text-emerald-800 dark:text-emerald-200',
-    warn: 'border-amber-500/40 bg-amber-500/10 text-amber-800 dark:text-amber-200',
+    ok: 'border-success/40 bg-success/10 text-success dark:text-success',
+    warn: 'border-warning/40 bg-warning/10 text-warning dark:text-warning',
     info: 'border-fd-primary/40 bg-fd-primary/10 text-fd-foreground',
   };
 
@@ -222,7 +222,7 @@ export function LiveDemo() {
       <div className="relative overflow-hidden rounded-2xl border border-fd-border/80 bg-fd-card/90 p-6 shadow-xl backdrop-blur-xl lg:col-span-7">
         <div className="mb-5 flex items-center justify-between border-b border-fd-border/60 pb-3">
           <div className="flex items-center gap-2">
-            <span className="size-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="size-2 rounded-full bg-success animate-pulse" />
             <span className="font-semibold text-sm">Interactive Claim Form</span>
           </div>
           <span className="font-mono text-xs text-fd-muted-foreground">
@@ -281,7 +281,7 @@ export function LiveDemo() {
               className="absolute inset-0 z-30 grid place-items-center bg-fd-card/95 p-6 text-center backdrop-blur-md"
             >
               <div className="flex max-w-xs flex-col items-center gap-3">
-                <div className="grid size-12 place-items-center rounded-2xl bg-amber-500/15 text-amber-600 dark:text-amber-400 ring-4 ring-amber-500/10">
+                <div className="grid size-12 place-items-center rounded-2xl bg-warning/15 text-warning dark:text-warning ring-4 ring-warning/10">
                   <LockKeyhole className="size-6" strokeWidth={2} />
                 </div>
                 <p className="font-semibold text-base text-fd-foreground">Workspace Locked</p>
@@ -334,7 +334,7 @@ export function LiveDemo() {
             className="flex flex-col items-start gap-1 rounded-xl border border-fd-border/70 bg-fd-card p-3 text-left transition-all hover:border-fd-primary/50 hover:bg-fd-muted/50 active:scale-[0.99] disabled:opacity-40"
           >
             <div className="flex items-center gap-1.5 text-xs font-semibold text-fd-foreground">
-              <RotateCcw className="size-3.5 text-amber-500" /> Crash Memory
+              <RotateCcw className="size-3.5 text-warning" /> Crash Memory
             </div>
             <span className="text-[11px] text-fd-muted-foreground">Clears JS heap</span>
           </button>
@@ -346,7 +346,7 @@ export function LiveDemo() {
             className="flex flex-col items-start gap-1 rounded-xl border border-fd-border/70 bg-fd-card p-3 text-left transition-all hover:border-fd-primary/50 hover:bg-fd-muted/50 active:scale-[0.99] disabled:opacity-40"
           >
             <div className="flex items-center gap-1.5 text-xs font-semibold text-fd-foreground">
-              <Save className="size-3.5 text-emerald-500" /> Save Checkpoint
+              <Save className="size-3.5 text-success" /> Save Checkpoint
             </div>
             <span className="text-[11px] text-fd-muted-foreground">Prunes intents</span>
           </button>
@@ -358,7 +358,7 @@ export function LiveDemo() {
             className="flex flex-col items-start gap-1 rounded-xl border border-fd-border/70 bg-fd-card p-3 text-left transition-all hover:border-fd-primary/50 hover:bg-fd-muted/50 active:scale-[0.99] disabled:opacity-40"
           >
             <div className="flex items-center gap-1.5 text-xs font-semibold text-fd-foreground">
-              <ShieldAlert className="size-3.5 text-rose-500" /> Expire Token
+              <ShieldAlert className="size-3.5 text-danger" /> Expire Token
             </div>
             <span className="text-[11px] text-fd-muted-foreground">Locks storage</span>
           </button>
@@ -413,7 +413,7 @@ export function LiveDemo() {
                     <span
                       className={`text-[9px] font-semibold px-1.5 py-0.2 rounded ${
                         isCheckpoint
-                          ? 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-400'
+                          ? 'bg-success/20 text-success dark:text-success'
                           : 'bg-fd-primary/20 text-fd-primary'
                       }`}
                     >

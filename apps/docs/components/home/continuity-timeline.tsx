@@ -66,16 +66,16 @@ export function ContinuityTimeline() {
       {/* Terminal window header */}
       <div className="flex items-center justify-between border-b border-fd-border/70 bg-fd-muted/30 px-5 py-3">
         <div className="hidden items-center gap-2 sm:flex">
-          <span className="size-2.5 rounded-full bg-red-500/80" />
-          <span className="size-2.5 rounded-full bg-amber-500/80" />
-          <span className="size-2.5 rounded-full bg-emerald-500/80" />
+          <span className="size-2.5 rounded-full bg-danger/80" />
+          <span className="size-2.5 rounded-full bg-warning/80" />
+          <span className="size-2.5 rounded-full bg-success/80" />
           <span className="ml-2 font-mono text-xs font-medium text-fd-foreground/80">
             resumora::claim-4471
           </span>
         </div>
         <div className="hidden items-center gap-2 sm:flex">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-fd-border/60 bg-fd-background/70 px-2.5 py-0.5 font-mono text-[11px] text-fd-muted-foreground">
-            <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="size-1.5 rounded-full bg-success animate-pulse" />
             storage-indexeddb
           </span>
         </div>
@@ -113,9 +113,9 @@ export function ContinuityTimeline() {
                     className={`relative z-10 grid size-7 shrink-0 place-items-center rounded-lg border transition-all duration-300 ${
                       isActive
                         ? event.kind === 'crash'
-                          ? 'border-amber-500 bg-amber-500/20 text-amber-600 dark:text-amber-400 ring-2 ring-amber-500/30'
+                          ? 'border-warning bg-warning/20 text-warning dark:text-warning ring-2 ring-warning/30'
                           : event.kind === 'recover'
-                            ? 'border-emerald-500 bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 ring-2 ring-emerald-500/30'
+                            ? 'border-success bg-success/20 text-success dark:text-success ring-2 ring-success/30'
                             : 'border-fd-primary bg-fd-primary text-fd-primary-foreground ring-2 ring-fd-primary/30'
                         : isPassed
                           ? 'border-fd-border bg-fd-muted text-fd-muted-foreground'
@@ -146,9 +146,9 @@ export function ContinuityTimeline() {
                 <span
                   className={`shrink-0 rounded-md px-2 py-0.5 font-mono text-[10px] font-semibold transition-colors ${
                     event.kind === 'crash'
-                      ? 'bg-amber-500/15 text-amber-700 dark:text-amber-300'
+                      ? 'bg-warning/15 text-warning dark:text-warning'
                       : event.kind === 'recover'
-                        ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300'
+                        ? 'bg-success/15 text-success dark:text-success'
                         : isActive
                           ? 'bg-fd-primary/15 text-fd-primary'
                           : 'bg-fd-muted text-fd-muted-foreground/80'
@@ -180,7 +180,7 @@ export function ContinuityTimeline() {
       {/* Crash flash overlay */}
       <div
         aria-hidden
-        className={`pointer-events-none absolute inset-0 bg-amber-500/10 transition-opacity duration-300 ${
+        className={`pointer-events-none absolute inset-0 bg-warning/10 transition-opacity duration-300 ${
           isCrashed ? 'opacity-100' : 'opacity-0'
         }`}
       />
