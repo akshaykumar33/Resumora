@@ -3,6 +3,7 @@
 import { useEffect, useState, useTransition, type ComponentType, type ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import { Command } from 'cmdk';
+import { toast } from 'sonner';
 import { motion } from 'motion/react';
 import { useTheme } from 'next-themes';
 import type { SharedProps } from 'fumadocs-ui/components/dialog/search';
@@ -145,7 +146,10 @@ export default function CommandPalette({ open, onOpenChange }: SharedProps) {
         icon: copied ? Check : Copy,
         onSelect: () => {
           playCopy();
-          void navigator.clipboard.writeText('pnpm add @resumora/core');
+          void navigator.clipboard.writeText('pnpm add @resumora/core').then(
+            () => toast.success('Install command copied'),
+            () => toast.error('Copy was blocked by the browser'),
+          );
           setCopied(true);
           setTimeout(() => {
             setCopied(false);

@@ -7,6 +7,7 @@ import { DisplayHeadline } from '@/components/home/display-headline';
 import { StaggerReveal } from '@/components/home/gsap-scenes';
 import { InterruptionOrbit } from '@/components/home/interruption-orbit';
 import { LiveDemo } from '@/components/home/live-demo';
+import { ProofStats } from '@/components/home/proof-stats';
 import { Reveal } from '@/components/home/motion';
 import { ResumoraGlobe } from '@/components/home/resumora-globe';
 import { ScenarioScroller } from '@/components/home/scenario-scroller';
@@ -15,15 +16,6 @@ import { LogoMark } from '@/components/logo';
 import { SiteFooter } from '@/components/site-footer';
 import { SmoothScroll } from '@/components/smooth-scroll';
 import { ButtonLink, Em, Heading, Section, Surface } from '@/components/ui/kit';
-import { NumberTicker } from '@/components/ui/number-ticker';
-
-// Real numbers only: each one can be checked in the repository.
-const stats = [
-  { value: 0, label: 'runtime dependencies in core' },
-  { value: 3, label: 'crash scenarios run in Chromium on every PR' },
-  { value: 40, label: 'unit tests guarding the invariants' },
-  { value: 6, label: 'methods to plug in any storage' },
-];
 
 const promises = [
   'No runtime dependencies in core',
@@ -94,21 +86,7 @@ export default function HomePage() {
 
       {/* Proof: real numbers, set as type rather than boxed in cards */}
       <section className="border-y border-fd-border bg-sunken">
-        <dl className="mx-auto grid w-full max-w-6xl grid-cols-2 px-gutter lg:grid-cols-4">
-          {stats.map((s, i) => (
-            <div
-              key={s.label}
-              className={`flex flex-col gap-2 py-10 pr-4 ${i % 2 ? 'border-l border-fd-border pl-5' : ''} ${
-                i > 0 ? 'lg:border-l lg:border-fd-border lg:pl-8' : ''
-              } ${i > 1 ? 'border-t border-fd-border lg:border-t-0' : ''}`}
-            >
-              <dt className="order-2 max-w-[22ch] text-sm text-fd-muted-foreground">{s.label}</dt>
-              <dd className="tabular font-display text-5xl font-semibold tracking-[-0.04em] text-fd-foreground md:text-6xl">
-                <NumberTicker value={s.value} />
-              </dd>
-            </div>
-          ))}
-        </dl>
+        <ProofStats />
       </section>
 
       {/* Architecture: one centred statement and the diagram */}

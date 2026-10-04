@@ -2,11 +2,13 @@
 import SearchDialog from '@/components/search';
 import { RootProvider } from 'fumadocs-ui/provider/next';
 import { type ReactNode } from 'react';
+import { Toaster } from '@/components/toaster';
 
 export function Provider({ children }: { children: ReactNode }) {
   return (
     <RootProvider search={{ SearchDialog }} theme={{ defaultTheme: 'dark' }}>
       {children}
+      <Toaster />
     </RootProvider>
   );
 }
