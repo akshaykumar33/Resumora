@@ -25,13 +25,15 @@ import {
   Search,
   ShieldCheck,
   Sun,
+  Volume2,
+  VolumeX,
   Zap,
 } from 'lucide-react';
-import { ACCENTS } from '@/components/accent-switcher';
+
 import { GithubMark } from '@/components/github-mark';
 import { LogoMark } from '@/components/logo';
-import { ACCENT_STORAGE_KEY } from '@/lib/accent';
-import { playClick, playCopy, playCrash } from '@/lib/sound';
+import { PALETTES, applyPalette, type PaletteId } from '@/lib/palette';
+import { isSoundMuted, playClick, playCopy, playCrash, setSoundMuted } from '@/lib/sound';
 
 type Icon = ComponentType<{ className?: string; strokeWidth?: number }>;
 
@@ -99,10 +101,12 @@ export default function CommandPalette({ open, onOpenChange }: SharedProps) {
   const { resolvedTheme, setTheme } = useTheme();
   const [copied, setCopied] = useState(false);
   const [selected, setSelected] = useState('');
+  const [muted, setMuted] = useState(true);
   const { search, setSearch, query } = useDocsSearch({ client: staticClient({ locale }) });
 
   useEffect(() => {
     if (!open) setSearch('');
+    else setMuted(isSoundMuted());
   }, [open, setSearch]);
 
   const close = () => onOpenChange(false);
@@ -116,16 +120,7 @@ export default function CommandPalette({ open, onOpenChange }: SharedProps) {
       startTransition(() => router.push(href));
     });
 
-  const setAccent = (id: string) =>
-    run(() => {
-      if (id === 'caramel') delete document.documentElement.dataset.accent;
-      else document.documentElement.dataset.accent = id;
-      try {
-        localStorage.setItem(ACCENT_STORAGE_KEY, id);
-      } catch {
-        // Storage blocked: the accent lasts for this page only.
-      }
-    });
+  const setPalette = (id: PaletteId) => run(() => applyPalette(id));
 
   const results = search && query.data !== 'empty' ? (query.data ?? []) : [];
 
@@ -287,15 +282,29 @@ export default function CommandPalette({ open, onOpenChange }: SharedProps) {
           >
             {resolvedTheme === 'dark' ? 'Switch to light' : 'Switch to dark'}
           </Item>
-          {ACCENTS.map((a) => (
+          <Item
+            icon={muted ? Volume2 : VolumeX}
+            value="sound effects audio mute"
+            selected={selected}
+            onSelect={() => {
+              setSoundMuted(!muted);
+              setMuted(!muted);
+              if (muted) playClick();
+            }}
+            hint="Sound"
+          >
+            {' '}
+            {muted ? 'Turn interface sounds on' : 'Turn interface sounds off'}{' '}
+          </Item>
+          {PALETTES.map((a) => (
             <Item
               key={a.id}
               icon={Palette}
-              value={`accent ${a.label}`}
+              value={`theme palette ${a.label}`}
               selected={selected}
-              onSelect={setAccent(a.id)}
-              swatch={a.swatch}
-              hint="Accent"
+              onSelect={setPalette(a.id)}
+              swatch={`linear-gradient(135deg, ${a.base} 50%, ${a.accent} 50%)`}
+              hint="Palette"
             >
               {a.label}
             </Item>

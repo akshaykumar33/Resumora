@@ -13,7 +13,7 @@ import { useTheme } from 'next-themes';
 import { useSearchContext } from 'fumadocs-ui/contexts/search';
 import { ArrowRight, Menu, Moon, Search, Sun, X } from 'lucide-react';
 import { GithubMark } from '@/components/github-mark';
-import { AccentSwitcher } from '@/components/accent-switcher';
+import { PaletteSwitcher } from '@/components/palette-switcher';
 import { Logo } from '@/components/logo';
 
 const LINKS = [
@@ -161,7 +161,7 @@ export function SiteNav() {
               ))}
             </ul>
             <div className="mt-8 flex items-center justify-between">
-              <AccentSwitcher />
+              <PaletteSwitcher size="lg" />
               <a href={GITHUB} className="text-sm text-fd-muted-foreground">
                 GitHub
               </a>

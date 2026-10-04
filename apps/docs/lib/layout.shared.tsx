@@ -1,23 +1,16 @@
 import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
 import { gitConfig } from './shared';
-import { AccentSwitcher } from '@/components/accent-switcher';
-import { SoundToggle } from '@/components/sound-toggle';
+import { PaletteSwitcher } from '@/components/palette-switcher';
 import { Logo } from '@/components/logo';
 
+// The page tree already lists every section, so the docs sidebar carries no duplicate top links:
+// only the logo, search, the palette swatches and the GitHub link.
 export function baseOptions(): BaseLayoutProps {
   return {
     nav: {
-      // JSX supported
       title: <Logo />,
     },
     githubUrl: `https://github.com/${gitConfig.user}/${gitConfig.repo}`,
-    links: [
-      { text: 'Docs', url: '/docs/getting-started', active: 'nested-url' },
-      { text: 'Concepts', url: '/docs/concepts/recovery-model', active: 'nested-url' },
-      { text: 'Guides', url: '/docs/guides/persist-in-the-browser', active: 'nested-url' },
-      { text: 'API Reference', url: '/docs/reference/api', active: 'nested-url' },
-      { type: 'custom', secondary: true, children: <SoundToggle /> },
-      { type: 'custom', secondary: true, children: <AccentSwitcher /> },
-    ],
+    links: [{ type: 'custom', secondary: true, children: <PaletteSwitcher /> }],
   };
 }
