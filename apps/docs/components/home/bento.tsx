@@ -25,10 +25,12 @@ function CrashGraphic() {
         ))}
       </div>
       <div
-        className="bento-anim pointer-events-none absolute inset-0 grid place-items-center bg-warning/15 text-xs font-semibold tracking-wide uppercase text-warning backdrop-blur-[2px] dark:text-warning"
+        className="bento-anim pointer-events-none absolute inset-0 grid place-items-center bg-fd-background/55 backdrop-blur-[3px]"
         style={{ animation: 'bento-crash 5s ease-in-out infinite' }}
       >
-        Tab crashed · State preserved
+        <span className="rounded-full border border-warning/40 bg-fd-card px-3.5 py-1.5 text-xs font-semibold text-warning shadow-lg">
+          Tab crashed. Nothing lost.
+        </span>
       </div>
     </div>
   );
@@ -127,6 +129,19 @@ export function FeatureBento() {
             A locked workspace reveals nothing until your server reauthorizes the user.
           </p>
           <LockGraphic />
+          <ol aria-label="The unlock cycle" className="flex flex-wrap gap-1.5">
+            {['Lock', 'Reauthenticate', 'Reauthorize', 'Unlock', 'Revalidate', 'Reconcile'].map(
+              (step, i) => (
+                <li
+                  key={step}
+                  className="rounded-full border border-fd-border bg-fd-background/70 px-2.5 py-1 text-[11px] font-medium text-fd-muted-foreground"
+                >
+                  <span className="tabular mr-1 text-fd-primary">{i + 1}</span>
+                  {step}
+                </li>
+              ),
+            )}
+          </ol>
         </div>
       </SpotlightCard>
 

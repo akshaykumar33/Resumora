@@ -1,15 +1,17 @@
 'use client';
 
 import { useState } from 'react';
+import { AnimatePresence, motion } from 'motion/react';
 import { DynamicCodeBlock } from 'fumadocs-ui/components/dynamic-codeblock';
-import { Check, Copy, FileCode2, KeyRound, Plug } from 'lucide-react';
+import { toast } from 'sonner';
+import { Check, Copy } from 'lucide-react';
 
+// Each snippet is checked against @resumora/core's real signatures.
 const SNIPPETS = [
   {
     id: 'core',
-    label: 'TypeScript Core',
-    icon: FileCode2,
-    desc: 'Record intent, checkpoint state, and recover after any crash.',
+    file: 'app.ts',
+    caption: 'Record each edit, checkpoint at milestones, restore after any crash.',
     code: `import { ContinuityRuntime } from '@resumora/core';
 import { IndexedDbStorageAdapter } from '@resumora/storage-indexeddb';
 
@@ -21,128 +23,148 @@ const workspace = await runtime.openWorkspace({
   workspaceId: 'claim_902',
 });
 
-// 1. Record user actions as they happen
+// 1. Record each edit as it happens
 await workspace.recordIntent('SET_AMOUNT', { value: 4250 });
 
-// 2. Snapshot milestones and prune journaled intents
+// 2. Checkpoint at a milestone (covered intents are pruned)
 await workspace.saveCheckpoint({ claimant: 'Mira', amount: 4250 });
 
-// 3. Restore on reload or crash: returns checkpoint + unapplied intents
+// 3. After a reload or crash: the checkpoint plus later intents
 const recovered = await workspace.restoreLatestCheckpoint();`,
   },
   {
     id: 'auth',
-    label: 'Session Expiry Re-Auth',
-    icon: KeyRound,
-    desc: 'Preserves the LOCK -> REAUTHENTICATE -> UNLOCK invariant.',
-    code: `// Invariant #1: Stored data NEVER confers authorization.
-// When session token expires, lock the workspace:
+    file: 'session.ts',
+    caption:
+      'Stored work is never permission: lock on expiry, unlock only after the server agrees.',
+    code: `import { WorkspaceLockedError } from '@resumora/core';
+
+// The session expired: lock the workspace.
 workspace.lock();
 
-// All reads and writes are blocked while locked:
 try {
-  await workspace.recordIntent('EDIT_NOTE', { note: 'Restricted' });
-} catch (err) {
-  // Throws WorkspaceLockedError: state remains safe on disk
+  await workspace.recordIntent('EDIT_NOTE', { note: 'Draft' });
+} catch (error) {
+  // WorkspaceLockedError: the work stays on disk, unreadable
+  if (!(error instanceof WorkspaceLockedError)) throw error;
 }
 
-// Server re-authenticates and verifies entitlement:
-const authResult = await verifyTokenWithServer(token);
+// Your server re-authenticates and re-authorizes the user.
+const { ok } = await verifySessionWithServer();
 
-if (authResult.ok) {
-  await workspace.unlock({ isValid: true });
+if (workspace.unlock({ isValid: ok })) {
   const restored = await workspace.restoreLatestCheckpoint();
 }`,
   },
   {
     id: 'adapter',
-    label: 'Custom Storage Adapter',
-    icon: Plug,
-    desc: 'Pluggable storage: implement 6 methods to target any disk engine.',
-    code: `import type { StorageAdapter, StorageBatchOp } from '@resumora/core';
+    file: 'my-adapter.ts',
+    caption: 'Six methods put Resumora on any key-value store you can reach.',
+    code: `import type { StorageAdapter, StorageOperation } from '@resumora/core';
 
-// Core is decoupled from browser APIs.
-// Implement 6 methods to target SQLite, OPFS, or Cloudflare:
-export class CustomStorageAdapter implements StorageAdapter {
-  async get(key: string): Promise<Uint8Array | null> {
+export class MyStorageAdapter implements StorageAdapter {
+  constructor(private readonly driver: KeyValueDriver) {}
+
+  get(key: string) {
     return this.driver.read(key);
   }
-  async set(key: string, value: Uint8Array): Promise<void> {
-    await this.driver.write(key, value);
+  set(key: string, value: Uint8Array) {
+    return this.driver.write(key, value);
   }
-  async delete(key: string): Promise<void> {
-    await this.driver.remove(key);
+  delete(key: string) {
+    return this.driver.remove(key);
   }
-  async listKeys(prefix: string): Promise<string[]> {
-    return this.driver.scanPrefix(prefix);
+  listKeys(prefix: string) {
+    return this.driver.scan(prefix);
   }
-  async batch(ops: StorageBatchOp[]): Promise<void> {
-    await this.driver.transaction(ops);
+  batch(operations: readonly StorageOperation[]) {
+    return this.driver.transaction(operations);
   }
-  async clear(prefix?: string): Promise<void> {
-    await this.driver.purge(prefix);
+  clear(prefix?: string) {
+    return this.driver.purge(prefix);
   }
 }`,
   },
 ];
 
+/**
+ * The API in three files: filename tabs with a sliding highlight, one copy button that confirms
+ * with a toast, and a one-line caption under the code.
+ */
 export function CodeShowcaseTabs() {
-  const [activeTab, setActiveTab] = useState(SNIPPETS[0]!.id);
+  const [active, setActive] = useState(SNIPPETS[0]!.id);
   const [copied, setCopied] = useState(false);
+  const current = SNIPPETS.find((s) => s.id === active) ?? SNIPPETS[0]!;
 
-  const current = SNIPPETS.find((s) => s.id === activeTab) ?? SNIPPETS[0]!;
-
-  const handleCopy = () => {
-    navigator.clipboard.writeText(current.code);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(current.code);
+      setCopied(true);
+      toast.success(`Copied ${current.file}`);
+      setTimeout(() => setCopied(false), 1600);
+    } catch {
+      toast.error('Copy was blocked by the browser');
+    }
   };
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-fd-border/80 bg-fd-card/90 shadow-xl backdrop-blur-xl">
-      {/* Tab bar header */}
-      <div className="flex flex-wrap items-center justify-between border-b border-fd-border/70 bg-fd-muted/30 px-4 py-2.5">
-        <div className="flex flex-wrap items-center gap-1.5">
-          {SNIPPETS.map((tab) => {
-            const Icon = tab.icon;
-            const isCurrent = tab.id === activeTab;
-            return (
-              <button
-                key={tab.id}
-                type="button"
-                onClick={() => setActiveTab(tab.id)}
-                className={`inline-flex items-center gap-2 rounded-lg px-3 py-1.5 text-xs font-medium transition-all ${
-                  isCurrent
-                    ? 'bg-fd-background text-fd-foreground shadow-xs ring-1 ring-fd-border'
-                    : 'text-fd-muted-foreground hover:bg-fd-muted/50 hover:text-fd-foreground'
-                }`}
-              >
-                <Icon className="size-3.5 text-fd-primary" />
-                {tab.label}
-              </button>
-            );
-          })}
+    <div className="overflow-hidden rounded-3xl border border-fd-border bg-fd-card shadow-[0_30px_70px_-36px_var(--resumora-shadow)]">
+      <div className="flex items-center gap-2 border-b border-fd-border bg-sunken/60 px-3 py-2.5">
+        <div
+          role="tablist"
+          aria-label="Examples"
+          className="flex min-w-0 flex-1 gap-1 overflow-x-auto [scrollbar-width:none]"
+        >
+          {SNIPPETS.map((s) => (
+            <button
+              key={s.id}
+              type="button"
+              role="tab"
+              aria-selected={s.id === active}
+              onClick={() => setActive(s.id)}
+              className={`relative shrink-0 rounded-full px-3.5 py-1.5 font-mono text-xs transition-colors ${
+                s.id === active
+                  ? 'text-fd-foreground'
+                  : 'text-fd-muted-foreground hover:text-fd-foreground'
+              }`}
+            >
+              {s.id === active && (
+                <motion.span
+                  layoutId="code-tab"
+                  className="absolute inset-0 rounded-full border border-fd-border bg-fd-card shadow-sm"
+                  transition={{ type: 'spring', stiffness: 480, damping: 38 }}
+                />
+              )}
+              <span className="relative">{s.file}</span>
+            </button>
+          ))}
         </div>
         <button
           type="button"
-          onClick={handleCopy}
-          aria-label="Copy code"
-          className="inline-flex items-center gap-1.5 rounded-md border border-fd-border/60 bg-fd-background px-2.5 py-1 text-xs text-fd-muted-foreground transition-colors hover:bg-fd-muted hover:text-fd-foreground"
+          onClick={copy}
+          aria-label={`Copy ${current.file}`}
+          className="grid size-8 shrink-0 place-items-center rounded-full text-fd-muted-foreground transition-colors hover:bg-fd-accent hover:text-fd-foreground"
         >
-          {copied ? <Check className="size-3.5 text-success" /> : <Copy className="size-3.5" />}
-          <span>{copied ? 'Copied' : 'Copy'}</span>
+          {copied ? <Check className="size-4 text-success" /> : <Copy className="size-4" />}
         </button>
       </div>
 
-      {/* Code body */}
-      <div className="p-0 [&_figure]:my-0 [&_pre]:rounded-none [&_pre]:border-none">
-        <DynamicCodeBlock lang="ts" code={current.code} />
-      </div>
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={current.id}
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -6 }}
+          transition={{ duration: 0.18 }}
+          className="[&_figure]:my-0 [&_figure]:rounded-none [&_figure]:border-0 [&_figure]:shadow-none [&_figure>div:first-child:has(button)]:hidden [&_pre]:max-h-[26rem] [&_pre]:text-[13px] [&_pre]:leading-relaxed"
+        >
+          <DynamicCodeBlock lang="ts" code={current.code} />
+        </motion.div>
+      </AnimatePresence>
 
-      {/* Footer bar */}
-      <div className="border-t border-fd-border/60 bg-fd-muted/20 px-4 py-2 text-xs text-fd-muted-foreground">
-        {current.desc}
-      </div>
+      <p className="border-t border-fd-border px-5 py-3 text-sm text-fd-muted-foreground">
+        {current.caption}
+      </p>
     </div>
   );
 }

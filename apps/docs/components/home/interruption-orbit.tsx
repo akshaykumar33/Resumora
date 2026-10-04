@@ -1,55 +1,69 @@
 'use client';
 
+import type { ComponentType } from 'react';
 import {
   BatteryLow,
+  CloudOff,
   KeyRound,
   Layers,
   RefreshCw,
   Rocket,
   WifiOff,
   Zap,
-  CloudOff,
 } from 'lucide-react';
 import { OrbitingCircles } from '@/components/ui/orbiting-circles';
 import { LogoMark } from '@/components/logo';
 
-const chip =
-  'grid size-full place-items-center rounded-full border border-fd-border/80 bg-fd-card/90 text-fd-primary shadow-sm backdrop-blur-xs transition-all duration-300 hover:scale-110 hover:border-fd-primary/60 hover:shadow-md';
+type Icon = ComponentType<{ className?: string; strokeWidth?: number }>;
+
+const INNER: [Icon, string][] = [
+  [Zap, 'Tab crash'],
+  [KeyRound, 'Token expired'],
+  [WifiOff, 'Offline'],
+  [RefreshCw, 'Accidental refresh'],
+];
+const OUTER: [Icon, string][] = [
+  [Rocket, 'New deploy'],
+  [BatteryLow, 'Dead battery'],
+  [Layers, 'Discarded tab'],
+  [CloudOff, 'Server error'],
+];
+
+/** One interruption: an icon chip that names itself on hover or keyboard focus. */
+function Chip({ icon: I, label }: { icon: Icon; label: string }) {
+  return (
+    <span
+      tabIndex={0}
+      aria-label={label}
+      className="group/chip relative grid size-full cursor-default place-items-center rounded-full border border-fd-border bg-fd-card text-fd-primary shadow-md outline-none transition-[border-color,box-shadow] hover:border-fd-primary/60 hover:shadow-[0_0_24px_-4px_var(--color-fd-primary)] focus-visible:border-fd-primary"
+    >
+      <I className="size-5" strokeWidth={1.75} />
+      <span
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-full mt-2 -translate-x-1/2 translate-y-1 whitespace-nowrap rounded-full border border-fd-border bg-fd-popover px-2.5 py-1 text-xs font-medium text-fd-foreground opacity-0 shadow-lg transition-[opacity,transform] duration-200 group-hover/chip:translate-y-0 group-hover/chip:opacity-100 group-focus-visible/chip:translate-y-0 group-focus-visible/chip:opacity-100"
+      >
+        {label}
+      </span>
+    </span>
+  );
+}
 
 /** The interruptions Resumora absorbs, orbiting the runtime at its centre. */
 export function InterruptionOrbit() {
   return (
-    <div className="relative flex h-[380px] sm:h-[440px] w-full items-center justify-center overflow-hidden">
-      <div className="grid size-20 sm:size-24 place-items-center rounded-full border border-fd-primary/20 bg-[radial-gradient(circle,color-mix(in_oklch,var(--color-fd-primary)_25%,transparent),transparent_70%)] shadow-lg shadow-fd-primary/10">
-        <LogoMark className="size-10 sm:size-14 text-fd-primary" />
+    <div className="relative flex h-[440px] w-full items-center justify-center overflow-hidden [&:has(:hover)_.animate-orbit]:[animation-play-state:paused] [&:has(:focus-visible)_.animate-orbit]:[animation-play-state:paused]">
+      <div className="grid size-24 place-items-center rounded-full bg-[radial-gradient(circle,color-mix(in_oklch,var(--color-fd-primary)_30%,transparent),transparent_70%)]">
+        <LogoMark className="size-14 text-fd-primary" />
       </div>
       <OrbitingCircles iconSize={44} radius={120} duration={22}>
-        <span className={chip} title="Tab crash">
-          <Zap className="size-5" strokeWidth={1.75} />
-        </span>
-        <span className={chip} title="Token expired">
-          <KeyRound className="size-5" strokeWidth={1.75} />
-        </span>
-        <span className={chip} title="Offline">
-          <WifiOff className="size-5" strokeWidth={1.75} />
-        </span>
-        <span className={chip} title="Accidental refresh">
-          <RefreshCw className="size-5" strokeWidth={1.75} />
-        </span>
+        {INNER.map(([icon, label]) => (
+          <Chip key={label} icon={icon} label={label} />
+        ))}
       </OrbitingCircles>
       <OrbitingCircles iconSize={48} radius={190} reverse duration={30}>
-        <span className={chip} title="New deploy">
-          <Rocket className="size-5" strokeWidth={1.75} />
-        </span>
-        <span className={chip} title="Dead battery">
-          <BatteryLow className="size-5" strokeWidth={1.75} />
-        </span>
-        <span className={chip} title="Discarded tab">
-          <Layers className="size-5" strokeWidth={1.75} />
-        </span>
-        <span className={chip} title="Server 500">
-          <CloudOff className="size-5" strokeWidth={1.75} />
-        </span>
+        {OUTER.map(([icon, label]) => (
+          <Chip key={label} icon={icon} label={label} />
+        ))}
       </OrbitingCircles>
     </div>
   );

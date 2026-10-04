@@ -1040,3 +1040,55 @@ figure.shiki {
 #nd-toc a[data-active='true'] {
   color: var(--color-fd-primary);
 }
+
+/* Cards (Fumadocs <Card>): no prose margin on the title, an accent border and a lift on hover. */
+#nd-page a[data-card='true'] {
+  border-radius: 1.25rem;
+  padding: 1.25rem;
+  transition:
+    transform 200ms ease-out,
+    border-color 200ms ease-out,
+    background-color 200ms ease-out,
+    box-shadow 200ms ease-out;
+}
+#nd-page a[data-card='true'] h3 {
+  margin-top: 0;
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+#nd-page a[data-card='true'] > :first-child:not(h3) {
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  margin-bottom: 0.875rem;
+  border-radius: 0.75rem;
+  border: 0;
+  background: color-mix(in oklch, var(--color-fd-primary) 14%, transparent);
+  color: var(--color-fd-primary);
+}
+#nd-page a[data-card='true']:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in oklch, var(--color-fd-primary) 45%, transparent);
+  background: var(--color-fd-card);
+  box-shadow: 0 18px 40px -24px var(--resumora-shadow);
+}
+
+/* Callouts and the prev/next footer in the palette's tones. */
+:root {
+  --color-fd-info: var(--color-fd-primary);
+  --color-fd-warning: var(--warning);
+  --color-fd-error: var(--danger);
+  --color-fd-success: var(--success);
+}
+#nd-page a[href^='/docs']:has(> div > svg) {
+  border-radius: 1.25rem;
+  transition:
+    border-color 200ms ease-out,
+    background-color 200ms ease-out;
+}
+#nd-page a[href^='/docs']:has(> div > svg):hover {
+  border-color: color-mix(in oklch, var(--color-fd-primary) 45%, transparent);
+}
