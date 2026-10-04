@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono, Instrument_Sans } from 'next/font/google';
-import { accentBootScript } from '@/lib/accent';
+import { paletteBootScript } from '@/lib/palette';
 import { Provider } from '@/components/provider';
 import './global.css';
 
@@ -40,7 +40,7 @@ export default function Layout({ children }: LayoutProps<'/'>) {
       suppressHydrationWarning
     >
       <head>
-        <script dangerouslySetInnerHTML={{ __html: accentBootScript }} />
+        <script dangerouslySetInnerHTML={{ __html: paletteBootScript }} />
       </head>
       <body className="flex flex-col min-h-screen">
         <Provider>{children}</Provider>
