@@ -46,7 +46,7 @@ export function ArchitectureBeams() {
     pathColor: 'var(--color-fd-border)',
     pathOpacity: 0.85,
     gradientStartColor: 'var(--color-fd-primary)',
-    gradientStopColor: 'var(--color-fd-primary)',
+    gradientStopColor: 'var(--accent-2)',
   };
 
   return (
