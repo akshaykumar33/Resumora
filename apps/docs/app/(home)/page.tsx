@@ -7,6 +7,7 @@ import { ContinuityTimeline } from '@/components/home/continuity-timeline';
 import { StaggerReveal } from '@/components/home/gsap-scenes';
 import { InterruptionOrbit } from '@/components/home/interruption-orbit';
 import { LiveDemo } from '@/components/home/live-demo';
+import { DisplayHeadline } from '@/components/home/display-headline';
 import { Reveal } from '@/components/home/motion';
 import { ResumoraGlobe } from '@/components/home/resumora-globe';
 import { ScenarioScroller } from '@/components/home/scenario-scroller';
@@ -71,9 +72,14 @@ export default function HomePage() {
               </span>
             </Reveal>
 
-            <h1 className="font-display text-[clamp(2.6rem,1.6rem+4.2vw,4.75rem)] font-semibold leading-[1.02] tracking-[-0.035em] text-fd-foreground">
-              Your users never lose <span className="display-em">the work</span> they’ve done.
-            </h1>
+            <DisplayHeadline
+              segments={[
+                { text: 'Your users never lose' },
+                { text: 'the work', em: true },
+                { text: 'they’ve done.' },
+              ]}
+              className="font-display text-[clamp(2.6rem,1.6rem+4.2vw,4.75rem)] font-semibold leading-[1.04] tracking-[-0.035em] text-fd-foreground"
+            />
 
             <Reveal delay={0.15}>
               <p className="max-w-[44ch] text-lg leading-relaxed text-fd-muted-foreground md:text-xl md:leading-relaxed">
@@ -154,7 +160,9 @@ export default function HomePage() {
             <div className="inline-flex w-fit items-center gap-1.5 rounded-full border border-fd-border bg-fd-muted/50 px-3 py-1 font-mono text-xs text-fd-primary">
               Air-Gapped Client Resilience
             </div>
-            <h2 className={sectionTitle}>Every interruption, absorbed.</h2>
+            <h2 className={sectionTitle}>
+              Every interruption, <span className="display-em">absorbed.</span>
+            </h2>
             <p className="max-w-[46ch] text-base leading-relaxed text-fd-muted-foreground">
               Browser crashes, expired auth tokens, zero-downtime deploys, dead batteries, discarded
               tabs. Whatever stops your user, their state is safe on their machine.
@@ -177,7 +185,7 @@ export default function HomePage() {
               Core Invariants
             </span>
             <h2 className={`max-w-[24ch] ${sectionTitle}`}>
-              Engineered for the moment things go wrong.
+              Engineered for the moment things <span className="display-em">go wrong.</span>
             </h2>
           </div>
         </Reveal>
@@ -197,7 +205,9 @@ export default function HomePage() {
               <span className="font-mono text-xs font-semibold uppercase tracking-wider text-fd-primary">
                 Live Interactive Proof
               </span>
-              <h2 className={sectionTitle}>Now try to lose yours.</h2>
+              <h2 className={sectionTitle}>
+                Now try to <span className="display-em">lose yours.</span>
+              </h2>
               <p className="max-w-2xl text-base text-fd-muted-foreground">
                 This is the real <code className="font-mono text-xs">@resumora/core</code> runtime
                 persisting to local IndexedDB right now. Type in data, trigger failures, and watch
@@ -217,7 +227,9 @@ export default function HomePage() {
           <div className="inline-flex w-fit items-center gap-1.5 rounded-full border border-fd-border bg-fd-muted/50 px-3 py-1 font-mono text-xs text-fd-primary">
             Clean Minimal Public API
           </div>
-          <h2 className={sectionTitle}>Three calls. Zero lost progress.</h2>
+          <h2 className={sectionTitle}>
+            Three calls. <span className="display-em">Nothing lost.</span>
+          </h2>
           <p className="max-w-[44ch] text-base leading-relaxed text-fd-muted-foreground">
             Record intent, snapshot milestones, restore deterministically. Your application replays
             unapplied intents and retains total ownership over its domain state.
@@ -279,7 +291,7 @@ export default function HomePage() {
               Ready for Production
             </div>
             <h2 className={`max-w-xl ${sectionTitle}`}>
-              Recover your first workspace in five minutes.
+              Recover your first workspace in <span className="display-em">five minutes.</span>
             </h2>
             <p className="max-w-lg text-base leading-relaxed text-fd-muted-foreground">
               Work stays safely on each user’s device until they submit. No lost form entries, no
@@ -302,7 +314,11 @@ export default function HomePage() {
               </a>
             </div>
           </Reveal>
-          <div className="relative flex h-[380px] w-full items-center justify-center">
+          <div className="relative mx-auto aspect-square w-full max-w-[min(440px,86vw)]">
+            <div
+              aria-hidden
+              className="absolute inset-[8%] rounded-full bg-[radial-gradient(circle,color-mix(in_oklch,var(--color-fd-primary)_22%,transparent),transparent_70%)] blur-2xl"
+            />
             <ResumoraGlobe />
           </div>
         </div>

@@ -41,7 +41,90 @@ h3,
   font-style: italic;
   font-weight: inherit;
   color: var(--color-fd-primary);
-  padding-right: 0.06em;
+  padding: 0 0.08em 0.08em 0;
+  margin-right: -0.04em;
+  background-image: linear-gradient(
+    100deg,
+    var(--color-fd-primary) 20%,
+    color-mix(in oklch, var(--color-fd-primary) 45%, oklch(0.97 0.03 85)) 42%,
+    var(--color-fd-primary) 64%
+  );
+  background-size: 250% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+:root:not(.dark) .display-em {
+  background-image: linear-gradient(
+    100deg,
+    var(--color-fd-primary) 20%,
+    color-mix(in oklch, var(--color-fd-primary) 55%, oklch(0.74 0.13 75)) 42%,
+    var(--color-fd-primary) 64%
+  );
+}
+@media (prefers-reduced-motion: no-preference) {
+  .display-em {
+    animation: resumora-sheen 7s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+  }
+}
+@keyframes resumora-sheen {
+  0%,
+  35% {
+    background-position: 100% 0;
+  }
+  75%,
+  100% {
+    background-position: 0% 0;
+  }
+}
+
+/* Small caps for labels: real tracking, never on body text. */
+.caps-label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* A travelling caramel light around a rounded frame (the command palette). */
+@property --resumora-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+/* No position here: the element brings its own (the palette is `fixed`). */
+.glow-frame {
+  isolation: isolate;
+  border-radius: 1.25rem;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--resumora-angle),
+    var(--color-fd-border) 0deg,
+    var(--color-fd-border) 220deg,
+    color-mix(in oklch, var(--color-fd-primary) 90%, white) 290deg,
+    var(--color-fd-border) 340deg
+  );
+}
+.glow-frame::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border-radius: inherit;
+  background: inherit;
+  filter: blur(14px);
+  opacity: 0.55;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .glow-frame {
+    animation: resumora-orbit 5s linear infinite;
+  }
+}
+@keyframes resumora-orbit {
+  to {
+    --resumora-angle: 360deg;
+  }
 }
 
 /* Numbers that count or change never jitter. */
@@ -132,16 +215,16 @@ html > body[data-scroll-locked] {
 }
 
 .dark {
-  --color-fd-background: oklch(0.172 0.017 var(--cocoa));
+  --color-fd-background: oklch(0.168 0.021 var(--cocoa));
   --color-fd-foreground: oklch(0.935 0.022 82);
-  --color-fd-card: oklch(0.205 0.02 var(--cocoa));
+  --color-fd-card: oklch(0.203 0.024 var(--cocoa));
   --color-fd-popover: oklch(0.215 0.021 var(--cocoa));
   --color-fd-muted: oklch(0.235 0.021 var(--cocoa));
   --color-fd-muted-foreground: oklch(0.74 0.03 72);
   --color-fd-secondary: oklch(0.24 0.022 var(--cocoa));
   --color-fd-accent: oklch(0.27 0.03 var(--cocoa));
   --color-fd-border: oklch(0.295 0.022 var(--cocoa));
-  --color-fd-primary: oklch(0.79 0.105 var(--hue));
+  --color-fd-primary: oklch(0.8 0.115 var(--hue));
   --color-fd-primary-foreground: oklch(0.2 0.03 var(--cocoa));
   --resumora-deep: oklch(0.3 0.045 var(--cocoa));
   --resumora-shadow: oklch(0.08 0.02 var(--cocoa) / 0.55);
@@ -692,4 +775,31 @@ body::after {
   --input: var(--color-fd-border);
   --ring: var(--color-fd-ring);
   --radius: 0.75rem;
+}
+
+/* Scrollbars and selection in the theme's own colours, on every scroll container. A thin caramel
+ * thumb on a transparent track; scrollbar-color is inherited, so nested panes follow. */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklch, var(--color-fd-primary) 55%, var(--color-fd-border))
+    transparent;
+}
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  border: 3px solid transparent;
+  border-radius: 9999px;
+  background: color-mix(in oklch, var(--color-fd-primary) 55%, var(--color-fd-border)) padding-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-fd-primary) padding-box;
+}
+::selection {
+  background: color-mix(in oklch, var(--color-fd-primary) 32%, transparent);
+  color: var(--color-fd-foreground);
 }

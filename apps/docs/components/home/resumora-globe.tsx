@@ -3,8 +3,8 @@
 import type { COBEOptions } from 'cobe';
 import { Globe } from '@/components/ui/globe';
 
-// The Magic UI globe, tuned for Resumora's dark-first look: slate land dots, a teal glow and
-// teal markers on cities where users fill in long forms.
+// The Magic UI globe, tuned for Resumora's dark-first look: cocoa land dots, a caramel glow and
+// caramel markers on cities where users fill in long forms.
 const CONFIG: COBEOptions = {
   width: 800,
   height: 800,
@@ -15,10 +15,10 @@ const CONFIG: COBEOptions = {
   dark: 1,
   diffuse: 1.2,
   mapSamples: 16000,
-  mapBrightness: 5,
-  baseColor: [0.32, 0.38, 0.4],
-  markerColor: [0.45, 0.88, 0.78],
-  glowColor: [0.2, 0.45, 0.42],
+  mapBrightness: 4.2,
+  baseColor: [0.34, 0.24, 0.17],
+  markerColor: [0.96, 0.72, 0.46],
+  glowColor: [0.5, 0.32, 0.18],
   markers: [
     { location: [19.076, 72.8777], size: 0.08 },
     { location: [51.5072, -0.1276], size: 0.07 },
@@ -33,5 +33,5 @@ const CONFIG: COBEOptions = {
 };
 
 export function ResumoraGlobe() {
-  return <Globe className="top-0" config={CONFIG} />;
+  return <Globe className="relative inset-auto max-w-none" config={CONFIG} />;
 }
