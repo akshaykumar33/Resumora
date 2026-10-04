@@ -93,18 +93,19 @@ export default function KitPage() {
           eyebrow="Design kit"
           title={
             <>
-              Cocoa, cream and <Em>caramel.</Em>
+              Precision, continuity and <Em>resilience.</Em>
             </>
           }
-          lead="The tokens and components every page here is built from. Switch theme or accent to see them adapt in real time."
+          lead="The tokens and components every page here is built from. Switch between professional developer themes to see them adapt in real time."
         />
         <div className="mt-8 flex flex-wrap items-center gap-4 rounded-2xl border border-fd-border/80 bg-fd-card/70 p-4 backdrop-blur-md shadow-xs">
           <span className="font-mono text-xs font-medium text-fd-muted-foreground">
-            Theme Palette:
+            Active Palette:
           </span>
           <PaletteSwitcher size="lg" />
           <span className="text-xs text-fd-muted-foreground">
-            Select Cocoa, Espresso, Matcha, or Berry to inspect full OKLCH color token rehydration.
+            Choose Cobalt (flagship slate & azure), Onyx (monolith zinc), Emerald (abyssal jade), or
+            Titanium (warm graphite).
           </span>
         </div>
       </Section>
