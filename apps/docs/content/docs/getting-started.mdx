@@ -3,6 +3,8 @@ title: Get started
 description: Install Resumora, record some work, and recover it after a reload.
 ---
 
+import { KeyRound, Layers } from 'lucide-react';
+
 ## Install
 
 ```package-install
@@ -58,6 +60,14 @@ That's the whole loop: **record, checkpoint, restore, replay**. The runtime neve
 ## Next steps
 
 <Cards>
-  <Card title="Understand the recovery model" href="/docs/concepts/recovery-model" />
-  <Card title="Lock work when a session expires" href="/docs/guides/handle-session-expiry" />
+  <Card
+    icon={<Layers />}
+    title="Understand the recovery model"
+    href="/docs/concepts/recovery-model"
+  />
+  <Card
+    icon={<KeyRound />}
+    title="Lock work when a session expires"
+    href="/docs/guides/handle-session-expiry"
+  />
 </Cards>
