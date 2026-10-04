@@ -221,10 +221,15 @@ export function LiveDemo() {
     <div className="grid gap-6 lg:grid-cols-12 lg:items-start">
       {/* The form: the work a user would lose */}
       <Surface className="relative overflow-hidden lg:col-span-7">
-        <div className="flex items-center justify-between gap-3 border-b border-fd-border px-6 py-4">
-          <span className="font-display text-heading font-semibold tracking-tight">
-            Insurance claim
-          </span>
+        <div className="flex items-center justify-between gap-3 border-b border-fd-border/70 bg-fd-muted/30 px-5 py-3">
+          <div className="flex items-center gap-2">
+            <span className="size-2.5 rounded-full bg-danger/80" />
+            <span className="size-2.5 rounded-full bg-warning/80" />
+            <span className="size-2.5 rounded-full bg-success/80" />
+            <span className="ml-2 font-mono text-xs font-semibold text-fd-foreground/80">
+              resumora::claim-demo
+            </span>
+          </div>
           <Badge tone={locked ? 'warning' : saved > 0 ? 'accent' : 'neutral'}>
             {busy
               ? 'Opening…'

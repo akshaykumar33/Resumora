@@ -1,27 +1,37 @@
 export const PALETTE_STORAGE_KEY = 'resumora-palette';
 
 export const PALETTES = [
-  { id: 'cocoa', label: 'Cocoa', base: 'oklch(0.2 0.024 52)', accent: 'oklch(0.8 0.115 62)' },
   {
-    id: 'espresso',
-    label: 'Espresso',
-    base: 'oklch(0.15 0.008 55)',
-    accent: 'oklch(0.75 0.13 45)',
+    id: 'claude',
+    label: 'Claude Code',
+    base: 'oklch(0.135 0.012 55)',
+    accent: 'oklch(0.69 0.175 45)',
   },
-  { id: 'matcha', label: 'Matcha', base: 'oklch(0.2 0.02 158)', accent: 'oklch(0.83 0.12 130)' },
   {
-    id: 'berry',
-    label: 'Midnight Berry',
-    base: 'oklch(0.2 0.034 272)',
-    accent: 'oklch(0.76 0.15 5)',
+    id: 'neon',
+    label: 'Neon Cyber',
+    base: 'oklch(0.11 0.01 150)',
+    accent: 'oklch(0.86 0.26 142)',
+  },
+  {
+    id: 'chocolate',
+    label: 'Chocolate',
+    base: 'oklch(0.125 0.018 35)',
+    accent: 'oklch(0.72 0.14 52)',
+  },
+  {
+    id: 'onyx',
+    label: 'Onyx',
+    base: 'oklch(0.11 0 0)',
+    accent: 'oklch(0.92 0 0)',
   },
 ] as const;
 
 export type PaletteId = (typeof PALETTES)[number]['id'];
 
-/** Applies a palette to <html> and remembers it on this device. Cocoa is the default. */
+/** Applies a palette to <html> and remembers it on this device. Claude Code is the default. */
 export function applyPalette(id: PaletteId) {
-  if (id === 'cocoa') delete document.documentElement.dataset.palette;
+  if (id === 'claude') delete document.documentElement.dataset.palette;
   else document.documentElement.dataset.palette = id;
   try {
     localStorage.setItem(PALETTE_STORAGE_KEY, id);
@@ -32,4 +42,4 @@ export function applyPalette(id: PaletteId) {
 }
 
 /** Sets the palette before first paint, so a returning visitor never sees the default flash. */
-export const paletteBootScript = `try{var p=localStorage.getItem('${PALETTE_STORAGE_KEY}');if(p&&p!=='cocoa')document.documentElement.dataset.palette=p}catch(e){}`;
+export const paletteBootScript = `try{var p=localStorage.getItem('${PALETTE_STORAGE_KEY}');if(p&&p!=='claude')document.documentElement.dataset.palette=p}catch(e){}`;
