@@ -9,6 +9,7 @@ import {
   useTransform,
 } from 'motion/react';
 import { Camera, PenLine, RotateCcw, Zap } from 'lucide-react';
+import { Em, Heading } from '@/components/ui/kit';
 
 const STEPS = [
   {
@@ -43,7 +44,7 @@ const FRAMES: {
   {
     status: 'Recording',
     tone: 'neutral',
-    caption: '3 intents journaled',
+    caption: '3 intents journaled to IndexedDB',
     fields: [
       { label: 'Claimant', value: 'Mira Okafor' },
       { label: 'Amount', value: '4,250 EUR' },
@@ -53,7 +54,7 @@ const FRAMES: {
   {
     status: 'Checkpoint #3 saved',
     tone: 'ok',
-    caption: 'checksum 7c1e09a4, intents pruned',
+    caption: 'checksum 7c1e09a4 · intents #1-#3 pruned',
     fields: [
       { label: 'Claimant', value: 'Mira Okafor' },
       { label: 'Amount', value: '4,250 EUR' },
@@ -63,7 +64,7 @@ const FRAMES: {
   {
     status: 'Tab crashed',
     tone: 'warn',
-    caption: 'memory lost',
+    caption: 'RAM destroyed · local IndexedDB intact',
     fields: [
       { label: 'Claimant', value: '' },
       { label: 'Amount', value: '' },
@@ -73,7 +74,7 @@ const FRAMES: {
   {
     status: 'Restored',
     tone: 'ok',
-    caption: 'checkpoint #3, then 1 intent replayed',
+    caption: 'checkpoint #3 reloaded + intent #4 replayed in 1.2ms',
     fields: [
       { label: 'Claimant', value: 'Mira Okafor' },
       { label: 'Amount', value: '4,250 EUR' },
@@ -110,9 +111,15 @@ export function ScrollStory() {
       <div className="sticky top-0 flex min-h-[100dvh] items-center">
         <div className="mx-auto grid w-full max-w-6xl items-center gap-12 px-6 py-16 lg:grid-cols-[1fr_1.05fr] lg:gap-20">
           <div className="flex flex-col gap-8">
-            <h2 className="text-4xl font-semibold tracking-tight text-balance md:text-5xl">
-              Watch a crash happen. Lose nothing.
-            </h2>
+            <Heading
+              eyebrow="Interactive scrub"
+              title={
+                <>
+                  Watch a crash happen. <Em>Lose nothing.</Em>
+                </>
+              }
+              lead="Scroll to step through live intent journaling, milestone checkpoints, tab crashes, and deterministic rehydration."
+            />
             <ol className="relative flex flex-col gap-2.5 pl-6">
               <span aria-hidden className="absolute inset-y-1 left-0 w-px bg-fd-border/70" />
               <motion.span
@@ -163,8 +170,15 @@ export function ScrollStory() {
               transition={{ duration: 0.5 }}
               className="overflow-hidden rounded-3xl border border-fd-border/80 bg-fd-card/95 shadow-xl backdrop-blur-md"
             >
-              <div className="flex items-center justify-between border-b border-fd-border/70 px-6 py-4">
-                <span className="text-sm font-semibold text-fd-foreground">Insurance claim</span>
+              <div className="flex items-center justify-between border-b border-fd-border/70 bg-fd-muted/30 px-5 py-3.5">
+                <div className="flex items-center gap-2">
+                  <span className="size-2.5 rounded-full bg-danger/80" />
+                  <span className="size-2.5 rounded-full bg-warning/80" />
+                  <span className="size-2.5 rounded-full bg-success/80" />
+                  <span className="ml-2 font-mono text-xs font-medium text-fd-foreground/80">
+                    resumora::claim-4471
+                  </span>
+                </div>
                 <AnimatePresence mode="wait">
                   <motion.span
                     key={frame.status}
@@ -172,7 +186,7 @@ export function ScrollStory() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -4 }}
                     transition={{ duration: 0.2 }}
-                    className={`rounded-full px-3 py-1 text-xs font-medium ${TONE[frame.tone]}`}
+                    className={`rounded-full px-3 py-1 font-mono text-[11px] font-semibold ${TONE[frame.tone]}`}
                   >
                     {frame.status}
                   </motion.span>
@@ -192,7 +206,13 @@ export function ScrollStory() {
                           transition={{ duration: 0.25 }}
                           className="truncate text-fd-foreground"
                         >
-                          {f.value || ' '}
+                          {f.value ? (
+                            f.value
+                          ) : (
+                            <span className="font-mono text-xs italic text-warning/70">
+                              [wiped from volatile memory]
+                            </span>
+                          )}
                         </motion.span>
                       </AnimatePresence>
                     </div>

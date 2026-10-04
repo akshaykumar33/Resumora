@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { ArrowRight } from 'lucide-react';
 import { SiteFooter } from '@/components/site-footer';
+import { PaletteSwitcher } from '@/components/palette-switcher';
 import {
   Badge,
   ButtonLink,
@@ -19,19 +20,23 @@ export const metadata: Metadata = {
 };
 
 const SURFACES = [
-  { name: 'background', className: 'bg-fd-background' },
-  { name: 'sunken', className: 'bg-sunken' },
-  { name: 'card', className: 'bg-fd-card' },
-  { name: 'raised', className: 'bg-raised' },
-  { name: 'muted', className: 'bg-fd-muted' },
-  { name: 'accent', className: 'bg-fd-accent' },
+  { name: 'background', note: 'var(--color-fd-background)', className: 'bg-fd-background' },
+  { name: 'sunken', note: 'var(--sunken)', className: 'bg-sunken' },
+  { name: 'card', note: 'var(--color-fd-card)', className: 'bg-fd-card' },
+  { name: 'raised', note: 'var(--raised)', className: 'bg-raised' },
+  { name: 'muted', note: 'var(--color-fd-muted)', className: 'bg-fd-muted' },
+  { name: 'accent', note: 'var(--color-fd-accent)', className: 'bg-fd-accent' },
 ];
 
 const INKS = [
-  { name: 'foreground', className: 'bg-fd-foreground' },
-  { name: 'muted text', className: 'bg-fd-muted-foreground' },
-  { name: 'primary', className: 'bg-fd-primary' },
-  { name: 'border', className: 'bg-fd-border' },
+  { name: 'foreground', note: 'var(--color-fd-foreground)', className: 'bg-fd-foreground' },
+  {
+    name: 'muted text',
+    note: 'var(--color-fd-muted-foreground)',
+    className: 'bg-fd-muted-foreground',
+  },
+  { name: 'primary', note: 'var(--color-fd-primary)', className: 'bg-fd-primary' },
+  { name: 'border', note: 'var(--color-fd-border)', className: 'bg-fd-border' },
 ];
 
 const TONES = [
@@ -69,10 +74,12 @@ const TYPE = [
 
 function Swatch({ name, note, className }: { name: string; note?: string; className: string }) {
   return (
-    <div className="flex flex-col gap-2">
-      <div className={`h-20 rounded-2xl border border-fd-border ${className}`} />
-      <div className="text-sm font-medium">{name}</div>
-      {note && <div className="-mt-1.5 text-xs text-fd-muted-foreground">{note}</div>}
+    <div className="group flex flex-col gap-2">
+      <div
+        className={`h-20 rounded-2xl border border-fd-border shadow-xs transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:shadow-md ${className}`}
+      />
+      <div className="text-sm font-medium text-fd-foreground">{name}</div>
+      {note && <div className="-mt-1.5 font-mono text-[11px] text-fd-muted-foreground">{note}</div>}
     </div>
   );
 }
@@ -89,8 +96,17 @@ export default function KitPage() {
               Cocoa, cream and <Em>caramel.</Em>
             </>
           }
-          lead="The tokens and components every page here is built from. Switch theme or accent in the header to see them change."
+          lead="The tokens and components every page here is built from. Switch theme or accent to see them adapt in real time."
         />
+        <div className="mt-8 flex flex-wrap items-center gap-4 rounded-2xl border border-fd-border/80 bg-fd-card/70 p-4 backdrop-blur-md shadow-xs">
+          <span className="font-mono text-xs font-medium text-fd-muted-foreground">
+            Theme Palette:
+          </span>
+          <PaletteSwitcher size="lg" />
+          <span className="text-xs text-fd-muted-foreground">
+            Select Cocoa, Espresso, Matcha, or Berry to inspect full OKLCH color token rehydration.
+          </span>
+        </div>
       </Section>
 
       <Section tone="sunken" bordered>

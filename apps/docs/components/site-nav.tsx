@@ -109,6 +109,9 @@ export function SiteNav() {
             >
               <Search className="size-4" strokeWidth={1.75} />
             </button>
+            <div className="hidden items-center px-1.5 sm:flex">
+              <PaletteSwitcher size="md" />
+            </div>
             <ThemeToggle />
             <a href={GITHUB} aria-label="GitHub" className={`${iconButton} hidden sm:grid`}>
               <GithubMark className="size-4" />
