@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowRight, CheckCircle2, Cpu, Layers, Plug, ShieldCheck } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Cpu, Plug, ShieldCheck } from 'lucide-react';
 import { ArchitectureBeams } from '@/components/home/architecture-beams';
 import { FeatureBento } from '@/components/home/bento';
 import { CodeShowcaseTabs } from '@/components/home/code-tabs';
@@ -7,7 +7,7 @@ import { ContinuityTimeline } from '@/components/home/continuity-timeline';
 import { StaggerReveal } from '@/components/home/gsap-scenes';
 import { InterruptionOrbit } from '@/components/home/interruption-orbit';
 import { LiveDemo } from '@/components/home/live-demo';
-import { HeroTitle, Reveal } from '@/components/home/motion';
+import { Reveal } from '@/components/home/motion';
 import { ResumoraGlobe } from '@/components/home/resumora-globe';
 import { ScenarioScroller } from '@/components/home/scenario-scroller';
 import { ScrollStory } from '@/components/home/scroll-story';
@@ -47,101 +47,87 @@ const stats = [
 const githubUrl = 'https://github.com/akshaykumar33/Resumora';
 
 const sectionTitle =
-  'bg-gradient-to-b from-fd-foreground via-fd-foreground to-fd-foreground/60 bg-clip-text text-3xl font-bold tracking-tight text-transparent text-balance md:text-5xl';
+  'font-display text-[clamp(2rem,1.4rem+2.4vw,3.25rem)] font-semibold leading-[1.05] tracking-[-0.03em] text-fd-foreground';
 
 export default function HomePage() {
   return (
     <main id="top" className="flex flex-1 flex-col overflow-x-clip">
       <SmoothScroll />
 
-      {/* Hero: Focused, authoritative, uncluttered */}
+      {/* Hero: the promise on the left, the product working on the right */}
       <section className="relative isolate overflow-hidden">
-        {/* Subtle atmospheric ambient glow */}
-        <div aria-hidden className="absolute inset-0 -z-10">
-          <div className="resumora-grid absolute inset-0 opacity-40" />
-          <div className="pointer-events-none absolute left-1/2 top-0 h-[28rem] w-[46rem] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,color-mix(in_oklch,var(--color-fd-primary)_18%,transparent),transparent_70%)] blur-3xl" />
+        <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+          <div className="resumora-grid absolute inset-0 opacity-30" />
+          <div className="absolute -right-40 top-10 h-[40rem] w-[40rem] rounded-full bg-[radial-gradient(circle,color-mix(in_oklch,var(--color-fd-primary)_22%,transparent),transparent_65%)] blur-2xl" />
+          <div className="absolute -left-56 -top-40 h-[34rem] w-[34rem] rounded-full bg-[radial-gradient(circle,color-mix(in_oklch,var(--resumora-glow-b)_16%,transparent),transparent_65%)] blur-2xl" />
         </div>
 
-        <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-center gap-7 px-6 pb-20 pt-16 text-center">
-          <Reveal>
-            <div className="inline-flex items-center gap-2 rounded-full border border-fd-border/80 bg-fd-card/75 px-3.5 py-1.5 text-xs font-medium text-fd-foreground shadow-xs backdrop-blur-md">
-              <span className="size-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span>Resumora Runtime v0.1.0</span>
-              <span className="text-fd-border">·</span>
-              <span className="text-fd-muted-foreground">
-                Application Continuity & Workflow Recovery
+        <div className="mx-auto grid min-h-[100dvh] w-full max-w-6xl items-center gap-12 px-4 pb-16 pt-28 sm:px-6 lg:grid-cols-[1.05fr_1fr] lg:gap-14 lg:pt-24">
+          <div className="flex flex-col items-start gap-7">
+            <Reveal>
+              <span className="inline-flex items-center gap-2 rounded-full border border-fd-border bg-fd-card/70 px-3.5 py-1.5 text-[13px] text-fd-muted-foreground">
+                <LogoMark className="size-3.5 text-fd-primary" />
+                Application continuity runtime
               </span>
-            </div>
-          </Reveal>
+            </Reveal>
 
-          <HeroTitle
-            text="Your users never lose the work they’ve done."
-            className="max-w-4xl bg-gradient-to-b from-fd-foreground via-fd-foreground to-fd-foreground/65 bg-clip-text pb-2 text-[clamp(2.5rem,1.8rem+4vw,5rem)] font-bold leading-[1.08] tracking-[-0.035em] text-transparent text-balance"
-          />
+            <h1 className="font-display text-[clamp(2.6rem,1.6rem+4.2vw,4.75rem)] font-semibold leading-[1.02] tracking-[-0.035em] text-fd-foreground">
+              Your users never lose <span className="display-em">the work</span> they’ve done.
+            </h1>
 
-          <Reveal delay={0.2}>
-            <p className="mx-auto max-w-2xl text-base leading-relaxed text-fd-muted-foreground md:text-lg text-balance">
-              Resumora guarantees workflows survive tab discards, unexpected crashes, token
-              expirations, and network flaps — without ever trusting stored data as authorization.
-            </p>
-          </Reveal>
+            <Reveal delay={0.15}>
+              <p className="max-w-[44ch] text-lg leading-relaxed text-fd-muted-foreground md:text-xl md:leading-relaxed">
+                Unfinished work comes back after crashes, reloads and expired sessions, and stored
+                data is never treated as permission.
+              </p>
+            </Reveal>
 
-          <Reveal delay={0.3}>
-            <div className="flex flex-wrap items-center justify-center gap-3.5 pt-1">
-              <Link
-                href="/docs/getting-started"
-                className="inline-flex items-center gap-2 rounded-xl bg-fd-primary px-6 py-3 text-sm font-semibold text-fd-primary-foreground shadow-lg shadow-fd-primary/20 transition-all hover:opacity-95 hover:scale-[1.02] active:scale-[0.98]"
-              >
-                Get started <ArrowRight className="size-4" />
-              </Link>
-              <a
-                href="#try-it"
-                className="inline-flex items-center gap-2 rounded-xl border border-fd-border/80 bg-fd-card/80 px-6 py-3 text-sm font-semibold text-fd-foreground backdrop-blur-md transition-all hover:bg-fd-muted active:scale-[0.98]"
-              >
-                Try the live demo
-              </a>
-              <a
-                href={githubUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-xl border border-fd-border/80 bg-fd-background/50 px-4 py-3 text-sm font-medium text-fd-muted-foreground transition-all hover:bg-fd-muted hover:text-fd-foreground"
-              >
-                GitHub
-              </a>
-            </div>
-          </Reveal>
+            <Reveal delay={0.25}>
+              <div className="flex flex-wrap items-center gap-3">
+                <Link
+                  href="/docs/getting-started"
+                  className="group inline-flex h-12 items-center gap-2 rounded-full bg-fd-primary px-6 text-[15px] font-medium text-fd-primary-foreground shadow-[inset_0_1px_0_oklch(1_0_0/0.28),0_14px_34px_-14px_var(--color-fd-primary)] transition-transform hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]"
+                >
+                  Get started
+                  <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+                </Link>
+                <a
+                  href="#try-it"
+                  className="inline-flex h-12 items-center rounded-full border border-fd-border bg-fd-card/60 px-6 text-[15px] font-medium text-fd-foreground transition-colors hover:border-fd-primary/40 hover:bg-fd-accent"
+                >
+                  Try the live demo
+                </a>
+              </div>
+            </Reveal>
+          </div>
 
-          {/* Interactive Continuity Console */}
-          <Reveal delay={0.4} className="mt-4 w-full max-w-2xl">
+          <Reveal delay={0.3} className="relative w-full min-w-0">
+            <div
+              aria-hidden
+              className="absolute -inset-6 -z-10 rounded-[2rem] bg-[radial-gradient(60%_60%_at_50%_40%,color-mix(in_oklch,var(--color-fd-primary)_20%,transparent),transparent)] blur-xl"
+            />
             <ContinuityTimeline />
           </Reveal>
         </div>
       </section>
 
-      {/* Metrics & Proof Points */}
-      <section className="border-y border-fd-border/70 bg-fd-muted/20 py-14">
-        <div className="mx-auto grid w-full max-w-6xl gap-4 px-6 sm:grid-cols-2 lg:grid-cols-4">
-          {stats.map((s) => {
-            const Icon = s.icon;
-            return (
-              <div
-                key={s.label}
-                className="group relative overflow-hidden rounded-2xl border border-fd-border/80 bg-fd-card/85 p-6 backdrop-blur-md shadow-xs transition-all duration-300 hover:border-fd-primary/50 hover:shadow-md hover:-translate-y-0.5"
-              >
-                <div className="flex items-center justify-between">
-                  <span className="font-display text-4xl font-bold tracking-tight text-fd-foreground">
-                    <NumberTicker value={s.value} />
-                  </span>
-                  <div className="grid size-10 place-items-center rounded-xl bg-fd-muted text-fd-primary transition-colors group-hover:bg-fd-primary group-hover:text-fd-primary-foreground">
-                    <Icon className="size-5" strokeWidth={1.75} />
-                  </div>
-                </div>
-                <div className="mt-3 font-semibold text-sm text-fd-foreground">{s.label}</div>
-                <div className="mt-1 font-mono text-xs text-fd-muted-foreground">{s.caption}</div>
-              </div>
-            );
-          })}
-        </div>
+      {/* Proof: real numbers, set as type rather than boxed in cards */}
+      <section className="border-y border-fd-border">
+        <dl className="mx-auto grid w-full max-w-6xl grid-cols-2 px-4 sm:px-6 lg:grid-cols-4">
+          {stats.map((s, i) => (
+            <div
+              key={s.label}
+              className={`flex flex-col gap-2 py-10 pr-6 ${i % 2 ? 'pl-6 border-l border-fd-border' : ''} ${
+                i > 0 ? 'lg:border-l lg:border-fd-border lg:pl-8' : ''
+              } ${i > 1 ? 'border-t border-fd-border lg:border-t-0' : ''}`}
+            >
+              <dt className="order-2 text-sm text-fd-muted-foreground">{s.label}</dt>
+              <dd className="tabular font-display text-5xl font-semibold tracking-[-0.04em] text-fd-foreground md:text-6xl">
+                <NumberTicker value={s.value} />
+              </dd>
+            </div>
+          ))}
+        </dl>
       </section>
 
       {/* Architecture Section */}
@@ -238,15 +224,15 @@ export default function HomePage() {
           </p>
           <div className="flex flex-col gap-2.5 pt-2 text-sm text-fd-foreground/90">
             <div className="flex items-center gap-2.5">
-              <CheckCircle2 className="size-4 text-emerald-500 shrink-0" />
+              <CheckCircle2 className="size-4 shrink-0 text-fd-primary" />
               <span>Zero external runtime dependencies in core</span>
             </div>
             <div className="flex items-center gap-2.5">
-              <CheckCircle2 className="size-4 text-emerald-500 shrink-0" />
+              <CheckCircle2 className="size-4 shrink-0 text-fd-primary" />
               <span>Strict identity namespacing across tenants</span>
             </div>
             <div className="flex items-center gap-2.5">
-              <CheckCircle2 className="size-4 text-emerald-500 shrink-0" />
+              <CheckCircle2 className="size-4 shrink-0 text-fd-primary" />
               <span>Fully decoupled from browser APIs for universal tests</span>
             </div>
           </div>

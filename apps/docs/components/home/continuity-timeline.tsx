@@ -65,7 +65,7 @@ export function ContinuityTimeline() {
     >
       {/* Terminal window header */}
       <div className="flex items-center justify-between border-b border-fd-border/70 bg-fd-muted/30 px-5 py-3">
-        <div className="flex items-center gap-2">
+        <div className="hidden items-center gap-2 sm:flex">
           <span className="size-2.5 rounded-full bg-red-500/80" />
           <span className="size-2.5 rounded-full bg-amber-500/80" />
           <span className="size-2.5 rounded-full bg-emerald-500/80" />
@@ -73,7 +73,7 @@ export function ContinuityTimeline() {
             resumora::claim-4471
           </span>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="hidden items-center gap-2 sm:flex">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-fd-border/60 bg-fd-background/70 px-2.5 py-0.5 font-mono text-[11px] text-fd-muted-foreground">
             <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
             storage-indexeddb

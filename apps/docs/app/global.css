@@ -7,13 +7,13 @@
 @custom-variant dark (&:is(.dark *));
 
 /* ---------------------------------------------------------------------------------------------
- * Type: Bricolage Grotesque for display, Geist for reading, Geist Mono for code.
+ * Type: Instrument Sans for display (real italic for emphasis), Geist for reading, Geist Mono for code.
  * One scale (ratio 1.25), tight display leading, open reading leading.
  * ------------------------------------------------------------------------------------------- */
 @theme {
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
-  --font-display: var(--font-bricolage), var(--font-geist-sans), ui-sans-serif, sans-serif;
+  --font-display: var(--font-instrument), var(--font-geist-sans), ui-sans-serif, sans-serif;
 }
 
 body {
@@ -31,7 +31,22 @@ h3,
 .font-display {
   font-family: var(--font-display);
   font-optical-sizing: auto;
-  letter-spacing: -0.025em;
+  font-stretch: 94%;
+  letter-spacing: -0.028em;
+  text-wrap: balance;
+}
+
+/* Emphasis inside a display headline: the same family's italic, in the accent. */
+.display-em {
+  font-style: italic;
+  font-weight: inherit;
+  color: var(--color-fd-primary);
+  padding-right: 0.06em;
+}
+
+/* Numbers that count or change never jitter. */
+.tabular {
+  font-variant-numeric: tabular-nums;
 }
 
 code,
@@ -87,90 +102,94 @@ html > body[data-scroll-locked] {
 }
 
 /* ---------------------------------------------------------------------------------------------
- * Colour: tinted neutrals (never pure white or black) and three accent themes.
- * --resumora-deep is a saturated accent that stays deep in both modes, for feature surfaces.
+ * Colour: matte chocolate. Neutrals sit on a fixed cocoa hue (--cocoa) whatever accent is chosen,
+ * so the page keeps its warmth; only the accent (--hue) changes. Caramel is the default accent.
+ * No pure white or black anywhere. --resumora-deep stays deep in both modes, for feature surfaces.
  * ------------------------------------------------------------------------------------------- */
 :root {
-  --hue: 185;
-  --color-fd-background: oklch(0.985 0.004 var(--hue));
-  --color-fd-foreground: oklch(0.2 0.015 var(--hue));
-  --color-fd-card: oklch(0.995 0.003 var(--hue));
+  --cocoa: 52;
+  --hue: 62;
+  --color-fd-background: oklch(0.968 0.013 80);
+  --color-fd-foreground: oklch(0.255 0.035 var(--cocoa));
+  --color-fd-card: oklch(0.985 0.009 82);
   --color-fd-card-foreground: var(--color-fd-foreground);
-  --color-fd-popover: oklch(0.995 0.003 var(--hue));
+  --color-fd-popover: oklch(0.985 0.009 82);
   --color-fd-popover-foreground: var(--color-fd-foreground);
-  --color-fd-muted: oklch(0.955 0.006 var(--hue));
-  --color-fd-muted-foreground: oklch(0.48 0.015 var(--hue));
-  --color-fd-secondary: oklch(0.955 0.008 var(--hue));
+  --color-fd-muted: oklch(0.935 0.017 75);
+  --color-fd-muted-foreground: oklch(0.47 0.03 var(--cocoa));
+  --color-fd-secondary: oklch(0.935 0.017 75);
   --color-fd-secondary-foreground: var(--color-fd-foreground);
-  --color-fd-accent: oklch(0.94 0.02 var(--hue));
+  --color-fd-accent: oklch(0.915 0.028 70);
   --color-fd-accent-foreground: var(--color-fd-foreground);
-  --color-fd-border: oklch(0.9 0.008 var(--hue));
-  --color-fd-primary: oklch(0.47 0.09 var(--hue));
-  --color-fd-primary-foreground: oklch(0.99 0.005 var(--hue));
+  --color-fd-border: oklch(0.875 0.02 68);
+  --color-fd-primary: oklch(0.52 0.11 var(--hue));
+  --color-fd-primary-foreground: oklch(0.98 0.01 82);
   --color-fd-ring: var(--color-fd-primary);
-  --resumora-deep: oklch(0.4 0.075 var(--hue));
-  --resumora-glow-a: oklch(0.62 0.12 var(--hue));
-  --resumora-glow-b: oklch(0.7 0.1 calc(var(--hue) - 25));
+  --resumora-deep: oklch(0.34 0.06 var(--cocoa));
+  --resumora-glow-a: oklch(0.72 0.12 var(--hue));
+  --resumora-glow-b: oklch(0.6 0.09 calc(var(--hue) - 30));
+  --resumora-shadow: oklch(0.3 0.05 var(--cocoa) / 0.14);
 }
 
 .dark {
-  --color-fd-background: oklch(0.155 0.008 var(--hue));
-  --color-fd-foreground: oklch(0.94 0.008 var(--hue));
-  --color-fd-card: oklch(0.185 0.01 var(--hue));
-  --color-fd-popover: oklch(0.19 0.01 var(--hue));
-  --color-fd-muted: oklch(0.22 0.01 var(--hue));
-  --color-fd-muted-foreground: oklch(0.7 0.012 var(--hue));
-  --color-fd-secondary: oklch(0.22 0.012 var(--hue));
-  --color-fd-accent: oklch(0.25 0.025 var(--hue));
-  --color-fd-border: oklch(0.27 0.012 var(--hue));
-  --color-fd-primary: oklch(0.76 0.1 var(--hue));
-  --color-fd-primary-foreground: oklch(0.18 0.03 var(--hue));
-  --resumora-deep: oklch(0.42 0.08 var(--hue));
+  --color-fd-background: oklch(0.172 0.017 var(--cocoa));
+  --color-fd-foreground: oklch(0.935 0.022 82);
+  --color-fd-card: oklch(0.205 0.02 var(--cocoa));
+  --color-fd-popover: oklch(0.215 0.021 var(--cocoa));
+  --color-fd-muted: oklch(0.235 0.021 var(--cocoa));
+  --color-fd-muted-foreground: oklch(0.74 0.03 72);
+  --color-fd-secondary: oklch(0.24 0.022 var(--cocoa));
+  --color-fd-accent: oklch(0.27 0.03 var(--cocoa));
+  --color-fd-border: oklch(0.295 0.022 var(--cocoa));
+  --color-fd-primary: oklch(0.79 0.105 var(--hue));
+  --color-fd-primary-foreground: oklch(0.2 0.03 var(--cocoa));
+  --resumora-deep: oklch(0.3 0.045 var(--cocoa));
+  --resumora-shadow: oklch(0.08 0.02 var(--cocoa) / 0.55);
 }
 
-/* Accent themes. Teal is the default; Emerald, Cyan, Iris, and Ember are selectable. */
+:root[data-accent='teal'] {
+  --hue: 185;
+  --color-fd-primary: oklch(0.48 0.09 185);
+}
+.dark:root[data-accent='teal'] {
+  --color-fd-primary: oklch(0.77 0.1 185);
+}
 :root[data-accent='emerald'] {
   --hue: 155;
-  --color-fd-primary: oklch(0.5 0.16 155);
-  --resumora-deep: oklch(0.38 0.14 155);
-  --resumora-glow-a: oklch(0.65 0.16 155);
+  --color-fd-primary: oklch(0.5 0.14 155);
 }
 .dark:root[data-accent='emerald'] {
-  --color-fd-primary: oklch(0.78 0.14 155);
-  --resumora-deep: oklch(0.42 0.14 155);
+  --color-fd-primary: oklch(0.78 0.13 155);
 }
-
-:root[data-accent='cyan'] {
-  --hue: 205;
-  --color-fd-primary: oklch(0.52 0.15 205);
-  --resumora-deep: oklch(0.38 0.12 205);
-  --resumora-glow-a: oklch(0.65 0.15 205);
-}
-.dark:root[data-accent='cyan'] {
-  --color-fd-primary: oklch(0.78 0.13 205);
-  --resumora-deep: oklch(0.42 0.12 205);
-}
-
 :root[data-accent='iris'] {
-  --hue: 275;
-  --color-fd-primary: oklch(0.5 0.17 275);
-  --resumora-deep: oklch(0.38 0.14 275);
-  --resumora-glow-a: oklch(0.6 0.17 275);
+  --hue: 285;
+  --color-fd-primary: oklch(0.5 0.15 285);
 }
 .dark:root[data-accent='iris'] {
-  --color-fd-primary: oklch(0.76 0.12 275);
-  --resumora-deep: oklch(0.42 0.14 275);
+  --color-fd-primary: oklch(0.77 0.11 285);
+}
+:root[data-accent='rose'] {
+  --hue: 15;
+  --color-fd-primary: oklch(0.53 0.14 15);
+}
+.dark:root[data-accent='rose'] {
+  --color-fd-primary: oklch(0.76 0.11 15);
 }
 
-:root[data-accent='ember'] {
-  --hue: 45;
-  --color-fd-primary: oklch(0.56 0.16 42);
-  --resumora-deep: oklch(0.45 0.13 38);
-  --resumora-glow-a: oklch(0.7 0.15 50);
+/* Matte finish: a fixed, non-scrolling film grain over everything, so flat colour reads as a
+ * material rather than a screen. Fixed and pointer-events-none, so it never repaints on scroll. */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
-.dark:root[data-accent='ember'] {
-  --color-fd-primary: oklch(0.78 0.13 55);
-  --resumora-deep: oklch(0.46 0.13 40);
+.dark body::after {
+  opacity: 0.07;
+  mix-blend-mode: overlay;
 }
 
 /* Theme changes cross-fade instead of snapping, except under reduced motion. */

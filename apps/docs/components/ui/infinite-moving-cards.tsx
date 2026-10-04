@@ -101,10 +101,9 @@ export const InfiniteMovingCards = ({
                   </span>
                 </div>
                 <p className="text-sm font-normal leading-relaxed text-fd-foreground/90 text-pretty">
-                  "{item.quote}"
+                  &ldquo;{item.quote}&rdquo;
                 </p>
-                <div className="mt-1 flex items-center gap-2 rounded-xl border border-emerald-500/25 bg-emerald-500/10 px-3 py-2 text-xs font-medium text-emerald-800 dark:text-emerald-200">
-                  <span className="size-1.5 shrink-0 rounded-full bg-emerald-500 animate-pulse" />
+                <div className="mt-1 flex items-center gap-2 rounded-xl border border-fd-primary/25 bg-fd-primary/10 px-3 py-2 text-xs font-medium text-fd-primary">
                   <span className="truncate">{item.title}</span>
                 </div>
               </div>

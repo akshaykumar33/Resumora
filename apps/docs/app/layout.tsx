@@ -1,12 +1,17 @@
 import type { Metadata } from 'next';
-import { Bricolage_Grotesque, Geist, Geist_Mono } from 'next/font/google';
+import { Geist, Geist_Mono, Instrument_Sans } from 'next/font/google';
 import { accentBootScript } from '@/lib/accent';
 import { Provider } from '@/components/provider';
 import './global.css';
 
 const sans = Geist({ subsets: ['latin'], variable: '--font-geist-sans' });
 const mono = Geist_Mono({ subsets: ['latin'], variable: '--font-geist-mono' });
-const display = Bricolage_Grotesque({ subsets: ['latin'], variable: '--font-bricolage' });
+const display = Instrument_Sans({
+  subsets: ['latin'],
+  style: ['normal', 'italic'],
+  axes: ['wdth'],
+  variable: '--font-instrument',
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://resumora.dev'),
