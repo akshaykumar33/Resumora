@@ -89,7 +89,7 @@ export const InfiniteMovingCards = ({
           const Icon = item.icon;
           return (
             <li
-              className="group relative w-[320px] sm:w-[360px] md:w-[380px] max-w-full shrink-0 overflow-hidden rounded-2xl border border-fd-border/70 bg-gradient-to-b from-fd-card/95 via-fd-card/80 to-fd-card/50 p-4.5 sm:p-5 backdrop-blur-md shadow-xs transition-all duration-300 hover:border-fd-primary/50 hover:shadow-[0_0_28px_-6px_color-mix(in_oklch,var(--color-fd-primary)_24%,transparent)] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-fd-primary/35 before:to-transparent"
+              className="group relative w-[280px] xs:w-[320px] sm:w-[360px] md:w-[380px] max-w-[85vw] shrink-0 overflow-hidden rounded-2xl border border-fd-border/70 bg-gradient-to-b from-fd-card/95 via-fd-card/80 to-fd-card/50 p-4 sm:p-5 backdrop-blur-md shadow-xs transition-all duration-300 hover:border-fd-primary/50 hover:shadow-[0_0_28px_-6px_color-mix(in_oklch,var(--color-fd-primary)_24%,transparent)] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-fd-primary/35 before:to-transparent"
               key={`${item.name}-${idx}`}
             >
               <div className="flex flex-col gap-3">

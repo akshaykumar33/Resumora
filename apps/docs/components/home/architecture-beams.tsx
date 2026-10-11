@@ -7,18 +7,18 @@ import { LogoMark } from '@/components/logo';
 
 const Node = forwardRef<HTMLDivElement, { children: ReactNode; label: string; big?: boolean }>(
   ({ children, label, big }, ref) => (
-    <div className="flex flex-col items-center gap-2">
+    <div className="flex flex-col items-center gap-1.5 sm:gap-2">
       <div
         ref={ref}
-        className={`z-10 grid place-items-center rounded-2xl border border-fd-border/80 bg-fd-card/95 backdrop-blur-md shadow-xs transition-all duration-300 hover:scale-105 hover:border-fd-primary/50 ${
+        className={`z-10 grid place-items-center rounded-xl sm:rounded-2xl border border-fd-border/80 bg-fd-card/95 backdrop-blur-md shadow-xs transition-all duration-300 hover:scale-105 hover:border-fd-primary/50 ${
           big
-            ? 'size-16 sm:size-20 text-fd-primary shadow-lg shadow-fd-primary/15'
-            : 'size-12 sm:size-14 text-fd-foreground'
+            ? 'size-13 xs:size-16 sm:size-20 text-fd-primary shadow-lg shadow-fd-primary/15'
+            : 'size-10 xs:size-12 sm:size-14 text-fd-foreground'
         }`}
       >
         {children}
       </div>
-      <span className="text-[11px] sm:text-xs font-medium text-fd-muted-foreground whitespace-nowrap">
+      <span className="max-w-[76px] sm:max-w-none text-center text-[10px] sm:text-xs font-medium leading-tight text-fd-muted-foreground">
         {label}
       </span>
     </div>
@@ -39,7 +39,7 @@ export function ArchitectureBeams() {
   const idb = useRef<HTMLDivElement>(null);
   const memory = useRef<HTMLDivElement>(null);
   const custom = useRef<HTMLDivElement>(null);
-  const icon = 'size-5 sm:size-6';
+  const icon = 'size-4 xs:size-5 sm:size-6';
   const beam = {
     containerRef: container,
     duration: 3.5,
@@ -52,9 +52,9 @@ export function ArchitectureBeams() {
   return (
     <div
       ref={container}
-      className="relative mx-auto flex w-full max-w-3xl items-center justify-between gap-4 sm:gap-6 overflow-hidden rounded-3xl border border-fd-border/80 bg-fd-card/75 px-4 sm:px-8 md:px-14 py-10 sm:py-12 backdrop-blur-md shadow-xs"
+      className="relative mx-auto flex w-full max-w-3xl items-center justify-between gap-2 xs:gap-4 sm:gap-6 overflow-hidden rounded-2xl sm:rounded-3xl border border-fd-border/80 bg-fd-card/75 px-3 xs:px-6 sm:px-8 md:px-14 py-8 sm:py-12 backdrop-blur-md shadow-xs"
     >
-      <div className="flex flex-col gap-6 sm:gap-8">
+      <div className="flex flex-col gap-5 sm:gap-8">
         <Node ref={form} label="Claim form">
           <FileText className={icon} strokeWidth={1.75} />
         </Node>
@@ -67,7 +67,7 @@ export function ArchitectureBeams() {
       </div>
 
       <Node ref={core} label="@resumora/core" big>
-        <LogoMark className="size-8 sm:size-10" />
+        <LogoMark className="size-6 xs:size-8 sm:size-10" />
       </Node>
 
       <div className="flex flex-col gap-6 sm:gap-8">

@@ -349,14 +349,16 @@ export function LiveDemo() {
               type="button"
               disabled={a.disabled}
               onClick={a.onClick}
-              className="group flex flex-col items-start gap-3 rounded-2xl border border-fd-border bg-fd-card p-4 text-left transition-[transform,border-color,background-color] duration-200 hover:-translate-y-0.5 hover:border-fd-primary/45 active:translate-y-0 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-40"
+              className="group flex flex-col items-start gap-2.5 sm:gap-3 rounded-2xl border border-fd-border bg-fd-card p-3 sm:p-4 text-left transition-[transform,border-color,background-color] duration-200 hover:-translate-y-0.5 hover:border-fd-primary/45 active:translate-y-0 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-40"
             >
-              <span className={`grid size-9 place-items-center rounded-xl ${a.tone}`}>
-                <a.icon className="size-4" strokeWidth={1.75} />
+              <span className={`grid size-8 sm:size-9 place-items-center rounded-xl ${a.tone}`}>
+                <a.icon className="size-3.5 sm:size-4" strokeWidth={1.75} />
               </span>
               <span className="flex flex-col">
-                <span className="text-[15px] font-semibold text-fd-foreground">{a.label}</span>
-                <span className="text-xs text-fd-muted-foreground">{a.note}</span>
+                <span className="text-sm sm:text-[15px] font-semibold text-fd-foreground">
+                  {a.label}
+                </span>
+                <span className="text-[11px] sm:text-xs text-fd-muted-foreground">{a.note}</span>
               </span>
             </button>
           ))}

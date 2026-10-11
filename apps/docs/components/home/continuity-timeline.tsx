@@ -64,25 +64,25 @@ export function ContinuityTimeline() {
       className="relative overflow-hidden rounded-2xl border border-fd-border/80 bg-fd-card/95 text-left backdrop-blur-xl shadow-[0_12px_44px_-16px_color-mix(in_oklch,var(--color-fd-primary)_25%,transparent)] transition-all duration-300"
     >
       {/* Terminal window header */}
-      <div className="flex items-center justify-between border-b border-fd-border/70 bg-fd-muted/30 px-5 py-3">
-        <div className="hidden items-center gap-2 sm:flex">
-          <span className="size-2.5 rounded-full bg-danger/80" />
-          <span className="size-2.5 rounded-full bg-warning/80" />
-          <span className="size-2.5 rounded-full bg-success/80" />
-          <span className="ml-2 font-mono text-xs font-medium text-fd-foreground/80">
+      <div className="flex items-center justify-between border-b border-fd-border/70 bg-fd-muted/30 px-3.5 sm:px-5 py-2.5 sm:py-3">
+        <div className="flex items-center gap-2">
+          <span className="size-2 sm:size-2.5 rounded-full bg-danger/80" />
+          <span className="size-2 sm:size-2.5 rounded-full bg-warning/80" />
+          <span className="size-2 sm:size-2.5 rounded-full bg-success/80" />
+          <span className="ml-1 sm:ml-2 font-mono text-[11px] sm:text-xs font-medium text-fd-foreground/80">
             resumora::claim-4471
           </span>
         </div>
-        <div className="hidden items-center gap-2 sm:flex">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-fd-border/60 bg-fd-background/70 px-2.5 py-0.5 font-mono text-[11px] text-fd-muted-foreground">
+        <div className="flex items-center gap-2">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-fd-border/60 bg-fd-background/70 px-2 sm:px-2.5 py-0.5 font-mono text-[10px] sm:text-[11px] text-fd-muted-foreground">
             <span className="size-1.5 rounded-full bg-success animate-pulse" />
-            storage-indexeddb
+            <span className="hidden xs:inline">storage-</span>indexeddb
           </span>
         </div>
       </div>
 
       {/* Timeline list */}
-      <div className="p-5">
+      <div className="p-3.5 sm:p-5">
         <ol className="relative flex flex-col gap-2">
           {/* Vertical progress spine */}
           <div

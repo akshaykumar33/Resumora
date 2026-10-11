@@ -109,8 +109,8 @@ export function ScrollStory() {
   return (
     <section ref={ref} className="relative" style={{ height: `${STEPS.length * 70}vh` }}>
       <div className="sticky top-0 flex min-h-[100dvh] items-center">
-        <div className="mx-auto grid w-full max-w-6xl items-center gap-12 px-6 py-16 lg:grid-cols-[1fr_1.05fr] lg:gap-20">
-          <div className="flex flex-col gap-8">
+        <div className="mx-auto grid w-full max-w-6xl items-center gap-5 sm:gap-8 lg:gap-20 px-4 sm:px-6 py-8 sm:py-16 lg:grid-cols-[1fr_1.05fr]">
+          <div className="flex flex-col gap-4 sm:gap-6 lg:gap-8">
             <Heading
               eyebrow="Interactive scrub"
               title={
@@ -120,7 +120,39 @@ export function ScrollStory() {
               }
               lead="Scroll to step through live intent journaling, milestone checkpoints, tab crashes, and deterministic rehydration."
             />
-            <ol className="relative flex flex-col gap-2.5 pl-6">
+
+            {/* Mobile step progress scrubber indicator */}
+            <div className="flex flex-col gap-2 lg:hidden">
+              <div className="flex items-center justify-between font-mono text-[11px] text-fd-muted-foreground">
+                <span className="text-fd-primary font-semibold">Step {step + 1} of 4</span>
+                <span>Scrub to progress</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                {STEPS.map((s, i) => (
+                  <div
+                    key={s.title}
+                    className={`h-1.5 flex-1 rounded-full transition-colors ${
+                      i === step ? 'bg-fd-primary' : i < step ? 'bg-fd-primary/40' : 'bg-fd-border'
+                    }`}
+                  />
+                ))}
+              </div>
+              <div className="flex items-center gap-2 rounded-xl border border-fd-border/80 bg-fd-card/90 px-3 py-2 text-xs shadow-xs">
+                {(() => {
+                  const Icon = STEPS[step]!.icon;
+                  return <Icon className="size-4 shrink-0 text-fd-primary" />;
+                })()}
+                <span className="font-semibold text-fd-foreground shrink-0">
+                  {STEPS[step]!.title}
+                </span>
+                <span className="truncate text-[11px] text-fd-muted-foreground">
+                  — {STEPS[step]!.body}
+                </span>
+              </div>
+            </div>
+
+            {/* Desktop expanded step list */}
+            <ol className="relative hidden flex-col gap-2.5 pl-6 lg:flex">
               <span aria-hidden className="absolute inset-y-1 left-0 w-px bg-fd-border/70" />
               <motion.span
                 aria-hidden
@@ -168,14 +200,14 @@ export function ScrollStory() {
                   : { x: 0, rotate: 0 }
               }
               transition={{ duration: 0.5 }}
-              className="overflow-hidden rounded-3xl border border-fd-border/80 bg-fd-card/95 shadow-xl backdrop-blur-md"
+              className="overflow-hidden rounded-2xl sm:rounded-3xl border border-fd-border/80 bg-fd-card/95 shadow-xl backdrop-blur-md"
             >
-              <div className="flex items-center justify-between border-b border-fd-border/70 bg-fd-muted/30 px-5 py-3.5">
+              <div className="flex items-center justify-between border-b border-fd-border/70 bg-fd-muted/30 px-3.5 sm:px-5 py-2.5 sm:py-3.5">
                 <div className="flex items-center gap-2">
-                  <span className="size-2.5 rounded-full bg-danger/80" />
-                  <span className="size-2.5 rounded-full bg-warning/80" />
-                  <span className="size-2.5 rounded-full bg-success/80" />
-                  <span className="ml-2 font-mono text-xs font-medium text-fd-foreground/80">
+                  <span className="size-2 sm:size-2.5 rounded-full bg-danger/80" />
+                  <span className="size-2 sm:size-2.5 rounded-full bg-warning/80" />
+                  <span className="size-2 sm:size-2.5 rounded-full bg-success/80" />
+                  <span className="ml-1 sm:ml-2 font-mono text-[11px] sm:text-xs font-medium text-fd-foreground/80">
                     resumora::claim-4471
                   </span>
                 </div>
@@ -186,17 +218,19 @@ export function ScrollStory() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -4 }}
                     transition={{ duration: 0.2 }}
-                    className={`rounded-full px-3 py-1 font-mono text-[11px] font-semibold ${TONE[frame.tone]}`}
+                    className={`rounded-full px-2.5 sm:px-3 py-0.5 sm:py-1 font-mono text-[10px] sm:text-[11px] font-semibold ${TONE[frame.tone]}`}
                   >
                     {frame.status}
                   </motion.span>
                 </AnimatePresence>
               </div>
-              <div className="flex flex-col gap-4 p-6">
+              <div className="flex flex-col gap-2.5 sm:gap-4 p-4 sm:p-6">
                 {frame.fields.map((f) => (
-                  <div key={f.label} className="flex flex-col gap-1.5">
-                    <span className="text-xs font-medium text-fd-muted-foreground">{f.label}</span>
-                    <div className="flex h-11 items-center overflow-hidden rounded-xl border border-fd-border/70 bg-fd-background/70 px-3.5 text-sm">
+                  <div key={f.label} className="flex flex-col gap-1 sm:gap-1.5">
+                    <span className="text-[11px] sm:text-xs font-medium text-fd-muted-foreground">
+                      {f.label}
+                    </span>
+                    <div className="flex h-9 sm:h-11 items-center overflow-hidden rounded-xl border border-fd-border/70 bg-fd-background/70 px-3 sm:px-3.5 text-xs sm:text-sm">
                       <AnimatePresence mode="wait">
                         <motion.span
                           key={f.value || 'empty'}
@@ -209,7 +243,7 @@ export function ScrollStory() {
                           {f.value ? (
                             f.value
                           ) : (
-                            <span className="font-mono text-xs italic text-warning/70">
+                            <span className="font-mono text-[11px] sm:text-xs italic text-warning/70">
                               [wiped from volatile memory]
                             </span>
                           )}
@@ -219,7 +253,7 @@ export function ScrollStory() {
                   </div>
                 ))}
               </div>
-              <div className="border-t border-fd-border/60 bg-fd-muted/20 px-6 py-3 font-mono text-xs text-fd-muted-foreground">
+              <div className="truncate border-t border-fd-border/60 bg-fd-muted/20 px-4 sm:px-6 py-2.5 sm:py-3 font-mono text-[11px] sm:text-xs text-fd-muted-foreground">
                 {frame.caption}
               </div>
             </motion.div>
