@@ -1,7 +1,15 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Camera, CheckCircle2, Pause, Play, PenLine, RotateCcw, Zap } from 'lucide-react';
+import {
+  IconBolt,
+  IconCamera,
+  IconCheck,
+  IconPlayerPause,
+  IconPlayerPlay,
+  IconRotateDot,
+  IconWriting,
+} from '@tabler/icons-react';
 
 type Kind = 'intent' | 'checkpoint' | 'crash' | 'recover';
 
@@ -41,7 +49,12 @@ const EVENTS: EventItem[] = [
   },
 ];
 
-const ICON = { intent: PenLine, checkpoint: Camera, crash: Zap, recover: RotateCcw } as const;
+const ICON = {
+  intent: IconWriting,
+  checkpoint: IconCamera,
+  crash: IconBolt,
+  recover: IconRotateDot,
+} as const;
 
 export function ContinuityTimeline() {
   const [activeStep, setActiveStep] = useState(0);
@@ -123,7 +136,7 @@ export function ContinuityTimeline() {
                     }`}
                   >
                     {isPassed && event.kind !== 'crash' ? (
-                      <CheckCircle2 className="size-3.5" />
+                      <IconCheck className="size-3.5" strokeWidth={2.5} />
                     ) : (
                       <Icon className="size-3.5" strokeWidth={1.75} />
                     )}
@@ -172,7 +185,11 @@ export function ContinuityTimeline() {
           onClick={() => setIsPaused((p) => !p)}
           className="inline-flex items-center gap-1.5 rounded-md border border-fd-border/60 bg-fd-background px-2.5 py-1 text-[11px] font-medium text-fd-foreground transition-colors hover:bg-fd-muted"
         >
-          {isPaused ? <Play className="size-3" /> : <Pause className="size-3" />}
+          {isPaused ? (
+            <IconPlayerPlay className="size-3" />
+          ) : (
+            <IconPlayerPause className="size-3" />
+          )}
           {isPaused ? 'Resume cycle' : 'Pause'}
         </button>
       </div>

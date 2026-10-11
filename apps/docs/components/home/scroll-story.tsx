@@ -8,27 +8,27 @@ import {
   useScroll,
   useTransform,
 } from 'motion/react';
-import { Camera, PenLine, RotateCcw, Zap } from 'lucide-react';
+import { IconBolt, IconCamera, IconRotateDot, IconWriting } from '@tabler/icons-react';
 import { Em, Heading } from '@/components/ui/kit';
 
 const STEPS = [
   {
-    icon: PenLine,
+    icon: IconWriting,
     title: 'Every edit is recorded',
     body: 'Each change becomes a small, numbered intent, saved the moment the browser confirms the write.',
   },
   {
-    icon: Camera,
+    icon: IconCamera,
     title: 'Milestones become checkpoints',
     body: 'At the end of a step, the state is snapshotted with a checksum, and the intents it covers are pruned.',
   },
   {
-    icon: Zap,
+    icon: IconBolt,
     title: 'Then the tab crashes',
     body: 'A deploy, a dead battery, a discarded tab. Everything in memory is gone. Storage is not.',
   },
   {
-    icon: RotateCcw,
+    icon: IconRotateDot,
     title: 'And the work comes back',
     body: 'Restore returns the checkpoint plus every intent after it. Your app replays them, exactly where the user left off.',
   },

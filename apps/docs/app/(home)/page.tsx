@@ -1,4 +1,4 @@
-import { ArrowRight, Check } from 'lucide-react';
+import { IconArrowRight, IconCheck } from '@tabler/icons-react';
 import { ArchitectureBeams } from '@/components/home/architecture-beams';
 import { FeatureBento } from '@/components/home/bento';
 import { CodeShowcaseTabs } from '@/components/home/code-tabs';
@@ -65,7 +65,7 @@ export default function HomePage() {
               <div className="flex flex-wrap items-center gap-3">
                 <ButtonLink href="/docs/getting-started" size="lg">
                   Get started
-                  <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+                  <IconArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
                 </ButtonLink>
                 <ButtonLink href="#try-it" variant="secondary" size="lg">
                   Try the live demo
@@ -187,7 +187,7 @@ export default function HomePage() {
               {promises.map((p) => (
                 <li key={p} className="flex items-start gap-3 text-[15px] text-fd-foreground">
                   <span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-fd-primary/15 text-fd-primary">
-                    <Check className="size-3" strokeWidth={3} />
+                    <IconCheck className="size-3.5" strokeWidth={2.5} />
                   </span>
                   {p}
                 </li>
@@ -199,7 +199,7 @@ export default function HomePage() {
               className="-ml-4 w-fit"
             >
               How recovery works
-              <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+              <IconArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
             </ButtonLink>
           </Reveal>
           <Reveal delay={0.1} className="min-w-0">
@@ -228,7 +228,7 @@ export default function HomePage() {
               <div className="flex flex-wrap gap-3">
                 <ButtonLink href="/docs/getting-started" size="lg">
                   Get started
-                  <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+                  <IconArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
                 </ButtonLink>
                 <ButtonLink
                   href="https://github.com/akshaykumar33/Resumora"

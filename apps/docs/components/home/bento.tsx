@@ -1,16 +1,15 @@
 import {
-  AlertTriangle,
-  ArrowRight,
-  CheckCircle2,
-  Database,
-  HardDrive,
-  KeyRound,
-  Layers,
-  Lock,
-  LockOpen,
-  ShieldAlert,
-  ShieldCheck,
-} from 'lucide-react';
+  IconAlertTriangle,
+  IconArrowRight,
+  IconCheck,
+  IconDatabase,
+  IconLayersIntersect,
+  IconLock,
+  IconLockOpen,
+  IconServer2,
+  IconShieldCheck,
+  IconShieldExclamation,
+} from '@tabler/icons-react';
 import { SpotlightCard } from '@/components/ui/spotlight-card';
 
 const cell =
@@ -77,7 +76,7 @@ function CrashGraphic() {
         style={{ animation: 'bento-crash 6s ease-in-out infinite' }}
       >
         <div className="inline-flex items-center gap-1.5 rounded-full border border-warning/50 bg-warning/15 px-2.5 sm:px-3 py-1 text-[11px] sm:text-xs font-semibold text-warning shadow-md">
-          <AlertTriangle className="size-3.5" />
+          <IconAlertTriangle className="size-3.5" />
           Chromium tab discarded (SIGKILL)
         </div>
         <span className="font-mono text-[10px] sm:text-[10.5px] text-fd-foreground font-medium">
@@ -101,7 +100,7 @@ function LockGraphic() {
       <div className="flex flex-col xs:flex-row xs:items-center justify-between gap-2.5 rounded-2xl border border-fd-border/70 bg-fd-background/80 p-3 sm:p-4">
         <div className="flex items-center gap-2.5">
           <span className="grid size-8 sm:size-9 shrink-0 place-items-center rounded-xl border border-danger/25 bg-danger/10 text-danger">
-            <Lock className="size-3.5 sm:size-4" />
+            <IconLock className="size-3.5 sm:size-4" strokeWidth={1.8} />
           </span>
           <div className="flex flex-col">
             <span className="text-xs font-semibold text-fd-foreground">At-rest encryption</span>
@@ -109,11 +108,11 @@ function LockGraphic() {
           </div>
         </div>
 
-        <ArrowRight className="size-3.5 sm:size-4 text-fd-muted-foreground self-center xs:self-auto rotate-90 xs:rotate-0" />
+        <IconArrowRight className="size-3.5 sm:size-4 text-fd-muted-foreground self-center xs:self-auto rotate-90 xs:rotate-0" />
 
         <div className="flex items-center gap-2.5">
           <span className="grid size-8 sm:size-9 shrink-0 place-items-center rounded-xl border border-success/25 bg-success/10 text-success">
-            <LockOpen className="size-3.5 sm:size-4" />
+            <IconLockOpen className="size-3.5 sm:size-4" strokeWidth={1.8} />
           </span>
           <div className="flex flex-col">
             <span className="text-xs font-semibold text-fd-foreground">In-memory decrypt</span>
@@ -171,7 +170,7 @@ function TenantGraphic() {
 
       {/* Cross-tenant block notification */}
       <div className="flex items-center gap-2 rounded-xl border border-danger/30 bg-danger/10 px-3 py-2 text-[11px] text-danger">
-        <ShieldAlert className="size-3.5 shrink-0" />
+        <IconShieldExclamation className="size-3.5 shrink-0" />
         <span className="font-mono text-[10.5px]">Cross-tenant read rejected: 0 leakage</span>
       </div>
     </div>
@@ -207,7 +206,7 @@ function CommitGraphic() {
               {idx + 1}. {op.label}
             </span>
             <span className="inline-flex items-center gap-1 text-[11px] text-success">
-              <CheckCircle2 className="size-3" />
+              <IconCheck className="size-3" strokeWidth={2.5} />
               {op.state}
             </span>
           </div>
@@ -227,9 +226,9 @@ function CommitGraphic() {
  */
 function StorageMatrixGraphic() {
   const adapters = [
-    { name: 'IndexedDB', target: 'Web / PWA', icon: Database },
-    { name: 'SQLite / OPFS', target: 'Desktop / Native', icon: HardDrive },
-    { name: 'In-Memory', target: 'Headless / SSR Tests', icon: Layers },
+    { name: 'IndexedDB', target: 'Web / PWA', icon: IconDatabase },
+    { name: 'SQLite / OPFS', target: 'Desktop / Native', icon: IconServer2 },
+    { name: 'In-Memory', target: 'Headless / SSR Tests', icon: IconLayersIntersect },
   ];
 
   return (

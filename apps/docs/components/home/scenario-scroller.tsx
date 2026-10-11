@@ -1,6 +1,13 @@
 'use client';
 
-import { BatteryLow, KeyRound, Layers, Rocket, WifiOff, Zap } from 'lucide-react';
+import {
+  IconBatteryOff,
+  IconBolt,
+  IconKey,
+  IconLayersIntersect,
+  IconRocket,
+  IconWifiOff,
+} from '@tabler/icons-react';
 import { InfiniteMovingCards, type ScenarioCardItem } from '@/components/ui/infinite-moving-cards';
 
 // Real incident topologies and deterministic recovery guarantees
@@ -12,7 +19,7 @@ const SCENARIOS: ScenarioCardItem[] = [
     recovery: 'WAL checkpoint restored + 22 intents replayed',
     latency: '2.4ms',
     status: 'Zero data loss',
-    icon: Zap,
+    icon: IconBolt,
   },
   {
     name: 'Auth Token Expired',
@@ -21,7 +28,7 @@ const SCENARIOS: ScenarioCardItem[] = [
     recovery: 'Workspace locked at rest until token reauthorization',
     latency: 'Zero-knowledge lock',
     status: 'Strict security',
-    icon: KeyRound,
+    icon: IconKey,
   },
   {
     name: 'Production Deploy Reload',
@@ -30,7 +37,7 @@ const SCENARIOS: ScenarioCardItem[] = [
     recovery: 'Buffer seamlessly rehydrated from local storage on reload',
     latency: '1.2ms',
     status: 'Zero data loss',
-    icon: Rocket,
+    icon: IconRocket,
   },
   {
     name: 'Network Connection Flap',
@@ -39,7 +46,7 @@ const SCENARIOS: ScenarioCardItem[] = [
     recovery: 'Mutations queued locally in IndexedDB with monotonic ordering',
     latency: 'Offline queue',
     status: 'Buffered locally',
-    icon: WifiOff,
+    icon: IconWifiOff,
   },
   {
     name: 'Abrupt Battery Loss',
@@ -47,7 +54,7 @@ const SCENARIOS: ScenarioCardItem[] = [
     recovery: 'All committed WAL batches preserved across cold reboot',
     latency: 'Durable write',
     status: 'Recovered',
-    icon: BatteryLow,
+    icon: IconBatteryOff,
   },
   {
     name: 'Chromium Tab Discard',
@@ -55,7 +62,7 @@ const SCENARIOS: ScenarioCardItem[] = [
     recovery: 'State reconstituted on tab switch without server latency',
     latency: '0.8ms',
     status: 'Zero data loss',
-    icon: Layers,
+    icon: IconLayersIntersect,
   },
 ];
 
