@@ -1,6 +1,6 @@
 {
   "name": "@resumora/storage-indexeddb",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Persistent browser storage adapter for Resumora on native IndexedDB: strict durability, atomic batches, no dependencies.",
   "keywords": [
     "resumora",
