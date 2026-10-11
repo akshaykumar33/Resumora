@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowUp } from 'lucide-react';
+import { IconArrowUp } from '@tabler/icons-react';
 import { GithubMark } from '@/components/github-mark';
 import { Logo } from '@/components/logo';
 
@@ -83,7 +83,7 @@ export function SiteFooter() {
         <div className="mt-14 flex flex-wrap items-center justify-between gap-4 border-t border-fd-border pt-6 text-sm text-fd-muted-foreground">
           <span>Open source under the Apache 2.0 licence.</span>
           <a href="#top" className="inline-flex items-center gap-1.5 hover:text-fd-foreground">
-            Back to top <ArrowUp className="size-3.5" />
+            Back to top <IconArrowUp className="size-3.5" />
           </a>
         </div>
       </div>

@@ -1,7 +1,14 @@
 'use client';
 
 import { forwardRef, useRef, type ReactNode } from 'react';
-import { Database, FileText, HardDrive, PenLine, Plug, ShoppingCart } from 'lucide-react';
+import {
+  IconDatabase,
+  IconFileDescription,
+  IconPlugConnected,
+  IconServer2,
+  IconShoppingCart,
+  IconWriting,
+} from '@tabler/icons-react';
 import { AnimatedBeam } from '@/components/ui/animated-beam';
 import { LogoMark } from '@/components/logo';
 
@@ -10,7 +17,7 @@ const Node = forwardRef<HTMLDivElement, { children: ReactNode; label: string; bi
     <div className="flex flex-col items-center gap-1.5 sm:gap-2">
       <div
         ref={ref}
-        className={`z-10 grid place-items-center rounded-xl sm:rounded-2xl border border-fd-border/80 bg-fd-card/95 backdrop-blur-md shadow-xs transition-all duration-300 hover:scale-105 hover:border-fd-primary/50 ${
+        className={`z-10 grid place-items-center rounded-xl sm:rounded-2xl border border-fd-border/80 bg-gradient-to-b from-fd-card to-fd-card/85 backdrop-blur-md shadow-xs transition-all duration-300 hover:scale-105 hover:border-fd-primary/50 hover:shadow-[0_0_20px_-4px_color-mix(in_oklch,var(--color-fd-primary)_25%,transparent)] ${
           big
             ? 'size-13 xs:size-16 sm:size-20 text-fd-primary shadow-lg shadow-fd-primary/15'
             : 'size-10 xs:size-12 sm:size-14 text-fd-foreground'
@@ -56,13 +63,13 @@ export function ArchitectureBeams() {
     >
       <div className="flex flex-col gap-5 sm:gap-8">
         <Node ref={form} label="Claim form">
-          <FileText className={icon} strokeWidth={1.75} />
+          <IconFileDescription className={icon} strokeWidth={1.75} />
         </Node>
         <Node ref={editor} label="Editor">
-          <PenLine className={icon} strokeWidth={1.75} />
+          <IconWriting className={icon} strokeWidth={1.75} />
         </Node>
         <Node ref={checkout} label="Checkout">
-          <ShoppingCart className={icon} strokeWidth={1.75} />
+          <IconShoppingCart className={icon} strokeWidth={1.75} />
         </Node>
       </div>
 
@@ -72,13 +79,13 @@ export function ArchitectureBeams() {
 
       <div className="flex flex-col gap-6 sm:gap-8">
         <Node ref={idb} label="IndexedDB">
-          <Database className={icon} strokeWidth={1.75} />
+          <IconDatabase className={icon} strokeWidth={1.75} />
         </Node>
         <Node ref={memory} label="Memory">
-          <HardDrive className={icon} strokeWidth={1.75} />
+          <IconServer2 className={icon} strokeWidth={1.75} />
         </Node>
         <Node ref={custom} label="Your adapter">
-          <Plug className={icon} strokeWidth={1.75} />
+          <IconPlugConnected className={icon} strokeWidth={1.75} />
         </Node>
       </div>
 

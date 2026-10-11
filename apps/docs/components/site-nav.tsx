@@ -11,7 +11,14 @@ import {
 } from 'motion/react';
 import { useTheme } from 'next-themes';
 import { useSearchContext } from 'fumadocs-ui/contexts/search';
-import { ArrowRight, Menu, Moon, Search, Sun, X } from 'lucide-react';
+import {
+  IconArrowRight,
+  IconMenu2,
+  IconMoon,
+  IconSearch,
+  IconSun,
+  IconX,
+} from '@tabler/icons-react';
 import { GithubMark } from '@/components/github-mark';
 import { PaletteSwitcher } from '@/components/palette-switcher';
 import { Logo } from '@/components/logo';
@@ -95,7 +102,7 @@ export function SiteNav() {
               onClick={() => setOpenSearch(true)}
               className="hidden h-9 items-center gap-2 rounded-full border border-fd-border bg-fd-background/60 pl-3 pr-1.5 text-sm text-fd-muted-foreground transition-colors hover:border-fd-primary/40 hover:text-fd-foreground lg:flex"
             >
-              <Search className="size-3.5" strokeWidth={2} />
+              <IconSearch className="size-3.5" strokeWidth={2} />
               Search
               <kbd className="ml-4 rounded-full border border-fd-border bg-fd-card px-2 py-0.5 font-mono text-[11px]">
                 Ctrl K
@@ -107,7 +114,7 @@ export function SiteNav() {
               onClick={() => setOpenSearch(true)}
               className={`${iconButton} lg:hidden`}
             >
-              <Search className="size-4" strokeWidth={1.75} />
+              <IconSearch className="size-4" strokeWidth={1.75} />
             </button>
             <div className="hidden items-center px-1.5 sm:flex">
               <PaletteSwitcher size="md" />
@@ -129,7 +136,7 @@ export function SiteNav() {
               onClick={() => setMenuOpen((o) => !o)}
               className={`${iconButton} md:hidden`}
             >
-              {menuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
+              {menuOpen ? <IconX className="size-5" /> : <IconMenu2 className="size-5" />}
             </button>
           </div>
         </motion.nav>
@@ -158,7 +165,7 @@ export function SiteNav() {
                     className="flex items-center justify-between border-b border-fd-border py-4 font-display text-3xl font-medium tracking-tight"
                   >
                     {l.label}
-                    <ArrowRight className="size-5 text-fd-primary" />
+                    <IconArrowRight className="size-5 text-fd-primary" />
                   </Link>
                 </motion.li>
               ))}
@@ -205,9 +212,9 @@ function ThemeToggle() {
           transition={{ duration: 0.2 }}
         >
           {dark ? (
-            <Moon className="size-4" strokeWidth={1.75} />
+            <IconMoon className="size-4" strokeWidth={1.75} />
           ) : (
-            <Sun className="size-4" strokeWidth={1.75} />
+            <IconSun className="size-4" strokeWidth={1.75} />
           )}
         </motion.span>
       </AnimatePresence>

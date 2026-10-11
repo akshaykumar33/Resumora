@@ -211,21 +211,21 @@ html > body[data-scroll-locked] {
  * ------------------------------------------------------------------------------------------- */
 :root {
   --hue: 45;
-  --color-fd-background: oklch(0.985 0.008 75);
+  --color-fd-background: oklch(0.99 0.003 75);
   --color-fd-foreground: oklch(0.18 0.02 55);
   --color-fd-card: oklch(1 0 0);
   --color-fd-popover: oklch(1 0 0);
-  --color-fd-muted: oklch(0.95 0.01 75);
+  --color-fd-muted: oklch(0.955 0.008 75);
   --color-fd-muted-foreground: oklch(0.48 0.025 55);
-  --color-fd-secondary: oklch(0.95 0.01 75);
-  --color-fd-accent: oklch(0.93 0.02 65);
-  --color-fd-border: oklch(0.89 0.015 70);
+  --color-fd-secondary: oklch(0.955 0.008 75);
+  --color-fd-accent: oklch(0.935 0.015 65);
+  --color-fd-border: oklch(0.89 0.012 70);
   --color-fd-primary: oklch(0.55 0.17 45);
   --color-fd-primary-foreground: oklch(0.99 0.005 75);
   --accent-2: oklch(0.65 0.13 75);
-  --sunken: oklch(0.96 0.008 75);
+  --sunken: oklch(0.965 0.006 75);
   --raised: oklch(1 0 0);
-  --resumora-shadow: oklch(0.2 0.03 50 / 0.12);
+  --resumora-shadow: oklch(0.18 0.03 50 / 0.08);
 
   --color-fd-card-foreground: var(--color-fd-foreground);
   --color-fd-popover-foreground: var(--color-fd-foreground);
@@ -260,6 +260,42 @@ html > body[data-scroll-locked] {
   --warning: oklch(0.82 0.14 80);
   --danger: oklch(0.72 0.18 25);
   --info: oklch(0.75 0.14 245);
+}
+
+:root[data-palette='indigo'] {
+  --hue: 280;
+  --color-fd-background: oklch(0.99 0.004 280);
+  --color-fd-foreground: oklch(0.18 0.03 280);
+  --color-fd-card: oklch(1 0 0);
+  --color-fd-popover: oklch(1 0 0);
+  --color-fd-muted: oklch(0.955 0.01 280);
+  --color-fd-muted-foreground: oklch(0.48 0.03 280);
+  --color-fd-secondary: oklch(0.955 0.01 280);
+  --color-fd-accent: oklch(0.925 0.025 280);
+  --color-fd-border: oklch(0.89 0.015 280);
+  --color-fd-primary: oklch(0.55 0.22 280);
+  --color-fd-primary-foreground: oklch(0.99 0.005 280);
+  --accent-2: oklch(0.6 0.18 310);
+  --sunken: oklch(0.965 0.006 280);
+  --raised: oklch(1 0 0);
+  --resumora-shadow: oklch(0.2 0.04 280 / 0.1);
+}
+.dark:root[data-palette='indigo'] {
+  --color-fd-background: oklch(0.12 0.025 280);
+  --color-fd-foreground: oklch(0.965 0.01 280);
+  --color-fd-card: oklch(0.16 0.022 280);
+  --color-fd-popover: oklch(0.17 0.022 280);
+  --color-fd-muted: oklch(0.2 0.025 280);
+  --color-fd-muted-foreground: oklch(0.72 0.025 280);
+  --color-fd-secondary: oklch(0.2 0.025 280);
+  --color-fd-accent: oklch(0.24 0.03 280);
+  --color-fd-border: oklch(0.26 0.022 280);
+  --color-fd-primary: oklch(0.68 0.22 280);
+  --color-fd-primary-foreground: oklch(0.12 0.02 280);
+  --accent-2: oklch(0.75 0.16 310);
+  --sunken: oklch(0.095 0.015 280);
+  --raised: oklch(0.19 0.025 280);
+  --resumora-shadow: oklch(0.04 0.02 280 / 0.65);
 }
 
 :root[data-palette='neon'],

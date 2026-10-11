@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { DynamicCodeBlock } from 'fumadocs-ui/components/dynamic-codeblock';
 import { toast } from 'sonner';
-import { Check, Copy } from 'lucide-react';
+import { IconCheck, IconCopy } from '@tabler/icons-react';
 
 // Each snippet is checked against @resumora/core's real signatures.
 const SNIPPETS = [
@@ -145,7 +145,11 @@ export function CodeShowcaseTabs() {
           aria-label={`Copy ${current.file}`}
           className="grid size-8 shrink-0 place-items-center rounded-full text-fd-muted-foreground transition-colors hover:bg-fd-accent hover:text-fd-foreground"
         >
-          {copied ? <Check className="size-4 text-success" /> : <Copy className="size-4" />}
+          {copied ? (
+            <IconCheck className="size-4 text-success" strokeWidth={2.5} />
+          ) : (
+            <IconCopy className="size-4" strokeWidth={1.75} />
+          )}
         </button>
       </div>
 

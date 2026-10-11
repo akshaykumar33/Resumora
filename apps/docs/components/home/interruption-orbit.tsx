@@ -2,31 +2,31 @@
 
 import { useEffect, useState, type ComponentType } from 'react';
 import {
-  BatteryLow,
-  CloudOff,
-  KeyRound,
-  Layers,
-  RefreshCw,
-  Rocket,
-  WifiOff,
-  Zap,
-} from 'lucide-react';
+  IconBatteryOff,
+  IconBolt,
+  IconCloudOff,
+  IconKey,
+  IconLayersIntersect,
+  IconRefresh,
+  IconRocket,
+  IconWifiOff,
+} from '@tabler/icons-react';
 import { OrbitingCircles } from '@/components/ui/orbiting-circles';
 import { LogoMark } from '@/components/logo';
 
 type Icon = ComponentType<{ className?: string; strokeWidth?: number }>;
 
 const INNER: [Icon, string][] = [
-  [Zap, 'Tab crash'],
-  [KeyRound, 'Token expired'],
-  [WifiOff, 'Offline'],
-  [RefreshCw, 'Accidental refresh'],
+  [IconBolt, 'Tab crash'],
+  [IconKey, 'Token expired'],
+  [IconWifiOff, 'Offline'],
+  [IconRefresh, 'Accidental refresh'],
 ];
 const OUTER: [Icon, string][] = [
-  [Rocket, 'New deploy'],
-  [BatteryLow, 'Dead battery'],
-  [Layers, 'Discarded tab'],
-  [CloudOff, 'Server error'],
+  [IconRocket, 'New deploy'],
+  [IconBatteryOff, 'Dead battery'],
+  [IconLayersIntersect, 'Discarded tab'],
+  [IconCloudOff, 'Server error'],
 ];
 
 /** One interruption: an icon chip that names itself on hover or keyboard focus. */

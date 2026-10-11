@@ -4,16 +4,17 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { ContinuityRuntime, type Workspace } from '@resumora/core';
 import { IndexedDbStorageAdapter } from '@resumora/storage-indexeddb';
+import confetti from 'canvas-confetti';
 import {
-  Database,
-  KeyRound,
-  LockKeyhole,
-  RefreshCw,
-  RotateCcw,
-  Save,
-  ShieldAlert,
-  Trash2,
-} from 'lucide-react';
+  IconDatabase,
+  IconDeviceFloppy,
+  IconFlame,
+  IconKey,
+  IconLock,
+  IconRefresh,
+  IconShieldLock,
+  IconTrash,
+} from '@tabler/icons-react';
 import { playClick, playCrash, playRecover } from '@/lib/sound';
 import { Badge, Surface, buttonClass } from '@/components/ui/kit';
 
@@ -81,6 +82,19 @@ export function LiveDemo() {
       if (result) {
         playRecover();
         const n = result.unappliedIntents.length;
+        if (result.checkpoint || n > 0) {
+          try {
+            confetti({
+              particleCount: 42,
+              spread: 60,
+              origin: { y: 0.68 },
+              colors: ['#f97316', '#38bdf8', '#4ade80', '#a855f7'],
+              disableForReducedMotion: true,
+            });
+          } catch {
+            // confetti gracefully degraded
+          }
+        }
         setMessage({
           tone: 'ok',
           text: `Recovered after ${reason}: ${result.checkpoint ? 'checkpoint restored + ' : ''}${n} intent${n === 1 ? '' : 's'} replayed.`,
@@ -285,7 +299,7 @@ export function LiveDemo() {
             >
               <div className="flex max-w-xs flex-col items-center gap-3">
                 <div className="grid size-12 place-items-center rounded-2xl bg-warning/15 text-warning ring-4 ring-warning/10">
-                  <LockKeyhole className="size-6" strokeWidth={1.75} />
+                  <IconLock className="size-6" strokeWidth={1.75} />
                 </div>
                 <p className="font-display text-heading font-semibold">Workspace locked</p>
                 <p className="text-sm leading-relaxed text-fd-muted-foreground">
@@ -297,7 +311,7 @@ export function LiveDemo() {
                   onClick={actions.signIn}
                   className={`${buttonClass('primary', 'sm')} mt-2`}
                 >
-                  <KeyRound className="size-3.5" /> Sign back in
+                  <IconKey className="size-3.5" /> Sign back in
                 </button>
               </div>
             </motion.div>
@@ -313,32 +327,32 @@ export function LiveDemo() {
               {
                 label: 'Reload',
                 note: 'Refresh the page',
-                icon: RefreshCw,
-                tone: 'text-fd-primary bg-fd-primary/15',
+                icon: IconRefresh,
+                tone: 'text-fd-primary bg-fd-primary/10 border-fd-primary/20 group-hover:bg-fd-primary/15 group-hover:border-fd-primary/40',
                 onClick: actions.reload,
                 disabled: busy,
               },
               {
                 label: 'Crash',
                 note: 'Wipe memory',
-                icon: RotateCcw,
-                tone: 'text-warning bg-warning/15',
+                icon: IconFlame,
+                tone: 'text-warning bg-warning/10 border-warning/20 group-hover:bg-warning/15 group-hover:border-warning/40',
                 onClick: actions.restart,
                 disabled: busy || locked,
               },
               {
                 label: 'Checkpoint',
                 note: 'Save a snapshot',
-                icon: Save,
-                tone: 'text-success bg-success/15',
+                icon: IconDeviceFloppy,
+                tone: 'text-success bg-success/10 border-success/20 group-hover:bg-success/15 group-hover:border-success/40',
                 onClick: actions.checkpoint,
                 disabled: busy || locked,
               },
               {
                 label: 'Expire token',
                 note: 'Lock the workspace',
-                icon: ShieldAlert,
-                tone: 'text-danger bg-danger/15',
+                icon: IconShieldLock,
+                tone: 'text-danger bg-danger/10 border-danger/20 group-hover:bg-danger/15 group-hover:border-danger/40',
                 onClick: actions.expire,
                 disabled: busy || locked,
               },
@@ -349,10 +363,12 @@ export function LiveDemo() {
               type="button"
               disabled={a.disabled}
               onClick={a.onClick}
-              className="group flex flex-col items-start gap-2.5 sm:gap-3 rounded-2xl border border-fd-border bg-fd-card p-3 sm:p-4 text-left transition-[transform,border-color,background-color] duration-200 hover:-translate-y-0.5 hover:border-fd-primary/45 active:translate-y-0 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-40"
+              className="group flex flex-col items-start gap-2.5 sm:gap-3 rounded-2xl border border-fd-border/80 bg-gradient-to-b from-fd-card to-fd-card/70 p-3 sm:p-4 text-left shadow-2xs backdrop-blur-xs transition-all duration-200 hover:-translate-y-0.5 hover:border-fd-primary/45 hover:shadow-xs active:translate-y-0 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-40"
             >
-              <span className={`grid size-8 sm:size-9 place-items-center rounded-xl ${a.tone}`}>
-                <a.icon className="size-3.5 sm:size-4" strokeWidth={1.75} />
+              <span
+                className={`grid size-8 sm:size-9 place-items-center rounded-xl border transition-all duration-200 ${a.tone}`}
+              >
+                <a.icon className="size-4 sm:size-4.5" strokeWidth={1.8} />
               </span>
               <span className="flex flex-col">
                 <span className="text-sm sm:text-[15px] font-semibold text-fd-foreground">
@@ -373,7 +389,7 @@ export function LiveDemo() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -4 }}
                 transition={{ duration: 0.2 }}
-                className={`rounded-2xl border px-4 py-3 text-sm ${toneClass[message.tone]}`}
+                className={`rounded-2xl border px-4 py-3 text-sm font-medium ${toneClass[message.tone]}`}
               >
                 {message.text}
               </motion.div>
@@ -384,7 +400,7 @@ export function LiveDemo() {
         <Surface inset className="overflow-hidden">
           <div className="flex items-center justify-between border-b border-fd-border px-4 py-3">
             <span className="flex items-center gap-2 text-sm font-medium text-fd-foreground">
-              <Database className="size-4 text-fd-primary" strokeWidth={1.75} /> On this device
+              <IconDatabase className="size-4 text-fd-primary" strokeWidth={1.75} /> On this device
             </span>
             <span className="tabular text-xs text-fd-muted-foreground">
               {storedKeys.length} record{storedKeys.length === 1 ? '' : 's'}
@@ -422,7 +438,7 @@ export function LiveDemo() {
           disabled={busy}
           className={`${buttonClass('ghost', 'sm')} -ml-3 w-fit`}
         >
-          <Trash2 className="size-3.5" /> Clear the demo’s records
+          <IconTrash className="size-3.5" /> Clear the demo’s records
         </button>
       </div>
     </div>

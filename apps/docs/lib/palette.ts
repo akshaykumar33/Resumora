@@ -8,6 +8,12 @@ export const PALETTES = [
     accent: 'oklch(0.69 0.175 45)',
   },
   {
+    id: 'indigo',
+    label: 'Linear Indigo',
+    base: 'oklch(0.12 0.025 275)',
+    accent: 'oklch(0.65 0.24 280)',
+  },
+  {
     id: 'neon',
     label: 'Neon Cyber',
     base: 'oklch(0.11 0.01 150)',

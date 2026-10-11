@@ -2,7 +2,13 @@
 
 import { useEffect, useRef, useState } from 'react';
 import NumberFlow from '@number-flow/react';
-import { ArrowUpRight, Cpu, Layers, RefreshCw, ShieldCheck } from 'lucide-react';
+import {
+  IconArrowUpRight,
+  IconCpu2,
+  IconLayersIntersect,
+  IconRotateDot,
+  IconShieldCheck,
+} from '@tabler/icons-react';
 
 const REPO = 'https://github.com/akshaykumar33/Resumora';
 
@@ -10,7 +16,7 @@ const STATS = [
   {
     id: 'deps',
     tag: 'Core Invariant',
-    icon: Cpu,
+    icon: IconCpu2,
     value: 0,
     suffix: '',
     title: 'Zero dependencies in core',
@@ -21,7 +27,7 @@ const STATS = [
   {
     id: 'crashes',
     tag: 'CI Verification',
-    icon: RefreshCw,
+    icon: IconRotateDot,
     value: 3,
     suffix: ' topologies',
     title: 'Crash topologies in CI',
@@ -32,7 +38,7 @@ const STATS = [
   {
     id: 'tests',
     tag: 'Formal Invariants',
-    icon: ShieldCheck,
+    icon: IconShieldCheck,
     value: 40,
     suffix: ' tests',
     title: 'Automated invariant tests',
@@ -43,7 +49,7 @@ const STATS = [
   {
     id: 'auth',
     tag: 'Security Model',
-    icon: Layers,
+    icon: IconLayersIntersect,
     value: 6,
     suffix: ' steps',
     title: 'Strict auth lifecycle',
@@ -94,8 +100,8 @@ export function ProofStats() {
                     <span className="size-1.5 rounded-full bg-fd-primary/80" />
                     {s.tag}
                   </span>
-                  <span className="grid size-6.5 place-items-center rounded-lg border border-fd-border/60 bg-fd-muted/30 text-fd-muted-foreground transition-colors group-hover:border-fd-primary/40 group-hover:text-fd-primary">
-                    <Icon className="size-3.5" />
+                  <span className="grid size-7.5 place-items-center rounded-xl border border-fd-border/70 bg-gradient-to-br from-fd-muted/60 to-fd-muted/20 text-fd-muted-foreground shadow-2xs transition-all duration-300 group-hover:scale-105 group-hover:border-fd-primary/50 group-hover:bg-fd-primary/10 group-hover:text-fd-primary group-hover:shadow-[0_0_14px_color-mix(in_oklch,var(--color-fd-primary)_30%,transparent)]">
+                    <Icon className="size-4" strokeWidth={1.75} />
                   </span>
                 </div>
 
@@ -129,7 +135,7 @@ export function ProofStats() {
                   className="inline-flex items-center gap-1 rounded-md border border-fd-border/50 bg-fd-muted/30 px-2 py-0.5 text-[10.5px] font-mono font-medium text-fd-muted-foreground transition-colors hover:border-fd-primary/40 hover:text-fd-primary"
                 >
                   <span className="truncate">{s.proof}</span>
-                  <ArrowUpRight className="size-3 shrink-0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                  <IconArrowUpRight className="size-3 shrink-0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                 </a>
               </div>
             </div>

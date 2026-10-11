@@ -55,6 +55,11 @@ const COLORS: Record<string, { baseColor: Rgb; markerColor: Rgb; glowColor: Rgb 
     markerColor: [0.92, 0.94, 0.98],
     glowColor: [0.4, 0.42, 0.46],
   },
+  indigo: {
+    baseColor: [0.14, 0.12, 0.26],
+    markerColor: [0.65, 0.45, 1.0],
+    glowColor: [0.45, 0.25, 0.95],
+  },
   cobalt: {
     baseColor: [0.12, 0.18, 0.28],
     markerColor: [0.35, 0.65, 1.0],
