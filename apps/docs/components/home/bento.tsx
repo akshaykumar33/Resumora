@@ -23,43 +23,49 @@ const cell =
  */
 function CrashGraphic() {
   return (
-    <div className="relative overflow-hidden rounded-xl border border-fd-border/70 bg-fd-background/95 p-4 sm:p-5 shadow-xs">
+    <div className="relative overflow-hidden rounded-xl border border-fd-border/70 bg-fd-background/95 p-3.5 sm:p-5 shadow-xs">
       {/* Mini App Form Window Header */}
       <div className="flex items-center justify-between border-b border-fd-border/60 pb-2.5">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2">
           {/* Traffic lights */}
           <div className="flex items-center gap-1.5 pr-1">
-            <span className="size-2.5 rounded-full bg-danger/70" />
-            <span className="size-2.5 rounded-full bg-warning/70" />
-            <span className="size-2.5 rounded-full bg-success/70" />
+            <span className="size-2 sm:size-2.5 rounded-full bg-danger/70" />
+            <span className="size-2 sm:size-2.5 rounded-full bg-warning/70" />
+            <span className="size-2 sm:size-2.5 rounded-full bg-success/70" />
           </div>
-          <span className="font-mono text-xs font-semibold text-fd-foreground">
+          <span className="font-mono text-[11px] sm:text-xs font-semibold text-fd-foreground">
             Claim Draft: #CLM-9402
           </span>
         </div>
-        <span className="inline-flex items-center gap-1 rounded-full border border-fd-primary/30 bg-fd-primary/10 px-2 py-0.5 font-mono text-[10px] font-medium text-fd-primary">
+        <span className="inline-flex items-center gap-1 rounded-full border border-fd-primary/30 bg-fd-primary/10 px-2 py-0.5 font-mono text-[9.5px] sm:text-[10px] font-medium text-fd-primary">
           <span className="size-1 rounded-full bg-fd-primary animate-pulse" />
-          WAL: 4 edits buffered
+          WAL: 4 buffered
         </span>
       </div>
 
       {/* Realistic form fields */}
       <div className="mt-3 space-y-2">
-        <div className="flex items-center justify-between rounded-lg border border-fd-border/50 bg-fd-muted/30 px-3 py-1.5 text-xs">
-          <span className="text-fd-muted-foreground font-medium text-[11.5px]">Policyholder</span>
-          <span className="font-mono text-fd-foreground text-[11.5px]">Elena Vance</span>
+        <div className="flex items-center justify-between gap-2 rounded-lg border border-fd-border/50 bg-fd-muted/30 px-3 py-1.5 text-xs">
+          <span className="text-fd-muted-foreground font-medium text-[11px] sm:text-[11.5px]">
+            Policyholder
+          </span>
+          <span className="font-mono text-fd-foreground text-[11px] sm:text-[11.5px]">
+            Elena Vance
+          </span>
         </div>
-        <div className="flex items-center justify-between rounded-lg border border-fd-border/50 bg-fd-muted/30 px-3 py-1.5 text-xs">
-          <span className="text-fd-muted-foreground font-medium text-[11.5px]">
+        <div className="flex items-center justify-between gap-2 rounded-lg border border-fd-border/50 bg-fd-muted/30 px-3 py-1.5 text-xs">
+          <span className="shrink-0 text-fd-muted-foreground font-medium text-[11px] sm:text-[11.5px]">
             Incident Report
           </span>
-          <span className="truncate max-w-[210px] text-fd-foreground text-[11.5px]">
+          <span className="truncate max-w-[140px] xs:max-w-[210px] text-fd-foreground text-[11px] sm:text-[11.5px]">
             Water valve fracture in unit 4B...
           </span>
         </div>
-        <div className="flex items-center justify-between rounded-lg border border-fd-border/50 bg-fd-muted/30 px-3 py-1.5 text-xs">
-          <span className="text-fd-muted-foreground font-medium text-[11.5px]">Estimated Loss</span>
-          <span className="font-mono text-fd-foreground font-semibold text-[11.5px]">
+        <div className="flex items-center justify-between gap-2 rounded-lg border border-fd-border/50 bg-fd-muted/30 px-3 py-1.5 text-xs">
+          <span className="text-fd-muted-foreground font-medium text-[11px] sm:text-[11.5px]">
+            Estimated Loss
+          </span>
+          <span className="font-mono text-fd-foreground font-semibold text-[11px] sm:text-[11.5px]">
             $38,500.00
           </span>
         </div>
@@ -67,14 +73,14 @@ function CrashGraphic() {
 
       {/* Crash overlay banner */}
       <div
-        className="bento-anim pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-1.5 bg-fd-background/90 backdrop-blur-[3px] p-4 text-center"
+        className="bento-anim pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-1.5 bg-fd-background/90 backdrop-blur-[3px] p-3 sm:p-4 text-center"
         style={{ animation: 'bento-crash 6s ease-in-out infinite' }}
       >
-        <div className="inline-flex items-center gap-1.5 rounded-full border border-warning/50 bg-warning/15 px-3 py-1 text-xs font-semibold text-warning shadow-md">
+        <div className="inline-flex items-center gap-1.5 rounded-full border border-warning/50 bg-warning/15 px-2.5 sm:px-3 py-1 text-[11px] sm:text-xs font-semibold text-warning shadow-md">
           <AlertTriangle className="size-3.5" />
           Chromium tab discarded (SIGKILL)
         </div>
-        <span className="font-mono text-[10.5px] text-fd-foreground font-medium">
+        <span className="font-mono text-[10px] sm:text-[10.5px] text-fd-foreground font-medium">
           4 pending intents replayed from IndexedDB in 2.1ms
         </span>
       </div>
@@ -90,12 +96,12 @@ function LockGraphic() {
   const steps = ['Lock', 'Reauthenticate', 'Reauthorize', 'Unlock', 'Revalidate', 'Reconcile'];
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-3 sm:gap-4">
       {/* Cryptographic lock visual */}
-      <div className="flex items-center justify-between rounded-2xl border border-fd-border/70 bg-fd-background/80 p-4">
+      <div className="flex flex-col xs:flex-row xs:items-center justify-between gap-2.5 rounded-2xl border border-fd-border/70 bg-fd-background/80 p-3 sm:p-4">
         <div className="flex items-center gap-2.5">
-          <span className="grid size-9 place-items-center rounded-xl border border-danger/25 bg-danger/10 text-danger">
-            <Lock className="size-4" />
+          <span className="grid size-8 sm:size-9 shrink-0 place-items-center rounded-xl border border-danger/25 bg-danger/10 text-danger">
+            <Lock className="size-3.5 sm:size-4" />
           </span>
           <div className="flex flex-col">
             <span className="text-xs font-semibold text-fd-foreground">At-rest encryption</span>
@@ -103,11 +109,11 @@ function LockGraphic() {
           </div>
         </div>
 
-        <ArrowRight className="size-4 text-fd-muted-foreground" />
+        <ArrowRight className="size-3.5 sm:size-4 text-fd-muted-foreground self-center xs:self-auto rotate-90 xs:rotate-0" />
 
         <div className="flex items-center gap-2.5">
-          <span className="grid size-9 place-items-center rounded-xl border border-success/25 bg-success/10 text-success">
-            <LockOpen className="size-4" />
+          <span className="grid size-8 sm:size-9 shrink-0 place-items-center rounded-xl border border-success/25 bg-success/10 text-success">
+            <LockOpen className="size-3.5 sm:size-4" />
           </span>
           <div className="flex flex-col">
             <span className="text-xs font-semibold text-fd-foreground">In-memory decrypt</span>
@@ -117,7 +123,7 @@ function LockGraphic() {
       </div>
 
       {/* 6 Step Progression */}
-      <div className="grid grid-cols-3 gap-1.5 font-mono text-[10.5px]">
+      <div className="grid grid-cols-2 xs:grid-cols-3 gap-1.5 font-mono text-[10px] sm:text-[10.5px]">
         {steps.map((step, idx) => (
           <div
             key={step}

@@ -6,7 +6,7 @@ import { Toaster } from '@/components/toaster';
 
 export function Provider({ children }: { children: ReactNode }) {
   return (
-    <RootProvider search={{ SearchDialog }} theme={{ defaultTheme: 'dark' }}>
+    <RootProvider search={{ SearchDialog }} theme={{ defaultTheme: 'light', enableSystem: false }}>
       {children}
       <Toaster />
     </RootProvider>

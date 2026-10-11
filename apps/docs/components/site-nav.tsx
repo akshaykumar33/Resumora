@@ -142,7 +142,7 @@ export function SiteNav() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: reduce ? 0 : 0.2 }}
-            className="fixed inset-0 z-30 bg-fd-background/95 px-6 pt-24 backdrop-blur-xl md:hidden"
+            className="fixed inset-0 z-30 overflow-y-auto bg-fd-background/95 px-6 pb-12 pt-24 backdrop-blur-xl md:hidden"
           >
             <ul className="flex flex-col">
               {LINKS.map((l, i) => (
@@ -187,7 +187,7 @@ function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
-  const dark = !mounted || resolvedTheme === 'dark';
+  const dark = mounted ? resolvedTheme === 'dark' : false;
 
   return (
     <button

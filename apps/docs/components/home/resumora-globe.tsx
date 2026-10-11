@@ -2,6 +2,7 @@
 
 import type { COBEOptions } from 'cobe';
 import { useMemo } from 'react';
+import { useTheme } from 'next-themes';
 import { Globe } from '@/components/ui/globe';
 import { usePalette } from '@/components/palette-switcher';
 import type { PaletteId } from '@/lib/palette';
@@ -78,7 +79,20 @@ const COLORS: Record<string, { baseColor: Rgb; markerColor: Rgb; glowColor: Rgb 
 
 export function ResumoraGlobe() {
   const palette = usePalette();
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === 'dark';
   const themeColors = COLORS[palette] ?? COLORS.claude;
-  const config = useMemo(() => ({ ...CONFIG, ...themeColors }), [themeColors]);
+  const config = useMemo(
+    () => ({
+      ...CONFIG,
+      dark: isDark ? 1 : 0,
+      baseColor: isDark ? themeColors.baseColor : ([0.92, 0.92, 0.95] as Rgb),
+      markerColor: themeColors.markerColor,
+      glowColor: isDark ? themeColors.glowColor : ([1, 0.94, 0.88] as Rgb),
+      mapBrightness: isDark ? 4.2 : 1.2,
+      diffuse: isDark ? 1.2 : 1.5,
+    }),
+    [themeColors, isDark],
+  );
   return <Globe className="relative inset-auto max-w-none" config={config} />;
 }
