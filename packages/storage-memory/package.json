@@ -1,6 +1,6 @@
 {
   "name": "@resumora/storage-memory",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "In-memory reference storage adapter for Resumora, with fault injection for tests: latency, write faults and quota limits.",
   "keywords": [
     "resumora",

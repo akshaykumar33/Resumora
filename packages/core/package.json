@@ -1,6 +1,6 @@
 {
   "name": "@resumora/core",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Recover users' unfinished work after crashes, refreshes and expired sessions, without treating stored data as authorization.",
   "keywords": [
     "continuity",
